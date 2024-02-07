@@ -1,18 +1,16 @@
-﻿using FluentAssertions;
-using Microsoft.VisualStudio.TestTools.UnitTesting;
+﻿using Xunit;
+using FluentAssertions;
+
 
 using Transverse._Common.General.Basics.Extensions;
 using Transverse._Common.General.Basics.Exceptions;
 
-//using Moq;
-
 
 namespace Transverse._Common.String.UnitTests;
 
-[TestClass]
 public class SringExtensionTests
 {
-    [TestMethod]
+    [Fact]
     public void EndsWith_WhenDoesntEndWithAndShould_ShouldEndWith()
     {
         var s = "toto";
@@ -24,7 +22,7 @@ public class SringExtensionTests
         result.Should().Be(expected);
     }
 
-    [TestMethod]
+    [Fact]
     public void EndsWith_WhenDoesntEndWithAndShouldnt_ShouldntEndWith()
     {
         var s = "toto";
@@ -36,7 +34,7 @@ public class SringExtensionTests
         result.Should().Be(expected);
     }
 
-    [TestMethod]
+    [Fact]
     public void EndsWith_WhenEndsWithAndShouldnt_ShouldntEndWith()
     {
         var unexpectedEnd = "X";
@@ -49,7 +47,7 @@ public class SringExtensionTests
         result.Should().Be(expected);
     }
 
-    [TestMethod]
+    [Fact]
     public void EndsWith_WhenEndsWithAndShould_ShouldEndWith()
     {
         var expectedEnd = "X";
@@ -61,7 +59,7 @@ public class SringExtensionTests
         result.Should().Be(expected);
     }
 
-    [TestMethod]
+    [Fact]
     public void StartsWith_WhenDoesntStartWithAndShould_ShouldStartWith()
     {
         var s = "toto";
@@ -73,7 +71,7 @@ public class SringExtensionTests
         result.Should().Be(expected);
     }
 
-    [TestMethod]
+    [Fact]
     public void StartsWith_WhenDoesntStartWithAndShouldnt_ShouldntStartWith()
     {
         var s = "toto";
@@ -85,7 +83,7 @@ public class SringExtensionTests
         result.Should().Be(expected);
     }
 
-    [TestMethod]
+    [Fact]
     public void StartsWith_WhenStartsWithAndShouldnt_ShouldntStartWith()
     {
         var unexpectedStart = "X";
@@ -98,7 +96,7 @@ public class SringExtensionTests
         result.Should().Be(expected);
     }
 
-    [TestMethod]
+    [Fact]
     public void StartsWith_WhenStartsWithAndShould_ShouldStartWith()
     {
         var expectedStart = "X";
@@ -110,10 +108,10 @@ public class SringExtensionTests
         result.Should().Be(expected);
     }
 
-    [TestMethod]
-    [DataRow(3, 400)]
-    [DataRow(1, 10)]
-    [DataRow(9, 2)]
+    [Theory]
+    [InlineData(3, 400)]
+    [InlineData(1, 10)]
+    [InlineData(9, 2)]
     public void Substring_WhenSubstringLengthIsMentionnedAndIsTooHighAccordingToAValidStartIndex_ShouldReturnStringFromStartIndexToTheEnd(int validStartIndex, int tooHighSubstringLength)
     {
         var s = "0123456789";
@@ -124,10 +122,10 @@ public class SringExtensionTests
         result.Should().Be(expected);
     }
 
-    [TestMethod]
-    [DataRow(10, 1)]
-    [DataRow(10, 0)]
-    [DataRow(400, 0)]
+    [Theory]
+    [InlineData(10, 1)]
+    [InlineData(10, 0)]
+    [InlineData(400, 0)]
     public void Substring_WhenSubstringLengthIsMentionnedAndStartIndexExceedsStringMaxIndex_ShouldReturnAnEmptyString(int exceedingStartIndex, int anySubstringLength)
     {
         var s = "0123456789";
@@ -138,11 +136,11 @@ public class SringExtensionTests
         result.Should().Be(expected);
     }
 
-    [TestMethod]
-    [DataRow(3, 5)]
-    [DataRow(3, 7)]
-    [DataRow(0, 10)]
-    [DataRow(9, 1)]
+    [Theory]
+    [InlineData(3, 5)]
+    [InlineData(3, 7)]
+    [InlineData(0, 10)]
+    [InlineData(9, 1)]
     public void Substring_WhenSubstringLengthIsMentionnedAndIsValidAccordingToAValidStartIndex_ShouldReturnTheSelectedPart(int validStartIndex, int validSubstringLength)
     {
         var s = "0123456789";
@@ -153,10 +151,10 @@ public class SringExtensionTests
         result.Should().Be(expected);
     }
 
-    [TestMethod]
-    [DataRow(0)]
-    [DataRow(5)]
-    [DataRow(9)]
+    [Theory]
+    [InlineData(0)]
+    [InlineData(5)]
+    [InlineData(9)]
     public void Substring_WhenSubstringLengthIsNotMentionnedAndStartIndexIsValid_ShouldReturnStringFromStartIndexToTheEn(int validStartIndex)
     {
         var s = "0123456789";
@@ -167,9 +165,9 @@ public class SringExtensionTests
         result.Should().Be(expected);
     }
 
-    [TestMethod]
-    [DataRow(10)]
-    [DataRow(400)]
+    [Theory]
+    [InlineData(10)]
+    [InlineData(400)]
     public void Substring_WhenSubstringLengthIsNotMentionnedAndStartIndexExceedsStringMaxIndex_ShouldReturnAnEmptyString(int exceedingStartIndex)
     {
         var s = "0123456789";
@@ -180,9 +178,9 @@ public class SringExtensionTests
         result.Should().Be(expected);
     }
 
-    [TestMethod]
-    [DataRow(-1)]
-    [DataRow(-400)]
+    [Theory]
+    [InlineData(-1)]
+    [InlineData(-400)]
     public void Substring_WhenSubstringLengthIsNotMentionnedAndStartIndexIsNegative_ShouldThrowAnInvalidNegativeIndexException(int negativeStartIndex)
     {
         "anyString".Invoking(str => str.Substring_(negativeStartIndex))
@@ -191,9 +189,9 @@ public class SringExtensionTests
                    ;
     }
 
-    [TestMethod]
-    [DataRow(-1)]
-    [DataRow(-400)]
+    [Theory]
+    [InlineData(-1)]
+    [InlineData(-400)]
     public void Substring_WhenSubstringLengthIsMentionnedAndStartIndexIsNegative_ShouldThrowAnInvalidNegativeIndexException(int negativeStartIndex)
     {
         "aString".Invoking(str => str.Substring_(negativeStartIndex,1))

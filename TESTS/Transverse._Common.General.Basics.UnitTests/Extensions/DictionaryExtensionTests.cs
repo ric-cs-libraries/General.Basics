@@ -1,14 +1,12 @@
-﻿using FluentAssertions;
-using Microsoft.VisualStudio.TestTools.UnitTesting;
-
-//using Moq;
+﻿using Xunit;
+using FluentAssertions;
 
 using Transverse._Common.General.Basics.Extensions;
 
 
 namespace Transverse._Common.General.Basics.UnitTests.Extensions;
 
-[TestClass]
+
 public class DictionaryExtensionTests
 {
     private readonly Dictionary<string, int> dictionary;
@@ -26,7 +24,7 @@ public class DictionaryExtensionTests
     }
 
 
-    [TestMethod]
+    [Fact]
     public void ToKeyValueString_DefaultBehavior_ShouldReturnTheRightString()
     {
         var result = dictionary.ToKeyValueString_<int>();
@@ -35,9 +33,9 @@ public class DictionaryExtensionTests
         expected.Should().Be(result);
     }
 
-    [TestMethod]
-    [DataRow("/", "", "->")]
-    [DataRow("*", "'", ":")]
+    [Theory]
+    [InlineData("/", "", "->")]
+    [InlineData("*", "'", ":")]
     public void ToKeyValueString_WithParams_ShouldReturnTheRightString(string keyValueSeparator, string quoteValueSymbol, string keyValueEqualitySymbol)
     {
         var result = dictionary.ToKeyValueString_<int>(keyValueSeparator, quoteValueSymbol, keyValueEqualitySymbol);
