@@ -6,6 +6,41 @@ namespace Transverse._Common.General.Basics.Extensions;
 
 public static class StringExtension
 {
+    public static bool IsValidIndex_(this string string_, int index)
+    {
+        int minIndexValue = 0;
+        int maxIndexValue = string_.Length - 1;
+        var result = (index >= minIndexValue && index <= maxIndexValue);
+        return result;
+    }
+
+    public static void CheckIsValidIndex_(this string string_, int index)
+    {
+        if (!string_.IsValidIndex_(index))
+        {
+            int minIndexValue = 0;
+            int maxIndexValue = string_.Length - 1;
+
+            throw new OutOfRangeIntegerException(index, minIndexValue, maxIndexValue, "string Index");
+        }
+    }
+
+    public static string Repeat_(this string string_, int nbRepeat)
+    {
+        if (nbRepeat < 0)
+        {
+            throw new MustBePositiveIntegerException(nbRepeat, nameof(nbRepeat));
+        }
+        char[] chars = string_.ToArray();
+        char[] resultChars = { };
+        foreach (int _ in Enumerable.Range(1, nbRepeat))
+        {
+            resultChars = resultChars.Concat(chars).ToArray();
+        }
+        var str = new string(resultChars);
+        return str;
+    }
+
     public static string EndsWith_(this string string_, bool mustEndWith, string end)
     {
         var retour = string_;
@@ -48,7 +83,7 @@ public static class StringExtension
 
         if (startIndex < 0)
         {
-            throw new InvalidNegativeIndexException(startIndex);
+            throw new MustBePositiveIntegerException(startIndex, "The index");
         }
 
         if (startIndex < string_.Length)
@@ -66,7 +101,7 @@ public static class StringExtension
     {
         if (startIndex < 0)
         {
-            throw new InvalidNegativeIndexException(startIndex);
+            throw new MustBePositiveIntegerException(startIndex, "The index");
         }
         var retour = (startIndex >= string_.Length) ? string.Empty : string_.AsSpan(startIndex).ToString();
         return (retour);
