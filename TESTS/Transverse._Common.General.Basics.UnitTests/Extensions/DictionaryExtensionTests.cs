@@ -1,10 +1,9 @@
 ﻿using Xunit;
-using FluentAssertions;
 
 using Transverse._Common.General.Basics.Extensions;
 
 
-namespace Transverse._Common.General.Basics.UnitTests.Extensions;
+namespace Transverse._Common.General.Basics.Extensions.Dictionary.UnitTests;
 
 
 public class DictionaryExtensionTests
@@ -30,7 +29,7 @@ public class DictionaryExtensionTests
         var result = dictionary.ToKeyValueString_<int>();
         var expected = $"aa={dictionary["aa"]};Aa={dictionary["Aa"]};Bb={dictionary["Bb"]};C={dictionary["C"]}";
 
-        expected.Should().Be(result);
+        Assert.Equal(expected, result);
     }
 
     [Theory]
@@ -46,6 +45,6 @@ public class DictionaryExtensionTests
             $"C{keyValueEqualitySymbol}{quoteValueSymbol}{dictionary["C"]}{quoteValueSymbol}",
         }));
 
-        expected.Should().Be(result);
+        Assert.Equal(expected, result);
     }
 }
