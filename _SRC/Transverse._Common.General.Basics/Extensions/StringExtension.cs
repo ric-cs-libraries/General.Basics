@@ -8,9 +8,9 @@ public static class StringExtension
 {
     public static bool IsValidIndex_(this string string_, int index)
     {
-        int minIndexValue = 0;
-        int maxIndexValue = string_.Length - 1;
-        var result = (index >= minIndexValue && index <= maxIndexValue);
+        int minIndex = 0;
+        int maxIndex = string_.Length - 1;
+        var result = (index >= minIndex && index <= maxIndex);
         return result;
     }
 
@@ -18,11 +18,37 @@ public static class StringExtension
     {
         if (!string_.IsValidIndex_(index))
         {
-            int minIndexValue = 0;
-            int maxIndexValue = string_.Length - 1;
+            int minIndex = 0;
+            int maxIndex = string_.Length - 1;
 
-            throw new OutOfRangeIntegerException(index, minIndexValue, maxIndexValue, "string Index");
+            throw new OutOfRangeIntegerException(index, minIndex, maxIndex, "string Index");
         }
+    }
+
+    public static bool ChunkExists_(this string string_, int startIndex, int endIndex)
+    {
+        var result = (endIndex >= startIndex);
+        result = result && string_.IsValidIndex_(startIndex) && string_.IsValidIndex_(endIndex);
+        return result;
+    }
+
+    public static void CheckChunkExists_(this string string_, int startIndex, int endIndex)
+    {
+        if (!string_.ChunkExists_(startIndex, endIndex))
+        {
+            int minIndex = 0;
+            int maxIndex = string_.Length - 1;
+
+            throw new UnexistingChunkException(startIndex, endIndex, minIndex, maxIndex, "string");
+        }
+    }
+
+    public static string GetChunk_(this string string_, int startIndex, int endIndex)
+    {
+        string_.CheckChunkExists_(startIndex, endIndex);
+        var chunkLength = endIndex - startIndex + 1;
+        var result = string_.AsSpan(startIndex, chunkLength).ToString();
+        return result;
     }
 
     public static string Repeat_(this string string_, int nbRepeat)

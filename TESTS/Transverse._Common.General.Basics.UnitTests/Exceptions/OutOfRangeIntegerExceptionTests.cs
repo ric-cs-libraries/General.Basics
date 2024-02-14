@@ -11,29 +11,29 @@ public class OutOfRangeIntegerExceptionTests
     [Theory]
     //[MemberData(nameof(badIndexes))]
     [ClassData(typeof(InstanciationTestsData))]
-    public void Instanciation_WhenSubjectIsNotGiven_TheExceptionShouldContainTheCorrectMessage(int indexValue)
+    public void Instanciation_WhenSubjectIsNotGiven_TheExceptionShouldContainTheCorrectMessage(int index)
     {
         var subject = "Number";
-        var minIndexValue = 0;
-        var maxIndexValue = 50;
-        var ex = new OutOfRangeIntegerException(indexValue, minIndexValue, maxIndexValue);
+        var minIndex = 0;
+        var maxIndex = 50;
+        var ex = new OutOfRangeIntegerException(index, minIndex, maxIndex);
 
-        var expected = $"Invalid {subject} : '{indexValue}', possible range : [{minIndexValue},{maxIndexValue}].";
-        Assert.Equal(expected, ex.Message);
+        var expectedMessage = $"Invalid {subject} : '{index}', possible range : [{minIndex},{maxIndex}].";
+        Assert.Equal(expectedMessage, ex.Message);
     }
 
     [Theory]
     //[MemberData(nameof(badIndexes))]
     [ClassData(typeof(InstanciationTestsData))]
-    public void Instanciation_WhenSubjectIsGiven_TheExceptionShouldContainTheCorrectMessage(int indexValue)
+    public void Instanciation_WhenSubjectIsGiven_TheExceptionShouldContainTheCorrectMessage(int index)
     {
         var subject = "Index";
-        var minIndexValue = 0;
-        var maxIndexValue = 50;
-        var ex = new OutOfRangeIntegerException(indexValue, minIndexValue, maxIndexValue, subject);
+        var minIndex = 0;
+        var maxIndex = 50;
+        var ex = new OutOfRangeIntegerException(index, minIndex, maxIndex, subject);
 
-        var expected = $"Invalid {subject} : '{indexValue}', possible range : [{minIndexValue},{maxIndexValue}].";
-        Assert.Equal(expected, ex.Message);
+        var expectedMessage = $"Invalid {subject} : '{index}', possible range : [{minIndex},{maxIndex}].";
+        Assert.Equal(expectedMessage, ex.Message);
     }
 
 

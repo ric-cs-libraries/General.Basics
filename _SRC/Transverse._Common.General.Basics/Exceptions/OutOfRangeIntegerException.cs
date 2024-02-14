@@ -4,9 +4,9 @@ public class OutOfRangeIntegerException : Exception
 {
     public override string Message { get; }
 
-    public OutOfRangeIntegerException(int invalidIndex, int minIndexValue, int maxIndexValue, string? subject = null) : base("")
+    public OutOfRangeIntegerException(int invalidIndex, int minIndex, int maxIndex, string? subject = null) : base("")
     {
         subject ??= "Number";
-        Message = $"Invalid {subject} : '{invalidIndex}', possible range : [{minIndexValue},{maxIndexValue}].";
+        Message = $"Invalid {subject} : '{invalidIndex}', possible range : [{minIndex},{maxIndex}].";
     }
 }

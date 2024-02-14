@@ -423,7 +423,124 @@ public class SringExtensionTests
         string result = str.GetWithoutHtmlEntities_();
         Assert.Equal("éàA'èz😀îç", result);
     }
-
     #endregion HtmlEntities...
-     
+
+    #region ChunkExists_
+    [Theory]
+    [ClassData(typeof(UnexistingChunkBoundsData))]
+    public void ChunkExists_WhenChunkDoesntExist_ShouldReturnFalse(int startIndex, int endIndex)
+    {
+        var str = "0123456";
+
+        var result = str.ChunkExists_(startIndex, endIndex);
+
+        Assert.False(result);
+    }
+
+    [Theory]
+    [ClassData(typeof(ExistingChunkBoundsData))]
+    public void ChunkExists_WhenChunkExists_ShouldReturnTrue(int startIndex, int endIndex)
+    {
+        var str = "0123456";
+
+        var result = str.ChunkExists_(startIndex, endIndex);
+
+        Assert.True(result);
+    }
+    #endregion ChunkExists_
+
+
+    #region CheckChunkExists_
+    [Theory]
+    [ClassData(typeof(ExistingChunkBoundsData))]
+    public void CheckChunkExists_WhenChunkExists_ShouldNotThrowAnException(int startIndex, int endIndex)
+    {
+        var str = "0123456";
+
+        str.CheckChunkExists_(startIndex, endIndex);
+
+        Assert.True(true);
+    }
+
+    [Theory]
+    [ClassData(typeof(UnexistingChunkBoundsData))]
+    public void CheckChunkExists_WhenChunkDoesntExist_ShouldThrowAnUnexistingChunkException(int startIndex, int endIndex)
+    {
+        string str = "0123456";
+        var minIndex = 0;
+        var maxIndex = str.Length - 1;
+
+        var ex = Assert.Throws<UnexistingChunkException>(() => str.CheckChunkExists_(startIndex, endIndex));
+
+        var expectedMessage = $"In string, Unexisting Chunk [startIndex='{startIndex}'; endIndex='{endIndex}'] ; possible range : [{minIndex},{maxIndex}].";
+        Assert.Equal(expectedMessage, ex.Message);
+    }
+    #endregion CheckChunkExists_
+
+    #region GetChunk_
+    [Theory]
+    [ClassData(typeof(ExistingChunkBoundsDataWithResult))]
+    public void GetChunk_WhenChunkExists_ShouldReturnTheCorrectChunk(int startIndex, int endIndex, string expectedChunk)
+    {
+        string str = "0123456";
+
+        var result = str.GetChunk_(startIndex, endIndex);
+
+        Assert.Equal(expectedChunk, result);
+    }
+
+    [Theory]
+    [ClassData(typeof(UnexistingChunkBoundsData))]
+    public void GetChunk_WhenChunkDoesntExist_ShouldThrowAnUnexistingChunkException(int startIndex, int endIndex)
+    {
+        string str = "0123456";
+        var minIndex = 0;
+        var maxIndex = str.Length - 1;
+
+        var ex = Assert.Throws<UnexistingChunkException>(() => str.GetChunk_(startIndex, endIndex));
+
+        var expectedMessage = $"In string, Unexisting Chunk [startIndex='{startIndex}'; endIndex='{endIndex}'] ; possible range : [{minIndex},{maxIndex}].";
+        Assert.Equal(expectedMessage, ex.Message);
+    }
+    #endregion GetChunk_
+
+
+    //---------------------------------------------------------
+    class UnexistingChunkBoundsData : TheoryData<int, int>
+    {
+        public UnexistingChunkBoundsData()
+        {
+            Add(-1, 0);
+            Add(1, 7);
+            Add(7, 8);
+            Add(3, 1);
+            Add(1, 0);
+        }
+    }
+    class ExistingChunkBoundsData : TheoryData<int, int>
+    {
+        public ExistingChunkBoundsData()
+        {
+            Add(0, 0);
+            Add(0, 1);
+            Add(0, 6);
+            Add(1, 6);
+            Add(3, 5);
+            Add(6, 6);
+        }
+    }
+    class ExistingChunkBoundsDataWithResult : TheoryData<int, int, string>
+    {
+        public ExistingChunkBoundsDataWithResult()
+        {
+            Add(0, 0, "0");
+            Add(0, 1, "01");
+            Add(0, 6, "0123456");
+            Add(1, 6, "123456");
+            Add(3, 5, "345");
+            Add(6, 6, "6");
+        }
+    }
+
+
 }
