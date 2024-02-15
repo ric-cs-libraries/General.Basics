@@ -2,7 +2,7 @@
 
 	<PropertyGroup>
 
-		<MyPackageMajorVersion>1</MyPackageMajorVersion>
+		<MyPackageMajorVersion>$(MyTransverseCommonGeneralBasics_MajorVersion)</MyPackageMajorVersion>
 		<MyPackageMinorVersion>1</MyPackageMinorVersion>
 		<MyPackagePatchVersion>0</MyPackagePatchVersion>
 
