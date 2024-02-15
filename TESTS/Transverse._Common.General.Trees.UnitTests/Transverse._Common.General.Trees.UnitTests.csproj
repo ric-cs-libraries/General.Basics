@@ -1,0 +1,8 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+	<ItemGroup>
+		<ProjectReference Include="../../_SRC/Transverse._Common.General.Trees/Transverse._Common.General.Trees.csproj" />
+		<ProjectReference Include="..\..\_SRC\Transverse._Common.General.Basics\Transverse._Common.General.Basics.csproj" />
+	</ItemGroup>
+
+</Project>
