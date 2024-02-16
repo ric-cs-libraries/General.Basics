@@ -34,27 +34,22 @@ public class NodeTests
 
 
         //--- Act ---
-        var result = node.HasParent;
+        var result1 = node.HasParent;
+        var result2 = node.Parent;
+        var result3 = node.ParentId;
+        var result4 = node.IndexInParent;
 
         //--- Assert ---
-        var expected = false;
-        Assert.Equal(expected, result);
+        var expected1 = false;
+        TreeElement<int>? expected2 = null;
+        int? expected3 = null;
+        int? expected4 = null;
+        Assert.Equal(expected1, result1);
+        Assert.Equal(expected2, result2);
+        Assert.Equal(expected3, result3);
+        Assert.Equal(expected4, result4);
     }
 
-    [Fact]
-    public void Node_WhenInstanciated_ShouldHaveANullParentId()
-    {
-        //--- Arrange ---
-        var node = Node<int>.Create();
-
-
-        //--- Act ---
-        var result = node.ParentId;
-
-        //--- Assert ---
-        int? expected = null;
-        Assert.Equal(expected, result);
-    }
 
     [Fact]
     public void Node_WhenInstanciated_ShouldHaveAPositiveId()
@@ -80,11 +75,14 @@ public class NodeTests
 
         //--- Act ---
         parentNode.Add(leaf);
-        var result = parentNode.HasChild;
+        var result1 = parentNode.HasChild;
+        var result2 = leaf.IndexInParent;
 
         //--- Assert ---
-        var expected = true;
-        Assert.Equal(expected, result);
+        var expected1 = true;
+        var expected2 = parentNode.NbChildren - 1;
+        Assert.Equal(expected1, result1);
+        Assert.Equal(expected2, result2);
     }
 
     [Fact]
@@ -97,11 +95,14 @@ public class NodeTests
 
         //--- Act ---
         parentNode.Add(childNode);
-        var result = parentNode.HasChild;
+        var result1 = parentNode.HasChild;
+        var result2 = childNode.IndexInParent;
 
         //--- Assert ---
-        var expected = true;
-        Assert.Equal(expected, result);
+        var expected1 = true;
+        var expected2 = parentNode.NbChildren - 1;
+        Assert.Equal(expected1, result1);
+        Assert.Equal(expected2, result2);
     }
 
     [Fact]
@@ -117,11 +118,14 @@ public class NodeTests
 
         //--- Act ---
         parentNode.Add(leaf);
-        var result = parentNode.NbChildren;
+        var result1 = parentNode.NbChildren;
+        var result2 = leaf.IndexInParent;
 
         //--- Assert ---
-        var expected = nbChildrenBeforeAddingOneMore + 1;
-        Assert.Equal(expected, result);
+        var expected1 = nbChildrenBeforeAddingOneMore + 1;
+        var expected2 = parentNode.NbChildren - 1;
+        Assert.Equal(expected1, result1);
+        Assert.Equal(expected2, result2);
     }
 
     [Fact]
@@ -137,11 +141,14 @@ public class NodeTests
 
         //--- Act ---
         parentNode.Add(childNode);
-        var result = parentNode.NbChildren;
+        var result1 = parentNode.NbChildren;
+        var result2 = childNode.IndexInParent;
 
         //--- Assert ---
-        var expected = nbChildrenBeforeAddingOneMore + 1;
-        Assert.Equal(expected, result);
+        var expected1 = nbChildrenBeforeAddingOneMore + 1;
+        var expected2 = parentNode.NbChildren - 1;
+        Assert.Equal(expected1, result1);
+        Assert.Equal(expected2, result2);
     }
 
     [Fact]
@@ -188,15 +195,18 @@ public class NodeTests
 
         //--- Act ---
         parentNode.Add(leaf);
-        var result = parentNode.LastAddedElement;
+        var result1 = parentNode.LastAddedElement;
+        var result2 = leaf.IndexInParent;
 
         //--- Assert ---
-        var expected = leaf;
-        Assert.Equal(expected, result);
+        var expected1 = leaf;
+        var expected2 = parentNode.NbChildren - 1;
+        Assert.Equal(expected1, result1);
+        Assert.Equal(expected2, result2);
     }
 
     [Fact]
-    public void Add_WhenNodeAddedToAParentNode_LeafShouldBeTheLastChildren()
+    public void Add_WhenNodeAddedToAParentNode_NodeShouldBeTheLastChildren()
     {
         //--- Arrange ---
         var parentNode = Node<int>.Create();
@@ -205,11 +215,14 @@ public class NodeTests
 
         //--- Act ---
         parentNode.Add(childNode);
-        var result = parentNode.LastAddedElement;
+        var result1 = parentNode.LastAddedElement;
+        var result2 = childNode.IndexInParent;
 
         //--- Assert ---
-        var expected = childNode;
-        Assert.Equal(expected, result);
+        var expected1 = childNode;
+        var expected2 = parentNode.NbChildren - 1;
+        Assert.Equal(expected1, result1);
+        Assert.Equal(expected2, result2);
     }
 
     [Fact]
@@ -237,7 +250,7 @@ public class NodeTests
     }
 
     [Fact]
-    public void Add_WhenNoError_ShouldTheParentNodeItself()
+    public void Add_WhenNoError_ShouldReturnTheParentNodeItself()
     {
         //--- Arrange ---
         var parentNode = Node<string>.Create();
@@ -329,11 +342,14 @@ public class NodeTests
 
         //--- Act ---
         parentNode.AddMany(new TreeElement<int>[] { childNode, leaf });
-        var result = parentNode.LastAddedElement;
+        var result1 = parentNode.LastAddedElement;
+        var result2 = leaf.IndexInParent;
 
         //--- Assert ---
-        var expected = leaf;
-        Assert.Equal(expected, result);
+        var expected1 = leaf;
+        var expected2 = parentNode.NbChildren - 1;
+        Assert.Equal(expected1, result1);
+        Assert.Equal(expected2, result2);
     }
 
     [Fact]
@@ -347,15 +363,18 @@ public class NodeTests
 
         //--- Act ---
         parentNode.AddMany(new TreeElement<int>[] { leaf, childNode });
-        var result = parentNode.LastAddedElement;
+        var result1 = parentNode.LastAddedElement;
+        var result2 = childNode.IndexInParent;
 
         //--- Assert ---
-        var expected = childNode;
-        Assert.Equal(expected, result);
+        var expected1 = childNode;
+        var expected2 = parentNode.NbChildren - 1;
+        Assert.Equal(expected1, result1);
+        Assert.Equal(expected2, result2);
     }
 
     [Fact]
-    public void AddMany_WhenNoError_ShouldTheParentNodeItself()
+    public void AddMany_WhenNoError_ShouldReturnTheParentNodeItself()
     {
         //--- Arrange ---
         var parentNode = Node<string>.Create();
@@ -401,7 +420,7 @@ public class NodeTests
     }
 
     [Fact]
-    public void GetChild_WhenChildExists_ShouldReturnTheChild()
+    public void GetChildByIndex_WhenChildExists_ShouldReturnTheChild()
     {
         //--- Arrange ---
         var parentNode = Node<string>.Create();
@@ -422,7 +441,7 @@ public class NodeTests
     }
 
     [Fact]
-    public void GetChild_WhenChildIndexIsOutOfRange_ShouldThrowAnOutOfRangeIntegerException()
+    public void GetChildByIndex_WhenChildIndexIsOutOfRange_ShouldThrowAnOutOfRangeIntegerException()
     {
         //--- Arrange ---
         var parentNode = Node<string>.Create();
@@ -457,7 +476,7 @@ public class NodeTests
     }
 
     [Fact]
-    public void GetChildById_WhenChildDoesnt_ShouldReturnNull()
+    public void GetChildById_WhenChildDoesntExist_ShouldReturnNull()
     {
         //--- Arrange ---
         var parentNode = Node<string>.Create();
@@ -467,7 +486,7 @@ public class NodeTests
 
 
         //--- Act ---
-        var result = parentNode.GetChildById(30);
+        var result = parentNode.GetChildById(350);
 
         //--- Assert ---
         Assert.Null(result);
@@ -520,7 +539,7 @@ public class NodeTests
     }
 
     [Fact]
-    public void RemoveChildById_WhenNodeOwnsTheChild_ShouldRemoveThisChild()
+    public void RemoveChildById_WhenNodeOwnsTheChild_ShouldRemoveThisChildAndUpdateChildIndexesInParent()
     {
         //--- Arrange ---
         var parentNode = Node<string>.Create();
@@ -537,6 +556,7 @@ public class NodeTests
         Assert.Equal(1, parentNode.NbChildren);
         Assert.False(parentNode.OwnsChildById(childNode));
         Assert.Equal(leaf, parentNode.LastAddedElement);
+        Assert.Equal(parentNode.NbChildren - 1, leaf.IndexInParent);
     }
 
     [Fact]
@@ -551,11 +571,17 @@ public class NodeTests
 
 
         //--- Act ---
-        parentNode.RemoveChildById(childNode);
-        parentNode.RemoveChildById(leaf);
+        parentNode.RemoveChildById(childNode)
+                  .RemoveChildById(leaf);
 
-        //--- Act ---
+        //--- Assert ---
         Assert.False(parentNode.HasChild);
+        Assert.False(leaf.HasParent);
+        Assert.Null(leaf.Parent);
+        Assert.Null(leaf.IndexInParent);
+        Assert.False(childNode.HasParent);
+        Assert.Null(childNode.Parent);
+        Assert.Null(childNode.IndexInParent);
     }
 
     [Fact]
@@ -573,7 +599,7 @@ public class NodeTests
     }
 
     [Fact]
-    public void RemoveChildById_WhenNoError_ShouldTheParentNodeItself()
+    public void RemoveChildById_WhenNoError_ShouldreturnTheParentNodeItself()
     {
         //--- Arrange ---
         var parentNode = Node<string>.Create();

@@ -10,6 +10,13 @@ public class GenericTree<TData> : Node<TData>
             throw new GenericTreeCantHaveAParentException(); //Viole LSP mais pas grave
         }
     }
+    public override int? IndexInParent
+    {
+        protected internal set
+        {
+            throw new GenericTreeCantHaveAParentException(); //Viole LSP mais pas grave
+        }
+    }
 
     private GenericTree() : base()
 	{

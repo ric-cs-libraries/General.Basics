@@ -1,4 +1,5 @@
-﻿using Transverse._Common.General.Basics.Extensions;
+﻿using System.Xml.Linq;
+using Transverse._Common.General.Basics.Extensions;
 using Transverse._Common.General.Basics.IdsProvider;
 
 using Transverse._Common.General.Trees.GenericTree.Interfaces;
@@ -17,6 +18,8 @@ public abstract class TreeElement<TData>
     public virtual TreeElement<TData>? Parent { get; protected internal set; }
     public bool HasParent => (Parent is not null);
 
+    public virtual int? IndexInParent { get; protected internal set; } = null;
+
 
     private const int INITIAL_ID = 0;
     private static IdsProvider idsProvider = IdsProvider.Create(INITIAL_ID, intIdStep: 1);
@@ -32,6 +35,17 @@ public abstract class TreeElement<TData>
     public static void ResetId()
     {
         idsProvider.ResetIntId();
+    }
+
+    protected internal void LinkToParent(TreeElement<TData> parent, int indexInParent)
+    {
+        Parent = parent;
+        IndexInParent = indexInParent;
+    }
+    protected internal void UnlinkParent()
+    {
+        Parent = null;
+        IndexInParent = null;
     }
 
     protected virtual List<string> GetState()

@@ -4,7 +4,7 @@ using Transverse._Common.General.Trees.GenericTree.Interfaces;
 namespace Transverse._Common.General.Trees.GenericTree;
 
 
-[DebuggerDisplay("Leaf: DataToString='{Data.ToString()}', Id={Id}, ParentId={ParentId}")]
+[DebuggerDisplay("Leaf: DataToString='{Data.ToString()}', Id={Id}, ParentId={ParentId}, IndexInParent={IndexInParent}")]
 public class Leaf<TData> : TreeElement<TData>
 {
     private Leaf() : base()

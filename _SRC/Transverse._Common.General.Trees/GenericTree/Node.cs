@@ -7,7 +7,7 @@ using Transverse._Common.General.Trees.GenericTree.Interfaces;
 namespace Transverse._Common.General.Trees.GenericTree;
 
 
-[DebuggerDisplay("Node: NbChildren={NbChildren}, Id={Id}, ParentId={ParentId}, DataToString='{Data.ToString()}'")]
+[DebuggerDisplay("Node: NbChildren={NbChildren}, Id={Id}, ParentId={ParentId}, IndexInParent={IndexInParent}, DataToString='{Data.ToString()}'")]
 public class Node<TData> : TreeElement<TData>
 {
     protected readonly List<TreeElement<TData>> elements;
@@ -62,7 +62,7 @@ public class Node<TData> : TreeElement<TData>
     }
     protected virtual void AddChild(TreeElement<TData> element)
     {
-        element.Parent = this;
+        element.LinkToParent(this, indexInParent: NbChildren);
         elements.Add(element);
     }
 
@@ -100,7 +100,9 @@ public class Node<TData> : TreeElement<TData>
         {
             throw new UnexistingChildException(childId, Id);
         }
+        child.UnlinkParent();
         elements.Remove(child);
+        UpdateIndexesInParent();
 
         return this;
     }
@@ -108,6 +110,12 @@ public class Node<TData> : TreeElement<TData>
     public Node<TData> RemoveChildById(TreeElement<TData> childElement)
     {
         return RemoveChildById(childElement.Id);
+    }
+
+    private void UpdateIndexesInParent()
+    {
+        var index = 0;
+        elements.ForEach(te => te.IndexInParent = index++);
     }
 
 
