@@ -92,7 +92,7 @@ public class Node<TData> : TreeElement<TData>
         return result;
     }
 
-    public Node<TData> RemoveChildById(int childId)
+    private Node<TData> RemoveChildById(int childId, bool updateIndexesInParent)
     {
         var child = GetChildById(childId);
 
@@ -102,14 +102,37 @@ public class Node<TData> : TreeElement<TData>
         }
         child.UnlinkParent();
         elements.Remove(child);
-        UpdateIndexesInParent();
 
+        if (updateIndexesInParent)
+        {
+            UpdateIndexesInParent();
+        }
         return this;
+    }
+
+    private Node<TData> RemoveChildById(int childId)
+    {
+        return RemoveChildById(childId, updateIndexesInParent: true);
     }
 
     public Node<TData> RemoveChildById(TreeElement<TData> childElement)
     {
         return RemoveChildById(childElement.Id);
+    }
+
+    public Node<TData> RemoveChildrenById(int[] childrenElementsId)
+    {
+        foreach (var childId in childrenElementsId)
+        {
+            RemoveChildById(childId, updateIndexesInParent: false);
+        }
+        UpdateIndexesInParent();
+        return this;
+    }
+
+    public Node<TData> RemoveChildrenById(TreeElement<TData>[] childrenElements)
+    {
+        return RemoveChildrenById(childrenElements.Select(e => e.Id).ToArray());
     }
 
     private void UpdateIndexesInParent()

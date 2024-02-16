@@ -6,6 +6,6 @@ public class UnexistingChildException : Exception
 
     public UnexistingChildException(int childId, int parentNodeId) : base("")
     {
-        Message = $"L'élément d'Id '{childId}' n'a pas pour parent le noeud d'Id '{parentNodeId}'.";
+        Message = $"Le noeud d'Id '{parentNodeId}' n'a pas pour enfant l'élément d'Id '{childId}'.";
     }
 }

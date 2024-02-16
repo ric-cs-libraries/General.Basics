@@ -615,6 +615,134 @@ public class NodeTests
         Assert.Equal(expected, result);
     }
 
+
+    [Fact]
+    public void RemoveChildrenById_WhenNodeOwnsTheChildren_ShouldRemoveThoseChildrenAndUpdateEveryChildIndexesInParent()
+    {
+        //--- Arrange ---
+        var parentNode = Node<string>.Create();
+        
+        var childNode1 = Node<string>.Create();
+        var childNode2 = Node<string>.Create();
+        var leaf1 = Leaf<string>.Create();
+        var leaf2 = Leaf<string>.Create();
+
+        parentNode.AddMany(new TreeElement<string>[] { childNode1, leaf1, childNode2, leaf2 });
+
+
+        //--- Act ---
+        var result = parentNode.RemoveChildrenById(new TreeElement<string>[] { leaf1, childNode1 });
+
+        //--- Assert ---
+        Assert.Equal(0, childNode2.IndexInParent);
+        Assert.Equal(parentNode.NbChildren - 1, leaf2.IndexInParent);
+        Assert.Equal(2, parentNode.NbChildren);
+        Assert.Equal(parentNode, childNode2.Parent);
+        Assert.Equal(parentNode, leaf2.Parent);
+        Assert.False(parentNode.OwnsChildById(childNode1));
+        Assert.False(parentNode.OwnsChildById(leaf1));
+        Assert.True(parentNode.OwnsChildById(childNode2));
+        Assert.True(parentNode.OwnsChildById(leaf2));
+        Assert.False(childNode1.HasParent);
+        Assert.False(leaf1.HasParent);
+        Assert.Null(childNode1.ParentId);
+        Assert.Null(leaf1.ParentId);
+        Assert.Null(childNode1.IndexInParent);
+        Assert.Null(leaf1.IndexInParent);
+    }
+
+    [Fact]
+    public void RemoveChildrenById_WhenNodeOwnsTheChildren_ShouldRemoveThoseChildrenAndUpdateEveryChildIndexesInParent_2()
+    {
+        //--- Arrange ---
+        var parentNode = Node<string>.Create();
+
+        var childNode1 = Node<string>.Create();
+        var childNode2 = Node<string>.Create();
+        var leaf1 = Leaf<string>.Create();
+        var leaf2 = Leaf<string>.Create();
+
+        parentNode.AddMany(new TreeElement<string>[] { childNode1, leaf1, childNode2, leaf2 });
+
+
+        //--- Act ---
+        var result = parentNode.RemoveChildrenById(new int[] { leaf1.Id, childNode1.Id });
+
+        //--- Assert ---
+        Assert.Equal(0, childNode2.IndexInParent);
+        Assert.Equal(parentNode.NbChildren - 1, leaf2.IndexInParent);
+        Assert.Equal(2, parentNode.NbChildren);
+        Assert.Equal(parentNode, childNode2.Parent);
+        Assert.Equal(parentNode, leaf2.Parent);
+        Assert.False(parentNode.OwnsChildById(childNode1));
+        Assert.False(parentNode.OwnsChildById(leaf1));
+        Assert.True(parentNode.OwnsChildById(childNode2));
+        Assert.True(parentNode.OwnsChildById(leaf2));
+        Assert.False(childNode1.HasParent);
+        Assert.False(leaf1.HasParent);
+        Assert.Null(childNode1.ParentId);
+        Assert.Null(leaf1.ParentId);
+        Assert.Null(childNode1.IndexInParent);
+        Assert.Null(leaf1.IndexInParent);
+    }
+
+    [Fact]
+    public void RemoveChildrenById_WhenRemoveAllChildren_ShouldHaveNoChild()
+    {
+        //--- Arrange ---
+        var parentNode = Node<string>.Create();
+        var childNode = Node<string>.Create();
+        var leaf = Leaf<string>.Create();
+        parentNode.AddMany(new TreeElement<string>[] { childNode, leaf });
+        //Assert.True(parentNode.HasChild);
+
+
+        //--- Act ---
+        parentNode.RemoveChildrenById(new int[] { childNode.Id, leaf.Id });
+
+        //--- Assert ---
+        Assert.False(parentNode.HasChild);
+        Assert.False(leaf.HasParent);
+        Assert.Null(leaf.Parent);
+        Assert.Null(leaf.IndexInParent);
+        Assert.False(childNode.HasParent);
+        Assert.Null(childNode.Parent);
+        Assert.Null(childNode.IndexInParent);
+    }
+
+    [Fact]
+    public void RemoveChildrenById_WhenNodeDoesntOwnTheChild_ShouldThrowAnUnexistingChildException()
+    {
+        //--- Arrange ---
+        var parentNode = Node<string>.Create();
+        var childNode = Node<string>.Create();
+        var leaf = Leaf<string>.Create();
+        parentNode.AddMany(new TreeElement<string>[] { childNode, leaf });
+        var leaf2 = Leaf<string>.Create();
+
+
+        //--- Act & Assert ---
+        var ex = Assert.Throws<UnexistingChildException>(() => parentNode.RemoveChildrenById(new TreeElement<string>[]{ leaf, leaf2}));
+    }
+
+    [Fact]
+    public void RemoveChildrenById_WhenNoError_ShouldreturnTheParentNodeItself()
+    {
+        //--- Arrange ---
+        var parentNode = Node<string>.Create();
+        var childNode = Node<string>.Create();
+        var leaf = Leaf<string>.Create();
+        parentNode.AddMany(new TreeElement<string>[] { childNode, leaf });
+
+        //--- Act ---
+        var result = parentNode.RemoveChildrenById(new int[] { leaf .Id });
+
+        //--- Assert ---
+        var expected = parentNode;
+        Assert.Equal(expected, result);
+    }
+
+
     [Fact]
     public void ResetId___ShouldSetNextIdTo0() //Ne pas mettre ce test dans un autre source sinon il y a "conflit" sur la valeur du membre static TreeElement<int>.CurrentId
     {                                          //Les tests de sources(de tests) différents semblant se lancer en parallèle, mais pas quand il s'agit du même source (ici NodeTests.cs).
