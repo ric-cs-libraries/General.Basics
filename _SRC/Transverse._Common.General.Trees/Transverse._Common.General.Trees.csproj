@@ -15,7 +15,7 @@
 	<Import Project="$(MyCommonCsProjSrcPath)/SetVersions.csproj" /><!-- Affectation de <PackageVersion> et <Version> -->
 
 	<ItemGroup>
-	  <ProjectReference Include="..\Transverse._Common.General.Basics\Transverse._Common.General.Basics.csproj" PrivateAssets="all"/>
+		<PackageReference Include="Transverse._Common.General.Basics" Version="$(MyTransverseCommonGeneralBasics_MajorVersion).$(MyDependenciesVersionWildcard)"/>
 	</ItemGroup>
 
 </Project>
