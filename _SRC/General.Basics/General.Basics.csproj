@@ -1,0 +1,17 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+	<PropertyGroup>
+
+		<MyPackageMajorVersion>$(MyGeneralBasics_MajorVersion)</MyPackageMajorVersion>
+		<MyPackageMinorVersion>3</MyPackageMinorVersion>
+		<MyPackagePatchVersion>0</MyPackagePatchVersion>
+
+		<Description><!-- Mettre ici en 1 ligne (même longue), le descriptif des nouveautés, pour cette nouvelle version du Package Nuget -->
+			Suppr. de TreeWithExternalIds
+		</Description>
+
+	</PropertyGroup>
+
+	<Import Project="$(MyCommonCsProjSrcPath)/SetVersions.csproj" /><!-- Affectation de <PackageVersion> et <Version> -->
+
+</Project>

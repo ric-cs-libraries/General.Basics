@@ -1,7 +1,0 @@
-﻿<Project Sdk="Microsoft.NET.Sdk">
-
-  <ItemGroup>
-    <ProjectReference Include="../../_SRC/Transverse._Common.General.Serialization/Transverse._Common.General.Serialization.csproj" />
-  </ItemGroup>
-
-</Project>

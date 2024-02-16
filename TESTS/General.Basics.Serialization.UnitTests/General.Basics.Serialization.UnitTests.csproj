@@ -1,0 +1,7 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+  <ItemGroup>
+    <ProjectReference Include="../../_SRC/General.Basics.Serialization/General.Basics.Serialization.csproj" />
+  </ItemGroup>
+
+</Project>
