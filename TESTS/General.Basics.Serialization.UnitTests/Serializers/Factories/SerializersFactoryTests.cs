@@ -61,6 +61,18 @@ public class SerializersFactoryTests
     }
 
     [Fact]
+    public void Get___ShouldAlwaysReturnASingleton()
+    {
+        ISerializer native1 = SerializersFactory.Create(Serializer.NewtonSoft).Get();
+        ISerializer newtonS1 = SerializersFactory.Create(Serializer.Native).Get();
+        ISerializer native2 = SerializersFactory.Create(Serializer.NewtonSoft).Get();
+        ISerializer newtonS2 = SerializersFactory.Create(Serializer.Native).Get();
+
+        Assert.Equal(native1, native2);
+        Assert.Equal(newtonS1, newtonS2);
+    }
+
+    [Fact]
     public void Get_WhenFactoryWasInstanciatedWithAnUnhandledSerializerEnumCode_ShouldThrowAnUnhandledSerializerEnumCodeException()
     {
         int unknownSerializerEnumCode = 10;
