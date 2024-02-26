@@ -10,6 +10,26 @@ namespace General.Basics.Extensions.UnitTests;
 
 public class SringExtensionTests
 {
+    #region GetLastIndex_
+    [Fact]
+    public void GetLastIndex_WhenEnumerableIsNotEmpty_ShouldReturnTheCorrectIndex()
+    {
+        var str = "123";
+        var lastIndex = str.Length - 1;
+        Assert.Equal(lastIndex, str.GetLastIndex_());
+    }
+    [Fact]
+    public void GetLastIndex_WhenEnumerableIsEmpty_ShouldReturnNull()
+    {
+        var str = "";
+        Assert.Null(str.GetLastIndex_());
+        
+        str = string.Empty;
+        Assert.Null(str.GetLastIndex_());
+    }
+    #endregion GetLastIndex_
+
+
     #region Repeat_
     [Theory]
     [InlineData(3)]
@@ -62,7 +82,7 @@ public class SringExtensionTests
 
         var ex = Assert.Throws<MustBePositiveIntegerException>(() => str.Repeat_(nbRepeat));
 
-        var expectedMessage = $"nbRepeat must be a >=0 integer : '{nbRepeat}' unauthorized.";
+        var expectedMessage = string.Format(MustBePositiveIntegerException.MESSAGE_FORMAT, "nbRepeat", nbRepeat);
         Assert.Equal(expectedMessage, ex.Message);
     }
     #endregion Repeat_
@@ -99,7 +119,7 @@ public class SringExtensionTests
 
     #region CheckIsValidIndex_
     [Fact]
-    public void CheckIsValidIndex_WhenIsValidIndex_ShouldnotThrowAnException()
+    public void CheckIsValidIndex_WhenIsValidIndex_ShouldNotThrowAnException()
     {
         var str = "123";
         var validIndex = str.Length - 1;
@@ -114,7 +134,7 @@ public class SringExtensionTests
         var invalidIndex = str.Length;
         var ex = Assert.Throws<OutOfRangeIntegerException>(() => str.CheckIsValidIndex_(invalidIndex));
 
-        var expectedMessage = $"Invalid string Index : '{invalidIndex}', possible range : [{0},{str.Length - 1}].";
+        var expectedMessage = string.Format(OutOfRangeIntegerException.MESSAGE_FORMAT, "string Index", invalidIndex, 0, str.Length - 1);
         Assert.Equal(expectedMessage, ex.Message);
     }
     #endregion CheckIsValidIndex_
@@ -297,19 +317,19 @@ public class SringExtensionTests
     [Theory]
     [InlineData(-1)]
     [InlineData(-400)]
-    public void Substring_WhenSubstringLengthIsNotMentionnedAndStartIndexIsNegative_ShouldThrowAnInvalidNegativeIndexException(int negativeStartIndex)
+    public void Substring_WhenSubstringLengthIsNotMentionnedAndStartIndexIsNegative_ShouldThrowAMustBePositiveIntegerException(int negativeStartIndex)
     {
         var ex = Assert.Throws<MustBePositiveIntegerException>(() => "anyString".Substring_(negativeStartIndex));
-        Assert.Equal(ex.Message, $"The index must be a >=0 integer : '{negativeStartIndex}' unauthorized.");
+        Assert.Equal(ex.Message, string.Format(MustBePositiveIntegerException.MESSAGE_FORMAT, "The index", negativeStartIndex));
     }
 
     [Theory]
     [InlineData(-1)]
     [InlineData(-400)]
-    public void Substring_WhenSubstringLengthIsMentionnedAndStartIndexIsNegative_ShouldThrowAnInvalidNegativeIndexException(int negativeStartIndex)
+    public void Substring_WhenSubstringLengthIsMentionnedAndStartIndexIsNegative_ShouldThrowAMustBePositiveIntegerException(int negativeStartIndex)
     {
         var ex = Assert.Throws<MustBePositiveIntegerException>(() => "anyString".Substring_(negativeStartIndex, 1));
-        Assert.Equal(ex.Message, $"The index must be a >=0 integer : '{negativeStartIndex}' unauthorized.");
+        Assert.Equal(ex.Message, string.Format(MustBePositiveIntegerException.MESSAGE_FORMAT, "The index", negativeStartIndex));
     }
     #endregion Substring_
 
@@ -472,7 +492,7 @@ public class SringExtensionTests
 
         var ex = Assert.Throws<UnexistingChunkException>(() => str.CheckChunkExists_(startIndex, endIndex));
 
-        var expectedMessage = $"In string, Unexisting Chunk [startIndex='{startIndex}'; endIndex='{endIndex}'] ; possible range : [{minIndex},{maxIndex}].";
+        var expectedMessage = string.Format(UnexistingChunkException.MESSAGE_FORMAT, "string", startIndex, endIndex, minIndex, maxIndex);
         Assert.Equal(expectedMessage, ex.Message);
     }
     #endregion CheckChunkExists_
@@ -499,7 +519,7 @@ public class SringExtensionTests
 
         var ex = Assert.Throws<UnexistingChunkException>(() => str.GetChunk_(startIndex, endIndex));
 
-        var expectedMessage = $"In string, Unexisting Chunk [startIndex='{startIndex}'; endIndex='{endIndex}'] ; possible range : [{minIndex},{maxIndex}].";
+        var expectedMessage = string.Format(UnexistingChunkException.MESSAGE_FORMAT, "string", startIndex, endIndex, minIndex, maxIndex);
         Assert.Equal(expectedMessage, ex.Message);
     }
     #endregion GetChunk_

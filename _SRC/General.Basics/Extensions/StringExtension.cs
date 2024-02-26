@@ -6,14 +6,6 @@ namespace General.Basics.Extensions;
 
 public static class StringExtension
 {
-    public static bool IsValidIndex_(this string string_, int index)
-    {
-        int minIndex = 0;
-        int maxIndex = string_.Length - 1;
-        var result = (index >= minIndex && index <= maxIndex);
-        return result;
-    }
-
     public static void CheckIsValidIndex_(this string string_, int index)
     {
         if (!string_.IsValidIndex_(index))
@@ -23,13 +15,6 @@ public static class StringExtension
 
             throw new OutOfRangeIntegerException(index, minIndex, maxIndex, "string Index");
         }
-    }
-
-    public static bool ChunkExists_(this string string_, int startIndex, int endIndex)
-    {
-        var result = (endIndex >= startIndex);
-        result = result && string_.IsValidIndex_(startIndex) && string_.IsValidIndex_(endIndex);
-        return result;
     }
 
     public static void CheckChunkExists_(this string string_, int startIndex, int endIndex)

@@ -6,7 +6,17 @@ namespace General.Basics.Extensions;
 
 public static class IEnumerableExtension
 {
-    public static bool IsValidIndex_<T>(this IEnumerable<T> enumerable, int index)
+    public static int? GetLastIndex_<T>(this IEnumerable<T> enumerable)
+    {
+        int? result = null;
+        if (enumerable.Any())
+        {
+            result = enumerable.Count() - 1;
+        }
+        return result;
+    }
+
+        public static bool IsValidIndex_<T>(this IEnumerable<T> enumerable, int index)
     {
         int minIndex = 0;
         int maxIndex = enumerable.Count() - 1;

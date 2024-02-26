@@ -3,11 +3,11 @@
 	<PropertyGroup>
 
 		<MyPackageMajorVersion>$(MyGeneralBasics_MajorVersion)</MyPackageMajorVersion>
-		<MyPackageMinorVersion>3</MyPackageMinorVersion>
+		<MyPackageMinorVersion>4</MyPackageMinorVersion>
 		<MyPackagePatchVersion>0</MyPackagePatchVersion>
 
 		<Description><!-- Mettre ici en 1 ligne (même longue), le descriptif des nouveautés, pour cette nouvelle version du Package Nuget -->
-			Suppr. de TreeWithExternalIds
+			Une string est un IEnumerable of char donc pas besoin mes Extensions de string, des méthodes suivantes qui existent déjà dans mes Extension de IEnumerable :  IsValidIndex_, ChunkExists_. Aussi ajout de GetLastIndex_, à mes IEnumerable Extensions. AUSSI : Ajout d'une constante public : MESSAGE ou MESSAGE_FORMAT dans mes classes d'Exception.
 		</Description>
 
 	</PropertyGroup>

@@ -9,6 +9,22 @@ namespace General.Basics.Extensions.UnitTests;
 
 public class IEnumerableExtensionTests
 {
+    #region GetLastIndex_
+    [Fact]
+    public void GetLastIndex_WhenEnumerableIsNotEmpty_ShouldReturnTheCorrectIndex()
+    {
+        var list = new List<int>() { 1, 2, 3 };
+        var lastIndex = list.Count - 1;
+        Assert.Equal(lastIndex, list.GetLastIndex_());
+    }
+    [Fact]
+    public void GetLastIndex_WhenEnumerableIsEmpty_ShouldReturnNull()
+    {
+        var list = new List<int>() {};
+        Assert.Null(list.GetLastIndex_());
+    }
+    #endregion GetLastIndex_
+
     #region IsValidIndex_
     [Fact]
     public void IsValidIndex_WhenIsInvalidIndexOnList_ShouldReturnFalse()
@@ -92,7 +108,7 @@ public class IEnumerableExtensionTests
         var invalidIndex = maxIndex + 1;
         var ex = Assert.Throws<OutOfRangeIntegerException>(() => list.CheckIsValidIndex_(invalidIndex));
 
-        var expectedMessage = $"Invalid IEnumerable Index : '{invalidIndex}', possible range : [{0},{list.Count-1}].";
+        var expectedMessage = string.Format(OutOfRangeIntegerException.MESSAGE_FORMAT, "IEnumerable Index", invalidIndex, 0, list.Count - 1);
         Assert.Equal(expectedMessage, ex.Message);
     }
     #endregion CheckIsValidIndex_
@@ -145,7 +161,7 @@ public class IEnumerableExtensionTests
 
         var ex = Assert.Throws<UnexistingChunkException>(() => list.CheckChunkExists_(startIndex, endIndex));
 
-        var expectedMessage = $"In IEnumerable, Unexisting Chunk [startIndex='{startIndex}'; endIndex='{endIndex}'] ; possible range : [{minIndex},{maxIndex}].";
+        var expectedMessage = string.Format(UnexistingChunkException.MESSAGE_FORMAT, "IEnumerable", startIndex, endIndex, minIndex, maxIndex);
         Assert.Equal(expectedMessage, ex.Message);
     }
     #endregion CheckChunkExists_
@@ -172,7 +188,7 @@ public class IEnumerableExtensionTests
 
         var ex = Assert.Throws<UnexistingChunkException>(() => list.GetChunk_(startIndex, endIndex));
 
-        var expectedMessage = $"In IEnumerable, Unexisting Chunk [startIndex='{startIndex}'; endIndex='{endIndex}'] ; possible range : [{minIndex},{maxIndex}].";
+        var expectedMessage = string.Format(UnexistingChunkException.MESSAGE_FORMAT, "IEnumerable", startIndex, endIndex, minIndex, maxIndex);
         Assert.Equal(expectedMessage, ex.Message);
     }
     #endregion GetChunk_
