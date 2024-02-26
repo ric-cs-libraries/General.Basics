@@ -10,6 +10,55 @@ namespace General.Basics.Extensions.UnitTests;
 
 public class SringExtensionTests
 {
+    #region OnlyContains_
+    [Fact]
+    public void OnlyContains_WhenOnlyContainsTheChar_ShouldReturnTrue()
+    {
+        //--- Arrange ---
+        char onlyCharToFind1 = 'a';
+        var str1 = onlyCharToFind1.ToString().Repeat_(3);
+
+        char onlyCharToFind2 = ' ';
+        var str2 = onlyCharToFind2.ToString().Repeat_(3);
+
+        //--- Act ---
+        var result1 = str1.OnlyContains_(onlyCharToFind1);
+        var result2 = str2.OnlyContains_(onlyCharToFind2);
+
+        //--- Assert ---
+        Assert.True(result1);
+        Assert.True(result2);
+    }
+
+    [Fact]
+    public void OnlyContains_WhenDoesntOnlyContainsTheChar_ShouldReturnFalse()
+    {
+        //--- Arrange ---
+        char onlyCharToFind = 'a';
+        var str = onlyCharToFind.ToString().Repeat_(3) + "A";
+
+        //--- Act ---
+        var result = str.OnlyContains_(onlyCharToFind);
+
+        //--- Assert ---
+        Assert.False(result);
+    }
+
+    [Fact]
+    public void OnlyContains_WhenStringIsEmpty_ShouldReturnFalse()
+    {
+        //--- Arrange ---
+        char onlyCharToFind = 'a';
+        var str = string.Empty;
+
+        //--- Act ---
+        var result = str.OnlyContains_(onlyCharToFind);
+
+        //--- Assert ---
+        Assert.False(result);
+    }
+    #endregion OnlyContains_
+
     #region GetLastIndex_
     [Fact]
     public void GetLastIndex_WhenEnumerableIsNotEmpty_ShouldReturnTheCorrectIndex()

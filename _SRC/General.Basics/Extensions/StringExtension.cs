@@ -6,6 +6,23 @@ namespace General.Basics.Extensions;
 
 public static class StringExtension
 {
+    public static bool OnlyContains_(this string string_, char theOnlyCharToFind)
+    {
+        bool result = false;
+        if (string_ != string.Empty)
+        {
+            foreach (char chr in string_)
+            {
+                result = (chr == theOnlyCharToFind);
+                if (!result)
+                {
+                    break;
+                }
+            }
+        } 
+        return result;
+    }
+
     public static void CheckIsValidIndex_(this string string_, int index)
     {
         if (!string_.IsValidIndex_(index))
