@@ -18,7 +18,7 @@ public class OutOfRangeIntegerExceptionTests
         var maxIndex = 50;
         var ex = new OutOfRangeIntegerException(index, minIndex, maxIndex);
 
-        var expectedMessage = $"Invalid {subject} : '{index}', possible range : [{minIndex},{maxIndex}].";
+        var expectedMessage = string.Format(OutOfRangeIntegerException.MESSAGE_FORMAT, subject, index, minIndex, maxIndex);
         Assert.Equal(expectedMessage, ex.Message);
     }
 
@@ -32,7 +32,7 @@ public class OutOfRangeIntegerExceptionTests
         var maxIndex = 50;
         var ex = new OutOfRangeIntegerException(index, minIndex, maxIndex, subject);
 
-        var expectedMessage = $"Invalid {subject} : '{index}', possible range : [{minIndex},{maxIndex}].";
+        var expectedMessage = string.Format(OutOfRangeIntegerException.MESSAGE_FORMAT, subject, index, minIndex, maxIndex);
         Assert.Equal(expectedMessage, ex.Message);
     }
 

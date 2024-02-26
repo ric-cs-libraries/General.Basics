@@ -50,7 +50,7 @@ public class Node<TData> : TreeElement<TData>
 
         if (OwnsChildById(element))
         {
-            throw new ChildAlreadyExistsException(element.Id, Id);
+            throw new ChildAlreadyExistsException(Id, element.Id);
         }
 
         if (element.HasParent)
@@ -99,7 +99,7 @@ public class Node<TData> : TreeElement<TData>
 
         if (child is null)
         {
-            throw new UnexistingChildException(childId, Id);
+            throw new UnexistingChildException(Id, childId);
         }
         child.UnlinkParent();
         elements.Remove(child);

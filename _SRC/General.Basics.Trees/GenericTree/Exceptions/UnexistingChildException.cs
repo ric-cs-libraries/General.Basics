@@ -2,10 +2,12 @@ namespace General.Basics.Trees.GenericTree;
 
 public class UnexistingChildException : Exception
 {
+    public const string MESSAGE_FORMAT = "Le noeud d'Id '{0}' n'a pas pour enfant l'élément d'Id '{1}'.";
+
     public override string Message { get; }
 
-    public UnexistingChildException(int childId, int parentNodeId) : base("")
+    public UnexistingChildException(int parentNodeId, int childId) : base("")
     {
-        Message = $"Le noeud d'Id '{parentNodeId}' n'a pas pour enfant l'élément d'Id '{childId}'.";
+        Message = string.Format(MESSAGE_FORMAT, parentNodeId, childId);
     }
 }

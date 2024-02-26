@@ -15,7 +15,7 @@ public class UnhandledSerializerEnumCodeExceptionTests
         var unknownSerializerEnumCode = 10;
         var ex = new UnhandledSerializerEnumCodeException((Serializer)unknownSerializerEnumCode);
 
-        var expectedMessage = $"Code enum de Serializer actuellement non géré : '{unknownSerializerEnumCode}'";
+        var expectedMessage = string.Format(UnhandledSerializerEnumCodeException.MESSAGE_FORMAT, unknownSerializerEnumCode);
         Assert.Equal(expectedMessage, ex.Message);
     }
 }

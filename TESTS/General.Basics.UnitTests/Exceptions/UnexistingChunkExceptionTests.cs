@@ -17,7 +17,7 @@ public class UnexistingChunkExceptionTests
         var maxIndex = 50;
         var ex = new UnexistingChunkException(startIndex, endIndex, minIndex, maxIndex, subject);
 
-        var expectedMessage = $"In {subject}, Unexisting Chunk [startIndex='{startIndex}'; endIndex='{endIndex}'] ; possible range : [{minIndex},{maxIndex}].";
+        var expectedMessage = string.Format(UnexistingChunkException.MESSAGE_FORMAT, subject, startIndex, endIndex, minIndex, maxIndex);
         Assert.Equal(expectedMessage, ex.Message);
     }
 

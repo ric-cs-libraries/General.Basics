@@ -2,10 +2,11 @@ namespace General.Basics.Exceptions;
 
 public class UnexistingChunkException : Exception
 {
+    public const string MESSAGE_FORMAT = "In {0}, Unexisting Chunk [startIndex='{1}'; endIndex='{2}'] ; possible range : [{3},{4}].";
     public override string Message { get; }
 
     public UnexistingChunkException(int startIndex, int endIndex, int minIndex, int maxIndex, string subject) : base("")
     {
-        Message = $"In {subject}, Unexisting Chunk [startIndex='{startIndex}'; endIndex='{endIndex}'] ; possible range : [{minIndex},{maxIndex}].";
+        Message = string.Format(MESSAGE_FORMAT, subject, startIndex, endIndex, minIndex, maxIndex);
     }
 }

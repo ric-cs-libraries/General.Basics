@@ -15,7 +15,7 @@ public class MustBePositiveIntegerExceptionTests
         var negativeInt = -1;
         var ex = new MustBePositiveIntegerException(negativeInt, subject);
 
-        var expectedMessage = $"{subject} must be a >=0 integer : '{negativeInt}' unauthorized.";
+        var expectedMessage = string.Format(MustBePositiveIntegerException.MESSAGE_FORMAT, subject, negativeInt);
         Assert.Equal(expectedMessage, ex.Message);
     }
 
@@ -26,7 +26,7 @@ public class MustBePositiveIntegerExceptionTests
         var negativeInt = -1;
         var ex = new MustBePositiveIntegerException(negativeInt);
 
-        var expectedMessage = $"{subject} must be a >=0 integer : '{negativeInt}' unauthorized.";
+        var expectedMessage = string.Format(MustBePositiveIntegerException.MESSAGE_FORMAT, subject, negativeInt);
         Assert.Equal(expectedMessage, ex.Message);
     }
 
