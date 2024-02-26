@@ -6,6 +6,12 @@ namespace General.Basics.Extensions;
 
 public static class StringExtension
 {
+    public static bool IsEmptyOrOnlySpaces(this string string_)
+    {
+        bool result = (string_ == string.Empty) || string_.OnlyContains_(' ');
+        return result;
+    }
+
     public static bool OnlyContains_(this string string_, char theOnlyCharToFind)
     {
         bool result = false;

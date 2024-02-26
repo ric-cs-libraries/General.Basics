@@ -10,6 +10,37 @@ namespace General.Basics.Extensions.UnitTests;
 
 public class SringExtensionTests
 {
+    #region IsEmptyOrOnlySpaces
+    [Fact]
+    public void IsEmptyOrOnlySpaces_WhenIsEmptyOrOnlyContainsSpaces_ShouldReturnTrue()
+    {
+        //--- Arrange ---
+        var str1 = "";
+        var str2 = "   ";
+
+        //--- Act ---
+        var result1 = str1.IsEmptyOrOnlySpaces();
+        var result2 = str2.IsEmptyOrOnlySpaces();
+
+        //--- Assert ---
+        Assert.True(result1);
+        Assert.True(result2);
+    }
+
+    [Fact]
+    public void IsEmptyOrOnlySpaces_WhenContainsNotOnlySpaces_ShouldReturnFalse()
+    {
+        //--- Arrange ---
+        var str = "   . ";
+
+        //--- Act ---
+        var result = str.IsEmptyOrOnlySpaces();
+
+        //--- Assert ---
+        Assert.False(result);
+    }
+    #endregion IsEmptyOrOnlySpaces
+
     #region OnlyContains_
     [Fact]
     public void OnlyContains_WhenOnlyContainsTheChar_ShouldReturnTrue()
