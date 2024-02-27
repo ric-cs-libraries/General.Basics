@@ -10,6 +10,91 @@ namespace General.Basics.Extensions.UnitTests;
 
 public class SringExtensionTests
 {
+    #region CheckDoesntOnlyContainSpaces
+    [Fact]
+    public void CheckDoesntOnlyContainSpaces_WhenOnlyContainsSpaces_ShouldThrowAnStringOnlyContainsSpacesException()
+    {
+        //--- Arrange ---
+        var str1 = " ";
+        var str2 = "      ";
+
+        //--- Act & Assert ---
+        Assert.Throws<StringOnlyContainsSpacesException>(() => str1.CheckDoesntOnlyContainSpaces());
+        Assert.Throws<StringOnlyContainsSpacesException>(() => str2.CheckDoesntOnlyContainSpaces());
+    }
+    [Fact]
+    public void CheckDoesntOnlyContainSpaces_WhenDoesntContainTooMany_ShouldNotThrowAnException()
+    {
+        //--- Arrange ---
+        var str1 = "";
+        var str2 = "     .   ";
+        var str3 = $"    {Environment.NewLine}   ";
+
+        //--- Act ---
+        str1.CheckDoesntOnlyContainSpaces();
+        str2.CheckDoesntOnlyContainSpaces();
+        str3.CheckDoesntOnlyContainSpaces();
+
+        //--- Assert ---
+        Assert.True(true);
+    }
+    #endregion CheckDoesntOnlyContainSpaces
+
+    #region CheckDoesntContainTooManyOfAChar
+    [Fact]
+    public void CheckDoesntContainTooManyOfAChar_WhenContainsTooMany_ShouldThrowAnStringContainsTooManyOfACharException()
+    {
+        //--- Arrange ---
+        var str = "abcxDxa5x8x";
+        char theChar = 'x';
+        int maxNbOccurrencesOfTheChar = 4 - 1;
+
+        //--- Act & Assert ---
+        var ex = Assert.Throws<StringContainsTooManyOfACharException>(() => str.CheckDoesntContainTooManyOfAChar(theChar, maxNbOccurrencesOfTheChar));
+    }
+    [Fact]
+    public void CheckDoesntContainTooManyOfAChar_WhenDoesntContainTooMany_ShouldNotThrowAnException()
+    {
+        //--- Arrange ---
+        var str = "abcxDxa5x8";
+        char theChar = 'x';
+        int maxNbOccurrencesOfTheChar = 3+0;
+
+        //--- Act ---
+        str.CheckDoesntContainTooManyOfAChar(theChar, maxNbOccurrencesOfTheChar);
+
+        //--- Assert ---
+        Assert.True(true);
+    }
+    #endregion CheckDoesntContainTooManyOfAChar
+
+    #region CheckDoesntContainIllegalChar
+    [Fact]
+    public void CheckDoesntContainIllegalChar_WhenContainsOneOrMoreIllegalChars_ShouldThrowAnStringWithIllegalCharException()
+    {
+        //--- Arrange ---
+        var str = "abcxDxa5";
+        char[] illegalChars = { '4', 'z', 'x' };
+
+        //--- Act & Assert ---
+        var ex = Assert.Throws<StringWithIllegalCharException>(() => str.CheckDoesntContainIllegalChar(illegalChars));
+        Assert.Equal(string.Format(StringWithIllegalCharException.MESSAGE_FORMAT, str, str[3]), ex.Message);
+    }
+    [Fact]
+    public void CheckDoesntContainIllegalChar_WhenDoesntContainIllegalChars_ShouldNotThrowAnException()
+    {
+        //--- Arrange ---
+        var str = "abcxDxa5";
+        char[] illegalChars = { '4', 'z' };
+
+        //--- Act ---
+        str.CheckDoesntContainIllegalChar(illegalChars);
+
+        //--- Assert ---
+        Assert.True(true);
+    }
+    #endregion CheckDoesntContainIllegalChar
+
     #region IsEmptyOrOnlySpaces
     [Fact]
     public void IsEmptyOrOnlySpaces_WhenIsEmptyOrOnlyContainsSpaces_ShouldReturnTrue()
@@ -103,7 +188,7 @@ public class SringExtensionTests
     {
         var str = "";
         Assert.Null(str.GetLastIndex_());
-        
+
         str = string.Empty;
         Assert.Null(str.GetLastIndex_());
     }
@@ -182,7 +267,7 @@ public class SringExtensionTests
     [Theory]
     [InlineData(-1)]
     [InlineData(null)] //Cas où il devra mettre pour index : str.Length
-    public void IsValidIndex_WhenIsInvalidIndex_ShouldReturnFalse(int? index = null, string str= "0123456789")
+    public void IsValidIndex_WhenIsInvalidIndex_ShouldReturnFalse(int? index = null, string str = "0123456789")
     {
         if (!index.HasValue)
         {

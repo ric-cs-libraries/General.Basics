@@ -10,7 +10,7 @@ public class UnexistingChunkExceptionTests
 {
     [Theory]
     [ClassData(typeof(InstanciationTestsChunkBoundsData))]
-    public void Instanciation___TheExceptionShouldContainTheCorrectMessage(int startIndex, int endIndex)
+    public void Instanciation__TheExceptionShouldContainTheCorrectMessage(int startIndex, int endIndex)
     {
         var subject = "List";
         var minIndex = 0;

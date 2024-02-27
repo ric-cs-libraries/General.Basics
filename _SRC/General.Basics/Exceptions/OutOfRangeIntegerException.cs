@@ -6,7 +6,7 @@ public class OutOfRangeIntegerException : Exception
 
     public override string Message { get; }
 
-    public OutOfRangeIntegerException(int invalidIndex, int minIndex, int maxIndex, string? subject = null) : base("")
+    public OutOfRangeIntegerException(int invalidIndex, int minIndex, int maxIndex, string? subject = null)
     {
         subject ??= "Number";
         Message = string.Format(MESSAGE_FORMAT, subject, invalidIndex, minIndex, maxIndex);

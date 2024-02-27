@@ -3,11 +3,11 @@
 	<PropertyGroup>
 
 		<MyPackageMajorVersion>$(MyGeneralBasics_MajorVersion)</MyPackageMajorVersion>
-		<MyPackageMinorVersion>5</MyPackageMinorVersion>
+		<MyPackageMinorVersion>6</MyPackageMinorVersion>
 		<MyPackagePatchVersion>0</MyPackagePatchVersion>
 
 		<Description><!-- Mettre ici en 1 ligne (même longue), le descriptif des nouveautés, pour cette nouvelle version du Package Nuget -->
-			Ajout de OnlyContains_ et IsEmptyOrOnlySpaces à StringExtension.
+			Ajout de StringContainsTooManyOfACharException, StringOnlyContainsSpacesException, StringWithIllegalCharException. Ajout à StringExtension de : CheckDoesntContainIllegalChar, CheckDoesntContainTooManyOfAChar, CheckDoesntOnlyContainSpaces.
 		</Description>
 
 	</PropertyGroup>

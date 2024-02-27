@@ -6,7 +6,7 @@ public class MustBePositiveIntegerException : Exception
 
     public override string Message { get; }
 
-    public MustBePositiveIntegerException(int negativeInt, string? subject = null) : base("")
+    public MustBePositiveIntegerException(int negativeInt, string? subject = null)
     {
         subject ??= "Number";
         Message = string.Format(MESSAGE_FORMAT, subject, negativeInt);

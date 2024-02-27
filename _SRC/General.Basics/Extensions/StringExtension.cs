@@ -6,6 +6,34 @@ namespace General.Basics.Extensions;
 
 public static class StringExtension
 {
+    private const int INDEX_WHEN_UNFOUND = -1;
+
+    public static void CheckDoesntContainIllegalChar(this string string_, char[] illegalChars)
+    {
+        int index;
+        if ((index = string_.IndexOfAny(illegalChars)) != INDEX_WHEN_UNFOUND)
+        {
+            throw new StringWithIllegalCharException(string_, string_[index]);
+        }
+    }
+    
+    public static void CheckDoesntContainTooManyOfAChar(this string string_, char theChar, int maxNbOccurrencesOfTheChar)
+    {
+        int charNbOccurences = string_.Count(chr => chr == theChar);
+        if (charNbOccurences > maxNbOccurrencesOfTheChar)
+        {
+            throw new StringContainsTooManyOfACharException(string_, charNbOccurences, theChar, maxNbOccurrencesOfTheChar);
+        }
+    }
+
+    public static void CheckDoesntOnlyContainSpaces(this string string_)
+    {
+        if (string_.OnlyContains_(' '))
+        {
+            throw new StringOnlyContainsSpacesException(string_);
+        }
+    }
+
     public static bool IsEmptyOrOnlySpaces(this string string_)
     {
         bool result = (string_ == string.Empty) || string_.OnlyContains_(' ');
@@ -25,7 +53,7 @@ public static class StringExtension
                     break;
                 }
             }
-        } 
+        }
         return result;
     }
 
