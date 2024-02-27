@@ -8,7 +8,36 @@ public static class StringExtension
 {
     private const int INDEX_WHEN_UNFOUND = -1;
 
-    public static void CheckDoesntContainIllegalChar(this string string_, char[] illegalChars)
+    public static void CheckIsNotEqualToAnyOf_(this string string_, IEnumerable<string> strings, StringComparison comparisonMode = StringComparison.InvariantCulture)
+    {
+        bool isEqual = string_.EqualsOneOf_(strings, comparisonMode);
+        if (isEqual)
+        {
+            throw new StringShouldNotBeEqualToAnyOfStringsException(comparisonMode, string_, strings);
+        }
+    }
+
+    public static bool EqualsOneOf_(this string string_, IEnumerable<string> strings, StringComparison comparisonMode = StringComparison.InvariantCulture)
+    {
+        string? foundString = strings.FirstOrDefault(str => str.Equals(string_, comparisonMode));
+        bool result = (foundString is not null);
+        return result;
+    }
+
+    public static List<string> SuffixWithNumberFromAToB_(this string string_, int firstSuffixA, int lastSuffixB)
+    {
+        lastSuffixB.CheckIsGreaterOrEqualTo_(firstSuffixA, "index");
+
+        var nbElements = lastSuffixB - firstSuffixA + 1;
+
+        var result = Enumerable.Range(firstSuffixA, nbElements).Select(suffixN =>
+        {
+            return $"{string_}{suffixN}";
+        });
+        return result.ToList();
+    }
+
+    public static void CheckDoesntContainIllegalChar_(this string string_, char[] illegalChars)
     {
         int index;
         if ((index = string_.IndexOfAny(illegalChars)) != INDEX_WHEN_UNFOUND)
@@ -17,7 +46,7 @@ public static class StringExtension
         }
     }
     
-    public static void CheckDoesntContainTooManyOfAChar(this string string_, char theChar, int maxNbOccurrencesOfTheChar)
+    public static void CheckDoesntContainTooManyOfAChar_(this string string_, char theChar, int maxNbOccurrencesOfTheChar)
     {
         int charNbOccurences = string_.Count(chr => chr == theChar);
         if (charNbOccurences > maxNbOccurrencesOfTheChar)
@@ -26,7 +55,7 @@ public static class StringExtension
         }
     }
 
-    public static void CheckDoesntOnlyContainSpaces(this string string_)
+    public static void CheckDoesntOnlyContainSpaces_(this string string_)
     {
         if (string_.OnlyContains_(' '))
         {
@@ -34,7 +63,7 @@ public static class StringExtension
         }
     }
 
-    public static bool IsEmptyOrOnlySpaces(this string string_)
+    public static bool IsEmptyOrOnlySpaces_(this string string_)
     {
         bool result = (string_ == string.Empty) || string_.OnlyContains_(' ');
         return result;

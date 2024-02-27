@@ -4,12 +4,152 @@ using Xunit;
 
 using General.Basics.Extensions;
 using General.Basics.Exceptions;
-
+using System.Security.Cryptography;
 
 namespace General.Basics.Extensions.UnitTests;
 
 public class SringExtensionTests
 {
+    #region CheckIsNotEqualToAnyOf_
+    [Fact]
+    public void CheckIsNotEqualToAnyOf_WhenEquals_ShouldThrowAStringShouldNotBeEqualToAnyOfStringsException()
+    {
+        //--- Arrange ---
+        var str = "hé";
+        string[] strings = { "hi", "you!", "HÉ" };
+        StringComparison comparisonMode = StringComparison.InvariantCultureIgnoreCase;
+
+
+        //--- Act & Assert ---
+        Assert.Throws<StringShouldNotBeEqualToAnyOfStringsException>(() => str.CheckIsNotEqualToAnyOf_(strings, comparisonMode));
+    }
+    [Fact]
+    public void CheckIsNotEqualToAnyOf_WhenNotEquals_ShouldNotThrowAnException()
+    {
+        //--- Arrange ---
+        var str = "h";
+        string[] strings = { "hi", "you" };
+        StringComparison comparisonMode = StringComparison.InvariantCulture;
+
+
+        //--- Act ---
+        str.CheckIsNotEqualToAnyOf_(strings, comparisonMode);
+
+        //--- Assert ---
+        Assert.True(true);
+    }
+    [Fact]
+    public void CheckIsNotEqualToAnyOf_WhenNoComparisonModeIsProvided_ShouldCompareCaseSensitiveAndNotThrowAnExceptionIfNotEquals()
+    {
+        //--- Arrange ---
+        var str = "hé";
+        string[] strings = { "hi", "you!", "HÉ" };
+
+        //--- Act ---
+        str.CheckIsNotEqualToAnyOf_(strings);
+
+        //--- Assert ---
+        Assert.True(true);
+    }
+    #endregion CheckIsNotEqualToAnyOf_
+
+
+    #region EqualsOneOf_
+    [Fact]
+    public void EqualsOneOf_WhenEqualsByCaseInsensitive_ShouldReturnTrue()
+    {
+        //--- Arrange ---
+        var str = "hé";
+        string[] strings = { "hi", "you!", "HÉ" };
+        StringComparison comparisonMode = StringComparison.InvariantCultureIgnoreCase;
+
+
+        //--- Act ---
+        var result = str.EqualsOneOf_(strings, comparisonMode);
+
+        //--- Assert ---
+        Assert.True(result);
+    }
+    [Fact]
+    public void EqualsOneOf_WhenNotEquals_ShouldReturnFalse()
+    {
+        //--- Arrange ---
+        var str = "hé";
+        string[] strings = { "hÉ", "hi", "you" };
+        StringComparison comparisonMode = StringComparison.InvariantCulture; //Case sensitive
+
+
+        //--- Act ---
+        var result = str.EqualsOneOf_(strings, comparisonMode);
+
+        //--- Assert ---
+        Assert.False(result);
+    }
+    [Fact]
+    public void EqualsOneOf_WhenNoComparisonModeIsProvided_ShouldCompareCaseSensitive()
+    {
+        //--- Arrange ---
+        var str = "hé";
+        string[] strings = { "hÉ", "hi", "you" };
+
+
+        //--- Act ---
+        var result = str.EqualsOneOf_(strings);
+
+        //--- Assert ---
+        Assert.False(result);
+    }
+    #endregion EqualsOneOf_
+
+    #region SuffixWithNumberFromAToB_
+    [Fact]
+    public void SuffixWithNumberFromAToB_WhenBGreaterThanA_ShouldReturnTheCorrectEnumerableContent()
+    {
+        //--- Arrange ---
+        var intSuffixA = -2;
+        var intSuffixB = 3;
+        var prefix = "LePrefix";
+
+
+        //--- Act ---
+        IEnumerable<string> result = prefix.SuffixWithNumberFromAToB_(intSuffixA, intSuffixB);
+
+        //--- Assert ---
+        Assert.Equal(new string[] { $"{prefix}-2", $"{prefix}-1", $"{prefix}0", $"{prefix}1", $"{prefix}2", $"{prefix}3" }, result);
+    }
+
+    [Fact]
+    public void SuffixWithNumberFromAToB_WhenBEqualsA_ShouldReturnAnEnumerableOf1Element()
+    {
+        //--- Arrange ---
+        var intSuffixA = 2;
+        var intSuffixB = intSuffixA;
+        var prefix = "LePrefix";
+
+
+        //--- Act ---
+        IEnumerable<string> result = prefix.SuffixWithNumberFromAToB_(intSuffixA, intSuffixB);
+
+        //--- Assert ---
+        //Assert.Equal(1, result.Count());
+        Assert.Equal(new string[] { $"{prefix}2" }, result);
+    }
+    [Fact]
+    public void SuffixWithNumberFromAToB_WhenBLowerThanA_ShouldReturnAnIntShouldBeGreaterOrEqualExceptionWithTheCorrectMessage()
+    {
+        //--- Arrange ---
+        var intSuffixB = 2;
+        var intSuffixA = intSuffixB + 1;
+        var prefix = "LePrefix";
+
+        //--- Act & Assert ---
+        var ex = Assert.Throws<IntShouldBeGreaterOrEqualException>(() => prefix.SuffixWithNumberFromAToB_(intSuffixA, intSuffixB));
+
+        var expectedMessage = string.Format(IntShouldBeGreaterOrEqualException.MESSAGE_FORMAT, "index", intSuffixB, intSuffixA);
+        Assert.Equal(expectedMessage, ex.Message);
+    }
+    #endregion SuffixWithNumberFromAToB_
+
     #region CheckDoesntOnlyContainSpaces
     [Fact]
     public void CheckDoesntOnlyContainSpaces_WhenOnlyContainsSpaces_ShouldThrowAnStringOnlyContainsSpacesException()
@@ -19,8 +159,8 @@ public class SringExtensionTests
         var str2 = "      ";
 
         //--- Act & Assert ---
-        Assert.Throws<StringOnlyContainsSpacesException>(() => str1.CheckDoesntOnlyContainSpaces());
-        Assert.Throws<StringOnlyContainsSpacesException>(() => str2.CheckDoesntOnlyContainSpaces());
+        Assert.Throws<StringOnlyContainsSpacesException>(() => str1.CheckDoesntOnlyContainSpaces_());
+        Assert.Throws<StringOnlyContainsSpacesException>(() => str2.CheckDoesntOnlyContainSpaces_());
     }
     [Fact]
     public void CheckDoesntOnlyContainSpaces_WhenDoesntContainTooMany_ShouldNotThrowAnException()
@@ -31,9 +171,9 @@ public class SringExtensionTests
         var str3 = $"    {Environment.NewLine}   ";
 
         //--- Act ---
-        str1.CheckDoesntOnlyContainSpaces();
-        str2.CheckDoesntOnlyContainSpaces();
-        str3.CheckDoesntOnlyContainSpaces();
+        str1.CheckDoesntOnlyContainSpaces_();
+        str2.CheckDoesntOnlyContainSpaces_();
+        str3.CheckDoesntOnlyContainSpaces_();
 
         //--- Assert ---
         Assert.True(true);
@@ -50,7 +190,7 @@ public class SringExtensionTests
         int maxNbOccurrencesOfTheChar = 4 - 1;
 
         //--- Act & Assert ---
-        var ex = Assert.Throws<StringContainsTooManyOfACharException>(() => str.CheckDoesntContainTooManyOfAChar(theChar, maxNbOccurrencesOfTheChar));
+        var ex = Assert.Throws<StringContainsTooManyOfACharException>(() => str.CheckDoesntContainTooManyOfAChar_(theChar, maxNbOccurrencesOfTheChar));
     }
     [Fact]
     public void CheckDoesntContainTooManyOfAChar_WhenDoesntContainTooMany_ShouldNotThrowAnException()
@@ -61,7 +201,7 @@ public class SringExtensionTests
         int maxNbOccurrencesOfTheChar = 3+0;
 
         //--- Act ---
-        str.CheckDoesntContainTooManyOfAChar(theChar, maxNbOccurrencesOfTheChar);
+        str.CheckDoesntContainTooManyOfAChar_(theChar, maxNbOccurrencesOfTheChar);
 
         //--- Assert ---
         Assert.True(true);
@@ -77,7 +217,7 @@ public class SringExtensionTests
         char[] illegalChars = { '4', 'z', 'x' };
 
         //--- Act & Assert ---
-        var ex = Assert.Throws<StringWithIllegalCharException>(() => str.CheckDoesntContainIllegalChar(illegalChars));
+        var ex = Assert.Throws<StringWithIllegalCharException>(() => str.CheckDoesntContainIllegalChar_(illegalChars));
         Assert.Equal(string.Format(StringWithIllegalCharException.MESSAGE_FORMAT, str, str[3]), ex.Message);
     }
     [Fact]
@@ -88,7 +228,7 @@ public class SringExtensionTests
         char[] illegalChars = { '4', 'z' };
 
         //--- Act ---
-        str.CheckDoesntContainIllegalChar(illegalChars);
+        str.CheckDoesntContainIllegalChar_(illegalChars);
 
         //--- Assert ---
         Assert.True(true);
@@ -104,8 +244,8 @@ public class SringExtensionTests
         var str2 = "   ";
 
         //--- Act ---
-        var result1 = str1.IsEmptyOrOnlySpaces();
-        var result2 = str2.IsEmptyOrOnlySpaces();
+        var result1 = str1.IsEmptyOrOnlySpaces_();
+        var result2 = str2.IsEmptyOrOnlySpaces_();
 
         //--- Assert ---
         Assert.True(result1);
@@ -119,7 +259,7 @@ public class SringExtensionTests
         var str = "   . ";
 
         //--- Act ---
-        var result = str.IsEmptyOrOnlySpaces();
+        var result = str.IsEmptyOrOnlySpaces_();
 
         //--- Assert ---
         Assert.False(result);

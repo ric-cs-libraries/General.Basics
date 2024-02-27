@@ -5,6 +5,7 @@ using General.Basics.Extensions;
 using General.Basics.Exceptions;
 
 
+
 namespace General.Basics.Extensions.UnitTests;
 
 public class IEnumerableExtensionTests
