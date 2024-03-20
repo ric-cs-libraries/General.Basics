@@ -1,4 +1,4 @@
-namespace General.Basics.Serialization.Interfaces;
+namespace General.Basics.Serialization.Serializers.Interfaces;
 
 
 public interface ISerializer

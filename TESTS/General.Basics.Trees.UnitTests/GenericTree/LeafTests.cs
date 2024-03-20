@@ -1,10 +1,11 @@
 ﻿using Xunit;
 
+
+using General.Basics.Trees.GenericTree.Abstracts;
 using General.Basics.Trees.GenericTree;
 
 
-
-namespace General.Basics.Trees.UnitTests.GenericTree;
+namespace General.Basics.Trees.GenericTree.UnitTests;
 
 public class LeafTests
 {
@@ -56,7 +57,6 @@ public class LeafTests
     public void GetStateAsString__ShouldReturnTheCorrectStateAsString()
     {
         //--- Arrange ---
-        TreeElement<string>.ResetId();
         var leaf = Leaf<string>.Create();
         leaf.Data = "leafData";
 
@@ -66,7 +66,7 @@ public class LeafTests
         //File.WriteAllText("T:/zdat.txt", result);
 
         //--- Assert ---
-        var expected = "Leaf: Id=0; ParentId=; Data='leafData'";
+        var expected = $"Leaf<String>: Id={leaf.Id}; ParentId=; Data='leafData'";
         Assert.Equal(expected, result);
     }
 }

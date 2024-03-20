@@ -1,7 +1,9 @@
 ﻿using Xunit;
 
+using General.Basics.Serialization.Serializers.Interfaces;
+
+
 using General.Basics.Serialization.Serializers.Factories;
-using General.Basics.Serialization.Interfaces;
 
 
 namespace General.Basics.Serialization.Serializers.Factories.UnitTests;

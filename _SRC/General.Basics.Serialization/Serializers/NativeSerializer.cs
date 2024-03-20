@@ -3,10 +3,10 @@ using System.Text.Json.Serialization; //Pour ReferenceHandler
 using System.Text.Encodings.Web; //pour JavaScriptEncoder
 using System.Text.Unicode; //pour UnicodeRanges
 
-using General.Basics.Serialization.Interfaces;
+using General.Basics.Serialization.Serializers.Interfaces;
 
 
-namespace General.Basics.Serialization;
+namespace General.Basics.Serialization.Serializers;
 
 
 public class NativeSerializer : ISerializer

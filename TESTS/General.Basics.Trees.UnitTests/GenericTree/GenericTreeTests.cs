@@ -1,10 +1,10 @@
 ﻿using Xunit;
 
+
 using General.Basics.Trees.GenericTree;
 
 
-
-namespace General.Basics.Trees.UnitTests.GenericTree;
+namespace General.Basics.Trees.GenericTree.UnitTests;
 
 public class GenericTreeTests
 {

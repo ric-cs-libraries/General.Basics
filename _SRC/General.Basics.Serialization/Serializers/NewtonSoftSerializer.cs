@@ -1,8 +1,9 @@
 ﻿using Newtonsoft.Json;
 
-using General.Basics.Serialization.Interfaces;
+using General.Basics.Serialization.Serializers.Interfaces;
 
-namespace General.Basics.Serialization;
+
+namespace General.Basics.Serialization.Serializers;
 
 public class NewtonSoftSerializer : ISerializer
 {

@@ -1,4 +1,7 @@
-﻿namespace General.Basics.Trees.GenericTree;
+﻿using General.Basics.Trees.GenericTree.Abstracts;
+
+
+namespace General.Basics.Trees.GenericTree;
 
 
 public class GenericTree<TData> : Node<TData>

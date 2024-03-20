@@ -1,10 +1,13 @@
 ﻿using Xunit;
 
-using General.Basics.Exceptions;
+using General.Basics.ErrorHandling;
+
+
+using General.Basics.Trees.GenericTree.Abstracts;
 using General.Basics.Trees.GenericTree;
 
 
-namespace General.Basics.Trees.UnitTests.GenericTree;
+namespace General.Basics.Trees.GenericTree.UnitTests;
 
 public class NodeTests
 {
@@ -415,7 +418,7 @@ public class NodeTests
         //File.WriteAllText("T:/zdat.txt", result);
 
         //--- Assert ---
-        var expected = "{Node: Id=0; ParentId=; Data='parentNodeData'; Elements(2)=[Leaf: Id=3; ParentId=0; Data='leaf00Data',{Node: Id=1; ParentId=0; Data='childNodeData'; Elements(1)=[Leaf: Id=2; ParentId=1; Data='leaf10Data']}]}";
+        var expected = "{Node<String>: Id=0; ParentId=; Data='parentNodeData'; Elements(2)=[Leaf<String>: Id=3; ParentId=0; Data='leaf00Data',{Node<String>: Id=1; ParentId=0; Data='childNodeData'; Elements(1)=[Leaf<String>: Id=2; ParentId=1; Data='leaf10Data']}]}";
         Assert.Equal(expected, result);
     }
 
