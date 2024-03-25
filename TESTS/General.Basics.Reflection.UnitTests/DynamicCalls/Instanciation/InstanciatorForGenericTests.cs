@@ -212,7 +212,7 @@ public class InstanciatorForGenericTests
     }
 
     [Fact]
-    public void GetInstance_WhenForClassGenericParameterTypeDoesNotComplyToSomeConstraint_ShouldThrowAGenericParameterTypeViolatingSomeConstraintException()
+    public void GetInstance_WhenForClassGenericGenericParameterTypeDoesNotComplyToSomeConstraint_ShouldThrowAGenericParameterTypeViolatingSomeConstraintException()
     {
         //--- Arrange ---
         var assemblyName = currentAssemblyName;
