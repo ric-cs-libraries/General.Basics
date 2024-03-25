@@ -6,7 +6,7 @@ public class TypeShouldBeAClassTypeException : TypeShouldBeException
 {
     public const string EXPECTED_TYPE_LABEL = "a Class";
 
-    public TypeShouldBeAClassTypeException(string typeName) : base(typeName, EXPECTED_TYPE_LABEL)
+    public TypeShouldBeAClassTypeException(string typeFullName) : base(typeFullName, EXPECTED_TYPE_LABEL)
     {
     }
 }

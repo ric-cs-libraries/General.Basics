@@ -1,4 +1,6 @@
-﻿namespace General.Basics.Reflection.POO;
+﻿using General.Basics.Reflection.Extensions;
+
+namespace General.Basics.Reflection.POO;
 
 
 //Concerne class et record.
@@ -12,7 +14,7 @@ public record AbstractClass : Class
     {
         if (!(type.IsClass && type.IsAbstract))
         {
-            throw new TypeShouldBeAnAbstractClassTypeException(type.Name);
+            throw new TypeShouldBeAnAbstractClassTypeException(type.GetFullName_());
         }
     }
 }

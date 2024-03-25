@@ -1,4 +1,5 @@
-﻿using General.Basics.Reflection.POO.Abstracts;
+﻿using General.Basics.Reflection.Extensions;
+using General.Basics.Reflection.POO.Abstracts;
 
 namespace General.Basics.Reflection.POO;
 
@@ -12,7 +13,7 @@ public record Interface : BasicElement
     {
         if (!type.IsInterface)
         {
-            throw new TypeShouldBeAnInterfaceTypeException(type.Name);
+            throw new TypeShouldBeAnInterfaceTypeException(type.GetFullName_());
         }
     }
 }

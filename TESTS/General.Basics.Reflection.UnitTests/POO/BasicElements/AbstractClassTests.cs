@@ -1,9 +1,9 @@
 ﻿using Xunit;
 
+using General.Basics.Reflection.Extensions;
+
 
 using General.Basics.Reflection.POO;
-
-
 
 namespace General.Basics.Reflection.POO.UnitTests;
 
@@ -34,11 +34,11 @@ public class AbstractClassTests
 
         //--- Act & Assert ---
         var ex1 = Assert.Throws<TypeShouldBeAnAbstractClassTypeException>(() => new AbstractClass(type1));
-        var expectedMessage1 = string.Format(TypeShouldBeAnAbstractClassTypeException.MESSAGE_FORMAT, type1.Name, TypeShouldBeAnAbstractClassTypeException.EXPECTED_TYPE_LABEL);
+        var expectedMessage1 = string.Format(TypeShouldBeAnAbstractClassTypeException.MESSAGE_FORMAT, type1.GetFullName_(), TypeShouldBeAnAbstractClassTypeException.EXPECTED_TYPE_LABEL);
         Assert.Equal(expectedMessage1, ex1.Message);
 
         var ex2 = Assert.Throws<TypeShouldBeAnAbstractClassTypeException>(() => new AbstractClass(type2));
-        var expectedMessage2 = string.Format(TypeShouldBeAnAbstractClassTypeException.MESSAGE_FORMAT, type2.Name, TypeShouldBeAnAbstractClassTypeException.EXPECTED_TYPE_LABEL);
+        var expectedMessage2 = string.Format(TypeShouldBeAnAbstractClassTypeException.MESSAGE_FORMAT, type2.GetFullName_(), TypeShouldBeAnAbstractClassTypeException.EXPECTED_TYPE_LABEL);
         Assert.Equal(expectedMessage2, ex2.Message);
     }
 

@@ -6,8 +6,8 @@ public abstract class TypeShouldBeException : Exception
 
     public override string Message { get; } = null!;
 
-    public TypeShouldBeException(string typeName, string expectedTypeKing)
+    public TypeShouldBeException(string typeFullName, string expectedTypeKing)
     {
-        Message = string.Format(MESSAGE_FORMAT, typeName, expectedTypeKing);
+        Message = string.Format(MESSAGE_FORMAT, typeFullName, expectedTypeKing);
     }
 }

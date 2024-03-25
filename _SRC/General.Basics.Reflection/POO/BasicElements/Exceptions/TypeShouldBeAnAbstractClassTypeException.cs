@@ -6,7 +6,7 @@ public class TypeShouldBeAnAbstractClassTypeException : TypeShouldBeException
 {
     public const string EXPECTED_TYPE_LABEL = "an Abstract Class";
 
-    public TypeShouldBeAnAbstractClassTypeException(string typeName) : base(typeName, EXPECTED_TYPE_LABEL)
+    public TypeShouldBeAnAbstractClassTypeException(string typeFullName) : base(typeFullName, EXPECTED_TYPE_LABEL)
     {
     }
 }

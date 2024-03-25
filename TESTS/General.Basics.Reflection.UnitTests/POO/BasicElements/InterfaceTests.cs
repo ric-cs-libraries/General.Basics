@@ -1,8 +1,9 @@
 ﻿using Xunit;
 
+using General.Basics.Reflection.Extensions;
+
 
 using General.Basics.Reflection.POO;
-
 
 
 namespace General.Basics.Reflection.POO.UnitTests;
@@ -31,11 +32,11 @@ public class InterfaceTests
 
         //--- Act & Assert ---
         var ex1 = Assert.Throws<TypeShouldBeAnInterfaceTypeException>(() => new Interface(type1));
-        var expectedMessage1 = string.Format(TypeShouldBeAnInterfaceTypeException.MESSAGE_FORMAT, type1.Name, TypeShouldBeAnInterfaceTypeException.EXPECTED_TYPE_LABEL);
+        var expectedMessage1 = string.Format(TypeShouldBeAnInterfaceTypeException.MESSAGE_FORMAT, type1.GetFullName_(), TypeShouldBeAnInterfaceTypeException.EXPECTED_TYPE_LABEL);
         Assert.Equal(expectedMessage1, ex1.Message);
 
         var ex2 = Assert.Throws<TypeShouldBeAnInterfaceTypeException>(() => new Interface(type2));
-        var expectedMessage2 = string.Format(TypeShouldBeAnInterfaceTypeException.MESSAGE_FORMAT, type2.Name, TypeShouldBeAnInterfaceTypeException.EXPECTED_TYPE_LABEL);
+        var expectedMessage2 = string.Format(TypeShouldBeAnInterfaceTypeException.MESSAGE_FORMAT, type2.GetFullName_(), TypeShouldBeAnInterfaceTypeException.EXPECTED_TYPE_LABEL);
         Assert.Equal(expectedMessage2, ex2.Message);
     }
 

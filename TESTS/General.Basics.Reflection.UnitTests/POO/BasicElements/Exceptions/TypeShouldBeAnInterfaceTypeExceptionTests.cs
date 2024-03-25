@@ -1,5 +1,7 @@
 using Xunit;
 
+using General.Basics.Reflection.Extensions;
+
 
 using General.Basics.Reflection.POO;
 
@@ -12,9 +14,10 @@ public class TypeShouldBeAnInterfaceTypeExceptionTests
     public void Instanciation_WhenSubjectIsGiven_TheExceptionShouldContainTheCorrectMessage()
     {
         Type type = typeof(TypeShouldBeAnAbstractClassTypeExceptionTests);
-        var ex = new TypeShouldBeAnInterfaceTypeException(type.Name);
+        string typeFullName = type.GetFullName_();
+        var ex = new TypeShouldBeAnInterfaceTypeException(typeFullName);
 
-        var expectedMessage = string.Format(TypeShouldBeAnInterfaceTypeException.MESSAGE_FORMAT, type.Name, TypeShouldBeAnInterfaceTypeException.EXPECTED_TYPE_LABEL);
+        var expectedMessage = string.Format(TypeShouldBeAnInterfaceTypeException.MESSAGE_FORMAT, typeFullName, TypeShouldBeAnInterfaceTypeException.EXPECTED_TYPE_LABEL);
         Assert.Equal(expectedMessage, ex.Message);
     }
 }

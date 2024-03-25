@@ -6,7 +6,7 @@ public class TypeShouldBeAnInterfaceTypeException : TypeShouldBeException
 {
     public const string EXPECTED_TYPE_LABEL = "an Interface";
 
-    public TypeShouldBeAnInterfaceTypeException(string typeName) : base(typeName, EXPECTED_TYPE_LABEL)
+    public TypeShouldBeAnInterfaceTypeException(string typeFullName) : base(typeFullName, EXPECTED_TYPE_LABEL)
     {
     }
 }

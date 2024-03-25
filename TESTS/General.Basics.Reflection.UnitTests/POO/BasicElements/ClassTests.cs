@@ -1,8 +1,9 @@
 ﻿using Xunit;
 
+using General.Basics.Reflection.Extensions;
+
 
 using General.Basics.Reflection.POO;
-
 
 
 namespace General.Basics.Reflection.POO.UnitTests;
@@ -38,7 +39,7 @@ public class ClassTests
         //--- Act & Assert ---
         var ex = Assert.Throws<TypeShouldBeAClassTypeException>(() => new Class(type));
 
-        var expectedMessage = string.Format(TypeShouldBeAClassTypeException.MESSAGE_FORMAT, type.Name, TypeShouldBeAClassTypeException.EXPECTED_TYPE_LABEL);
+        var expectedMessage = string.Format(TypeShouldBeAClassTypeException.MESSAGE_FORMAT, type.GetFullName_(), TypeShouldBeAClassTypeException.EXPECTED_TYPE_LABEL);
         Assert.Equal(expectedMessage, ex.Message);
     }
 

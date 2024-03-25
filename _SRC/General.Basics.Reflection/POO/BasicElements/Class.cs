@@ -1,4 +1,5 @@
-﻿using General.Basics.Reflection.POO.Abstracts;
+﻿using General.Basics.Reflection.Extensions;
+using General.Basics.Reflection.POO.Abstracts;
 
 namespace General.Basics.Reflection.POO;
 
@@ -13,7 +14,7 @@ public record Class : BasicElement
     {
         if (!type.IsClass)
         {
-            throw new TypeShouldBeAClassTypeException(type.Name);
+            throw new TypeShouldBeAClassTypeException(type.GetFullName_());
         }
     }
 }

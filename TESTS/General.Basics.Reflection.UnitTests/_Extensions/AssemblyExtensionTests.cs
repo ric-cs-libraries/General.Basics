@@ -110,7 +110,7 @@ public class AssemblyExtensionTests
         //--- Act & Assert ---
         var ex = Assert.Throws<TypeShouldBeAnInterfaceTypeException>(() => currentAssembly.GetInstancesFromClassesImplementing_<Vehicle>());
 
-        var expectedMessage = string.Format(TypeShouldBeAnInterfaceTypeException.MESSAGE_FORMAT, "Vehicle", TypeShouldBeAnInterfaceTypeException.EXPECTED_TYPE_LABEL);
+        var expectedMessage = string.Format(TypeShouldBeAnInterfaceTypeException.MESSAGE_FORMAT, typeof(Vehicle).GetFullName_(), TypeShouldBeAnInterfaceTypeException.EXPECTED_TYPE_LABEL);
         Assert.Equal(expectedMessage, ex.Message);
     }
 
@@ -188,7 +188,7 @@ public class AssemblyExtensionTests
         //--- Act & Assert ---
         var ex = Assert.Throws<TypeShouldBeAnInterfaceTypeException>(() => currentAssembly.GetInstancesFromGenericClassesImplementing_<Vehicle<int>>(genericParametersType));
 
-        var expectedMessage = string.Format(TypeShouldBeAnInterfaceTypeException.MESSAGE_FORMAT, "Vehicle`1", TypeShouldBeAnInterfaceTypeException.EXPECTED_TYPE_LABEL);
+        var expectedMessage = string.Format(TypeShouldBeAnInterfaceTypeException.MESSAGE_FORMAT, typeof(Vehicle<int>).GetFullName_(), TypeShouldBeAnInterfaceTypeException.EXPECTED_TYPE_LABEL);
         Assert.Equal(expectedMessage, ex.Message);
     }
 
