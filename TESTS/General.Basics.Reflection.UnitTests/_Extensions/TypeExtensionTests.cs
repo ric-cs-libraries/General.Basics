@@ -172,9 +172,9 @@ public class TypeExtensionTests
     }
     #endregion GetAssemblyName_
 
-    #region ClassImplements_
+    #region Implements_
     [Fact]
-    public void ClassImplements_WhenClassOrRecordImplementsTheInterface_ShouldReturnTrue()
+    public void Implements_WhenClassOrRecordImplementsTheInterface_ShouldReturnTrue()
     {
         //--- Arrange ---
         Type classType = typeof(MyClass);
@@ -186,34 +186,30 @@ public class TypeExtensionTests
         Interface interface1b = new(interface1);
         Type interface2 = typeof(ISomeInterface);
         Interface interface2b = new(interface2);
-        Type interface2c = typeof(ISomeInterface0<string>);
-        Type genericInterface = typeof(IMyClass<string,int,bool>);
-        Interface genericInterface_ = new(genericInterface);
+        Type interface3 = typeof(ISomeInterface0<string>);
+        Interface interface3b = new(interface3);
         Type interface4 = typeof(ISomeInterface0<int>);
+        Interface interface4b = new(interface4);
+        Type genericInterface = typeof(IMyClass<string, int, bool>);
+        Interface genericInterface_ = new(genericInterface);
 
         //--- Act ---
-        var result1 = classType.ClassImplements_(interface1);
-        var result1b = classType.ClassImplements_(interface1b);
-        var result2 = recordType.ClassImplements_(interface2);
-        var result2b = recordType.ClassImplements_(interface2b);
-        var result2c = recordType.ClassImplements_(interface2c);
-        var result3 = genericClassType.ClassImplements_(genericInterface);
-        var result3b = genericClassType.ClassImplements_(genericInterface_);
-        var result4 = childClassType.ClassImplements_(interface4);
+        var result1 = classType.Implements_(interface1b);
+        var result2 = recordType.Implements_(interface2b);
+        var result3 = recordType.Implements_(interface3b);
+        var result4 = childClassType.Implements_(interface4b);
+        var resultGenericInterface = genericClassType.Implements_(genericInterface_);
 
         //--- Assert ---
         Assert.True(result1);
-        Assert.True(result1b);
         Assert.True(result2);
-        Assert.True(result2b);
-        Assert.True(result2c);
         Assert.True(result3);
-        Assert.True(result3b);
         Assert.True(result4);
+        Assert.True(resultGenericInterface);
     }
 
     [Fact]
-    public void ClassImplements_WhenClassOrRecordDoesNotImplementTheInterface_ShouldReturnFalse()
+    public void Implements_WhenClassOrRecordDoesNotImplementTheInterface_ShouldReturnFalse()
     {
         //--- Arrange ---
         Type classType = typeof(MyClass);
@@ -228,22 +224,16 @@ public class TypeExtensionTests
         Interface genericInterface_ = new(genericInterface);
 
         //--- Act ---
-        var result1 = classType.ClassImplements_(interface2);
-        var result1b = classType.ClassImplements_(interface2b);
-        var result2 = recordType.ClassImplements_(interface1);
-        var result2b = recordType.ClassImplements_(interface1b);
-        var result3 = genericClassType.ClassImplements_(genericInterface);
-        var result3b = genericClassType.ClassImplements_(genericInterface_);
+        var result1 = classType.Implements_(interface2b);
+        var result2 = recordType.Implements_(interface1b);
+        var resultGenericInterface = genericClassType.Implements_(genericInterface_);
 
         //--- Assert ---
         Assert.False(result1);
-        Assert.False(result1b);
         Assert.False(result2);
-        Assert.False(result2b);
-        Assert.False(result3);
-        Assert.False(result3b);
+        Assert.False(resultGenericInterface);
     }
-    #endregion ClassImplements_
+    #endregion Implements_
 
     #region InheritsFrom_
     [Fact]
@@ -265,29 +255,23 @@ public class TypeExtensionTests
 
 
         //--- Act ---
-        var result01 = childClassType.InheritsFrom_(parentClass0Type);
-        var result11 = childClassType.InheritsFrom_(new Class(parentClass0Type));
-        var result02 = childClassType.InheritsFrom_(parentClass1Type);
+        var resultC0 = childClassType.InheritsFrom_(new Class(parentClass0Type));
+        var resultC1 = childClassType.InheritsFrom_(new Class(parentClass1Type));
 
-        var result03 = childRecordType.InheritsFrom_(parentRecord0Type);
-        var result13 = childRecordType.InheritsFrom_(new Class(parentRecord0Type));
-        var result04 = childRecordType.InheritsFrom_(parentRecord1Type);
+        var resultR0 = childRecordType.InheritsFrom_(new Class(parentRecord0Type));
+        var resultR1 = childRecordType.InheritsFrom_(new Class(parentRecord1Type));
 
-        var resultI00 = interfaceType.InheritsFrom_(parentInterfaceType);
-        var resultI01 = interfaceType.InheritsFrom_(new Interface(parentInterfaceType));
+        var resultI0 = interfaceType.InheritsFrom_(new Interface(parentInterfaceType));
 
 
         //--- Assert ---
-        Assert.True(result01);
-        Assert.True(result11);
-        Assert.True(result02);
+        Assert.True(resultC0);
+        Assert.True(resultC1);
 
-        Assert.True(result03);
-        Assert.True(result13);
-        Assert.True(result04);
+        Assert.True(resultR0);
+        Assert.True(resultR1);
 
-        Assert.True(resultI00);
-        Assert.True(resultI01);
+        Assert.True(resultI0);
     }
 
     [Fact]
@@ -307,28 +291,25 @@ public class TypeExtensionTests
 
 
         //--- Act ---
-        var result01 = classType.InheritsFrom_(nonParentClassType);
-        var result11 = classType.InheritsFrom_(new Class(nonParentClassType));
-        var result02 = classType.InheritsFrom_(nonParentRecordType);
-        var result12 = classType.InheritsFrom_(nonParentInterfaceType);
-        var result12b = interfaceType.InheritsFrom_(nonParentInterfaceType2b);
+        var resultC1 = classType.InheritsFrom_(new Class(nonParentClassType));
+        var resultC2 = classType.InheritsFrom_(new Class(nonParentRecordType));
+        var resultC3 = classType.InheritsFrom_(new Interface(nonParentInterfaceType));
 
+        var resultI = interfaceType.InheritsFrom_(new Interface(nonParentInterfaceType2b));
 
-        var result03 = recordType.InheritsFrom_(nonParentRecordType);
-        var result13 = recordType.InheritsFrom_(new Class(nonParentRecordType));
-        var result04 = recordType.InheritsFrom_(nonParentClassType);
+        var resultR1 = recordType.InheritsFrom_(new Class(nonParentRecordType));
+        var resultR2 = recordType.InheritsFrom_(new Class(nonParentClassType));
 
 
         //--- Assert ---
-        Assert.False(result01);
-        Assert.False(result11);
-        Assert.False(result02);
-        Assert.False(result12);
-        Assert.False(result12b);
+        Assert.False(resultC1);
+        Assert.False(resultC2);
+        Assert.False(resultC3);
 
-        Assert.False(result03);
-        Assert.False(result13);
-        Assert.False(result04);
+        Assert.False(resultI);
+
+        Assert.False(resultR1);
+        Assert.False(resultR2);
     }
     #endregion InheritsFrom_
 }

@@ -1,4 +1,5 @@
-﻿using System.Reflection;
+﻿using System.Linq;
+using System.Reflection;
 
 using General.Basics.Reflection.POO;
 
@@ -8,22 +9,29 @@ namespace General.Basics.Reflection.Extensions;
 public static class AssemblyExtension
 {
     #region Reflection
-    public static List<Class> GetClassesImplementingTheInterface(this Assembly instance, Interface @interface)
+    public static List<Class> GetClassesImplementingTheInterface_(this Assembly assembly, Interface @interface)
     {
-        List<Class> classes = new();
-        Class classToAdd = null!;
+        List<Class> classes = GetClassesImplementingTheInterface(assembly, @interface);
+        return classes;
+    }
+    public static List<Class> GetConcreteClassesImplementingTheInterface_(this Assembly assembly, Interface @interface)
+    {
+        List<Class> classes = GetClassesImplementingTheInterface(assembly, @interface, type => !type.IsAbstract);
+        return classes;
+    }
+    private static List<Class> GetClassesImplementingTheInterface(Assembly assembly, Interface @interface, Func<Type, bool>? additionalFilter = null)
+    {
+        IEnumerable<Type> types = assembly.GetTypes()
+                                  .Where(type => type.Implements_(@interface));
 
-        Type[] assemblyTypes = instance.GetTypes();
-        foreach(Type type in assemblyTypes)
+        if (additionalFilter is not null)
         {
-            if (type.IsClass && @interface.Type.IsAssignableFrom(type))
-            {
-                classToAdd = (type.IsAbstract) ? new AbstractClass(type) : new Class(type);
-                classes.Add(classToAdd);
-            }
+            types = types.Where(additionalFilter);
         }
 
-        return classes;
+        IEnumerable<Class> classes = types.Select(type => (type.IsAbstract) ? new AbstractClass(type) : new Class(type));
+
+        return classes.ToList();
     }
     #endregion Reflection
 }

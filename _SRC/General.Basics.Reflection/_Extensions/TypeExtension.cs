@@ -1,5 +1,6 @@
 ﻿using General.Basics.Extensions;
 using General.Basics.Reflection.POO;
+using General.Basics.Reflection.POO.Abstracts;
 
 namespace General.Basics.Reflection.Extensions;
 
@@ -11,11 +12,6 @@ public static class TypeExtension
         var excludeFromThisChar = Type_.GENERIC_TYPES_NAME_SEPARATOR_SYMBOL; //Caractère "gênant" ajouté dans la GetType().Name, lorsque la classe est générique.
         var result = $"{type.Name.Split(excludeFromThisChar)[0]}";
         return result;
-    }
-    [Obsolete("GetSimpleName is now Deprecated and soon will disappear, please use GetSimpleName_ instead.")]
-    public static string GetSimpleName(this Type type)
-    {
-        return type.GetSimpleName_();
     }
 
     public static string GetSimpleFullName_(this Type type)
@@ -61,38 +57,20 @@ public static class TypeExtension
         return result;
     }
 
-    //type : can describe a record or a class
-    public static bool ClassImplements_(this Type type, Interface @interface)
+    public static bool Implements_(this Type type, Interface @interface)
     {
-        return ClassImplements_(type, @interface.Type);
-    }
-
-    //type : can describe a record or a class
-    public static bool ClassImplements_(this Type type, Type interfaceType)
-    {
-        bool result = false;
-        if (interfaceType.IsInterface && type.IsClass)
-        {
-            result = type.GetInterfaces().Contains(interfaceType);
-
-        }
+        bool result = type.IsClass && @interface.Type.IsAssignableFrom(type);
         return result;
     }
 
-
-    public static bool InheritsFrom_(this Type type, Interface @interface)
+    //classOrInterface : can describe a record or a class or an interface
+    public static bool InheritsFrom_(this Type type, BasicElement classOrInterface)
     {
-        return InheritsFrom_(type, @interface.Type);
+        return InheritsFrom(type, classOrInterface.Type);
     }
 
-    //@class : can describe a record or a class
-    public static bool InheritsFrom_(this Type type, Class @class)
-    {
-        return InheritsFrom_(type, @class.Type);
-    }
-
-    //@classOrInterfaceType :  can describe a record or a class or an interface
-    public static bool InheritsFrom_(this Type type, Type classOrInterfaceType)
+    //classOrInterfaceType :  can describe a record or a class or an interface
+    private static bool InheritsFrom(Type type, Type classOrInterfaceType)
     {
         bool result = false;
         if ( (classOrInterfaceType.IsClass && type.IsClass) || (classOrInterfaceType.IsInterface && type.IsInterface) )
