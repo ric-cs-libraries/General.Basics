@@ -1,4 +1,5 @@
 ﻿using General.Basics.Extensions;
+using General.Basics.Reflection.DynamicCalls;
 
 namespace General.Basics.Reflection.Extensions;
 
@@ -38,7 +39,14 @@ public static class Type_
         Type? classAsType = Type_.GetTypeFromNamesInfos(genericClassAssemblyName, genericClassNamespace, genericClassName);
 
 
-        classAsType = classAsType?.MakeGenericType(genericParametersType!); //Traitement particulier pour les types génériques  <<<<<<<<<<<<<<
+        try
+        {
+            classAsType = classAsType?.MakeGenericType(genericParametersType!); //Traitement particulier pour les types génériques  <<<<<<<<<<<<<<
+        }
+        catch (ArgumentException ex) when (ex.Message.Contains("violates the constraint"))
+        {
+            throw new GenericParameterTypeViolatingSomeConstraintException(ex.Message); 
+        }
 
         return classAsType;
     }

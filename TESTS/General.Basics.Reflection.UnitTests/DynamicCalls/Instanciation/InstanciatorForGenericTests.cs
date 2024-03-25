@@ -123,7 +123,7 @@ public class InstanciatorForGenericTests
 
 
     [Fact]
-    public void GetInstance_WhenCalledWithAClassInstanceParam_ShouldReturnTheCorrectlyIniaelizedGoodTypeInstance()
+    public void GetInstance_WhenCalledWithAClassInstanceParam_ShouldReturnTheCorrectlyInitializedGoodTypeInstance()
     {
         //--- Arrange ---
         Class myGenericClass = new(typeof(MyClassWithConstructorParamsOrNot<>));
@@ -208,6 +208,26 @@ public class InstanciatorForGenericTests
             instanciatorForGeneric.GetInstance(assemblyName, @namespace, className, genericParametersType));
 
         var expectedMessage = string.Format(MissingGenericParametersTypeException.MESSAGE_FORMAT, methodName, $"{@namespace}.{className}");
+        Assert.Equal(expectedMessage, ex.Message);
+    }
+
+    [Fact]
+    public void GetInstance_WhenForClassGenericParameterTypeDoesNotComplyToSomeConstraint_ShouldThrowAGenericParameterTypeViolatingSomeConstraintException()
+    {
+        //--- Arrange ---
+        var assemblyName = currentAssemblyName;
+        var @namespace = currentNamespace;
+        var className = "MyClassWithConstraints";
+
+        var genericParametersType = new Type[] { typeof(MyClassWithNoNoParamConstructor) };
+
+
+        //--- Act & Assert ---
+        var ex = Assert.Throws<GenericParameterTypeViolatingSomeConstraintException>(() =>
+            instanciatorForGeneric.GetInstance(assemblyName, @namespace, className, genericParametersType));
+
+        var expectedMessage = string.Format(GenericParameterTypeViolatingSomeConstraintException.MESSAGE_FORMAT,
+            $"GenericArguments[0], '{@namespace}.{genericParametersType[0].Name}', on '{@namespace}.{className}`1[T]' violates the constraint of type 'T'.");
         Assert.Equal(expectedMessage, ex.Message);
     }
 
@@ -570,6 +590,19 @@ class MyClass2<U> : IMyInterface<string?>
     }
     private void F(U u)
     {
+    }
+}
+
+class MyClassWithConstraints<T>
+    where T: class, new()
+{
+
+}
+class MyClassWithNoNoParamConstructor
+{
+    public MyClassWithNoNoParamConstructor(int param)
+    {
+
     }
 }
 
