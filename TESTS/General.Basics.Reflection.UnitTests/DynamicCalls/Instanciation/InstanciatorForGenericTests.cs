@@ -219,15 +219,18 @@ public class InstanciatorForGenericTests
         var @namespace = currentNamespace;
         var className = "MyClassWithConstraints";
 
-        var genericParametersType = new Type[] { typeof(MyClassWithNoNoParamConstructor) };
+        Type violatingType = typeof(MyClassWithNoNoParamConstructor);
+        List<Type> genericParametersType = new() { typeof(string), violatingType };
+        int violatingTypeIndex = genericParametersType.FindIndex(t => t == violatingType);
+        int nbGenericTypes = genericParametersType.Count;
 
 
         //--- Act & Assert ---
         var ex = Assert.Throws<GenericParameterTypeViolatingSomeConstraintException>(() =>
-            instanciatorForGeneric.GetInstance(assemblyName, @namespace, className, genericParametersType));
+            instanciatorForGeneric.GetInstance(assemblyName, @namespace, className, genericParametersType.ToArray()));
 
         var expectedMessage = string.Format(GenericParameterTypeViolatingSomeConstraintException.MESSAGE_FORMAT,
-            $"GenericArguments[0], '{@namespace}.{genericParametersType[0].Name}', on '{@namespace}.{className}`1[T]' violates the constraint of type 'T'.");
+            $"GenericArguments[{violatingTypeIndex}], '{@namespace}.{violatingType.Name}', on '{@namespace}.{className}`{nbGenericTypes}[T,U]' violates the constraint of type 'U'.");
         Assert.Equal(expectedMessage, ex.Message);
     }
 
@@ -593,8 +596,8 @@ class MyClass2<U> : IMyInterface<string?>
     }
 }
 
-class MyClassWithConstraints<T>
-    where T: class, new()
+class MyClassWithConstraints<T,U>
+    where U: class, new()
 {
 
 }
