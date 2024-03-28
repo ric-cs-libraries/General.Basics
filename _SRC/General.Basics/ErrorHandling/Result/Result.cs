@@ -51,6 +51,8 @@ public class Result<TValue> : Result
     public static implicit operator Result<TValue>(TValue? value) => new(value);
     public static implicit operator Result<TValue>(Error error) => Result<TValue>.NotOk(error);
 
+    public static implicit operator TValue?(Result<TValue> result) => result.Value;
+
     protected internal Result(TValue? value) : base()
     {
         _value = value;

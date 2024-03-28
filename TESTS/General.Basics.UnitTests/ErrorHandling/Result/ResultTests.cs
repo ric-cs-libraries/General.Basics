@@ -31,6 +31,17 @@ public class ResultTests
     }
 
     [Fact]
+    public void ResultImplicitOperatorForError__ShouldConvertIntoAResultWithError()
+    {
+        Error error = new("errorCode", "debugMessage", "someFieldName");
+        Result result = error; //Implicit operator :  Error -> Result
+
+        Assert.False(result.IsSuccess);
+        Assert.True(result.IsFailure);
+        Assert.Equal(error, result.Error);
+    }
+
+    [Fact]
     public void ResultOfTOk__ShouldInitializeFieldsCorrectly()
     {
         var value = 150;
@@ -65,7 +76,7 @@ public class ResultTests
     }
 
     [Fact]
-    public void ResultOfTNotOk_WhenTryingToAccessTheValueProperty_ShouldThrowAnUnavailableResultValueException()
+    public void ResultOfT_WhenNotOkAndTryingToAccessTheValueProperty_ShouldThrowAnUnavailableResultValueException()
     {
         Result<MyClass> result = Result<MyClass>.NotOk(ERROR);
 
@@ -106,15 +117,27 @@ public class ResultTests
         Assert.Equal(expectedMessage, ex.Message);
     }
 
-    [Fact]
-    public void ResultImplicitOperatorForError__ShouldConvertIntoAResultWithError()
-    {
-        Error error = new("errorCode", "debugMessage", "someFieldName");
-        Result result = error; //Implicit operator :  Error -> Result
 
-        Assert.False(result.IsSuccess);
-        Assert.True(result.IsFailure);
-        Assert.Equal(error, result.Error);
+    [Fact]
+    public void ResultOfTImplicitOperatorForResultOfT_WhenResultOk__ShouldReturnTheResultOfTValue()
+    {
+        //--- Arrange ---
+        MyClass value = new();
+        Result<MyClass> result = Result<MyClass>.Ok(value);
+
+        //--- Act ---
+        MyClass? obj = result;
+
+        //--- Assert ---
+        Assert.Equal(result.Value, obj);
+    }
+
+    [Fact]
+    public void ResultOfTImplicitOperatorForResultOfT_WhenNotOkAndTryingToReadTheValueProperty_ShouldThrowAnUnavailableResultValueException()
+    {
+        Result<MyClass> result = Result<MyClass>.NotOk(ERROR);
+
+        var ex = Assert.Throws<UnavailableResultValueException>(() => { MyClass? v = result; });   //Implicit Operator : Result<MyClass> ---> MyClass
     }
 }
 
