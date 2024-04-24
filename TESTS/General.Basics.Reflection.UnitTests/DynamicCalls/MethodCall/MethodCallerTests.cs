@@ -213,7 +213,7 @@ public class MethodCallerTests
         methodCaller.Call(mockObj.Object, methodName, parameters);
 
         //--- Assert ---
-        mockObj.Verify( mck => mck.SomeVoidMethod((bool)parameters[0]) );
+        mockObj.Verify( mck => mck.SomeVoidMethod((bool)parameters[0]), Times.Once);
     }
     
     [Fact]
@@ -259,11 +259,11 @@ public class MethodCallerTests
 
         //--- Act & Assert ---
         methodCaller.Call(mockObj.Object, methodName1, parameters1);
-        mockObj.Verify( mck => mck.SomeVoidGenericMethod((bool)parameters1[0]) );
+        mockObj.Verify( mck => mck.SomeVoidGenericMethod((bool)parameters1[0]), Times.Once );
         mockObj.Verify( mck => mck.SomeGenericMethod((int)parameters2[0], (bool)parameters2[1]), Times.Never );
 
         methodCaller.Call(mockObj.Object, methodName2, parameters2);
-        mockObj.Verify( mck => mck.SomeGenericMethod((int)parameters2[0], (bool)parameters2[1]) );
+        mockObj.Verify( mck => mck.SomeGenericMethod((int)parameters2[0], (bool)parameters2[1]), Times.Once );
     }
     #endregion Generic class
 

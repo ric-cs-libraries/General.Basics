@@ -291,7 +291,7 @@ public class MethodCallerAsyncTests
         await methodCallerAsync.Call(mockObj.Object, methodName, parameters);
 
         //--- Assert ---
-        mockObj.Verify(mck => mck.SomeVoidMethod((bool)parameters[0]));
+        mockObj.Verify(mck => mck.SomeVoidMethod((bool)parameters[0]), Times.Once);
     }
 
     [Fact]
@@ -307,7 +307,7 @@ public class MethodCallerAsyncTests
         await methodCallerAsync.Call(mockObj.Object, methodName, parameters);
 
         //--- Assert ---
-        mockObj.Verify(mck => mck.SomeStringMethod((string)parameters[0], (int)parameters[1]));
+        mockObj.Verify(mck => mck.SomeStringMethod((string)parameters[0], (int)parameters[1]), Times.Once);
     }
 
     [Fact]
@@ -385,11 +385,11 @@ public class MethodCallerAsyncTests
 
         //--- Act & Assert ---
         await methodCallerAsync.Call(mockObj.Object, methodName1, parameters1);
-        mockObj.Verify(mck => mck.SomeVoidGenericMethod((bool)parameters1[0]));
+        mockObj.Verify(mck => mck.SomeVoidGenericMethod((bool)parameters1[0]), Times.Once);
         mockObj.Verify(mck => mck.SomeGenericMethod((int)parameters2[0], (bool)parameters2[1]), Times.Never);
 
         await methodCallerAsync.Call(mockObj.Object, methodName2, parameters2);
-        mockObj.Verify(mck => mck.SomeGenericMethod((int)parameters2[0], (bool)parameters2[1]));
+        mockObj.Verify(mck => mck.SomeGenericMethod((int)parameters2[0], (bool)parameters2[1]), Times.Once);
     }
     #endregion Generic class
 
