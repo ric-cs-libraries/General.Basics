@@ -1,9 +1,9 @@
 ﻿using General.Basics.ErrorHandling;
-using System.Linq;
+
 
 namespace General.Basics.Extensions;
 
-public static class IEnumerableExtension
+public static partial class IEnumerableExtension
 {
     public static int? GetLastIndex_<T>(this IEnumerable<T> enumerable)
     {
@@ -56,7 +56,7 @@ public static class IEnumerableExtension
 
     public static bool ChunkExists_<T>(this IEnumerable<T> enumerable, int startIndex, int endIndex)
     {
-        var result = (endIndex >= startIndex );
+        var result = (endIndex >= startIndex);
         result = result && enumerable.IsValidIndex_(startIndex) && enumerable.IsValidIndex_(endIndex);
         return result;
     }
@@ -76,4 +76,5 @@ public static class IEnumerableExtension
             throw new UnexistingChunkException(startIndex, endIndex, minIndex, maxIndex, subject);
         }
     }
+
 }
