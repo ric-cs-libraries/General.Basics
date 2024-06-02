@@ -3,11 +3,11 @@
 	<PropertyGroup>
 
 		<MyPackageMajorVersion>$(MyGeneralBasics_MajorVersion)</MyPackageMajorVersion>
-		<MyPackageMinorVersion>1</MyPackageMinorVersion>
+		<MyPackageMinorVersion>2</MyPackageMinorVersion>
 		<MyPackagePatchVersion>0</MyPackagePatchVersion>
 
 		<Description><!-- Mettre ici en 1 ligne (même longue), le descriptif des nouveautés, pour cette nouvelle version du Package Nuget -->
-			ErrorHandling / Result : AJout de :  public static implicit operator TValue?(ResultOfTValue result) => result.Value;
+			Add: TupleGenerators, Randomizers(+IEnumerableExtension: GetRandomElement_. IListExtension: RandomShuffle_).  Basics EXTENSIONS: IListExtension: Swap_, Shuffle_, ReverseShuffle_.  EXCEPTIONS: CannotSearchElementBecauseEmptyException.
 		</Description>
 
 	</PropertyGroup>
