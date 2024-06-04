@@ -3,7 +3,7 @@
 
 namespace General.Basics.Extensions;
 
-public static class DictionaryExtension
+public static class IDictionaryExtension
 {
     public static string ToKeyValueString_<V>(this IDictionary<string, V> dictionary, string keyValueSeparator = ";", string quoteValueSymbol = "", string keyValueEqualitySymbol = "=") 
     {
@@ -21,4 +21,5 @@ public static class DictionaryExtension
 
         return retour;
     }
+
 }
