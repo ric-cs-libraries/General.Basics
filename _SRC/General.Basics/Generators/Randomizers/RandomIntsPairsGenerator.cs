@@ -7,31 +7,31 @@ using General.Basics.Generators.Interfaces;
 namespace General.Basics.Generators;
 
 [ExcludeFromCodeCoverage]
-public record IntsTuplesGenerator
+public record RandomIntsPairsGenerator
 {
     private readonly IIntsRandomizer randomizer;
 
-    private IntsTuplesGenerator(IIntsRandomizer randomizer)
+    private RandomIntsPairsGenerator(IIntsRandomizer randomizer)
     {
         this.randomizer = randomizer;
     }
 
-    public static IntsTuplesGenerator Create(IIntsRandomizer randomizer)
+    public static RandomIntsPairsGenerator Create(IIntsRandomizer randomizer)
     {
-        var result = new IntsTuplesGenerator(randomizer);
+        var result = new RandomIntsPairsGenerator(randomizer);
         return result;
     }
 
     //distinctValue: true if we don't want any pair to contain twice the same value : (value1, value1).
-    public IEnumerable<(int, int)> GetRandomPairs(int nbPairs, bool distinctValue = false)
+    public IEnumerable<(int, int)> GetPairs(int nbPairs, bool distinctValue = false)
     {
         nbPairs.CheckIsGreaterOrEqualTo_(1, nameof(nbPairs));
 
-        var result = Enumerable.Range(1, nbPairs).Select(n => GetRandomPair(distinctValue));
+        var result = Enumerable.Range(1, nbPairs).Select(n => GetPair(distinctValue));
         return result;
     }
 
-    public (int, int) GetRandomPair(bool distinctValue = false)
+    private (int, int) GetPair(bool distinctValue = false)
     {
         int randomValue1, randomValue2;
         do {

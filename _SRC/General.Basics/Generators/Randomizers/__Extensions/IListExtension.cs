@@ -19,9 +19,10 @@ public static partial class IListExtension
         {
             IIntsRandomizer randomizer = IEnumerableExtension.GetDefaultRandomizer(list)!;
 
-            IntsTuplesGenerator intsTuplesGenerator = IntsTuplesGenerator.Create(randomizer);
-            IEnumerable<(int index, int otherIndex)> indexesToSwap = intsTuplesGenerator.GetRandomPairs(nbPairs: nbSwaps, distinctValue: true);
+            RandomIntsPairsGenerator intsPairsGenerator = RandomIntsPairsGenerator.Create(randomizer);
+            IEnumerable<(int index, int otherIndex)> indexesToSwap = intsPairsGenerator.GetPairs(nbPairs: nbSwaps, distinctValue: true);
             list.Shuffle_(indexesToSwap);
         }
     }
+
 }

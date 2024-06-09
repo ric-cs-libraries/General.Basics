@@ -38,6 +38,7 @@ public class IListExtensionTests
         list.RandomShuffle_(nbSwaps: 45);
 
         //--- Assert ---
+        Assert.Empty(list);
         Assert.Equal(expectedList, list);
     }
 
@@ -57,5 +58,4 @@ public class IListExtensionTests
     }
 
     #endregion RandomShuffle_
-
 }

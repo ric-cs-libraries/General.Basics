@@ -4,7 +4,7 @@
 using General.Basics.ErrorHandling;
 
 using General.Basics.Extensions;
-
+using General.Basics.Generators.Extensions;
 
 namespace General.Basics.Extensions.UnitTests;
 
@@ -183,7 +183,7 @@ public class IEnumerableExtensionTests
     }
 
     [Fact]
-    public void CheckIsValidIndex_WhenIsValidIndex_ShouldNotThrowAnException()
+    public void CheckIsValidIndex_WhenIndexIsValid_ShouldNotThrowAnException()
     {
         var list = new List<int>() { 1, 2, 3 };
         var maxIndex = list.Count - 1;
@@ -199,10 +199,38 @@ public class IEnumerableExtensionTests
         var invalidIndex = maxIndex + 1;
         var ex = Assert.Throws<OutOfRangeIntegerException>(() => list.CheckIsValidIndex_(invalidIndex));
 
-        var expectedMessage = string.Format(OutOfRangeIntegerException.MESSAGE_FORMAT, "IEnumerable Index", invalidIndex, 0, list.Count - 1);
+        var expectedMessage = string.Format(OutOfRangeIntegerException.MESSAGE_FORMAT, "IEnumerable Index", invalidIndex, 0, maxIndex);
         Assert.Equal(expectedMessage, ex.Message);
     }
     #endregion CheckIsValidIndex_
+
+    #region CheckAreValidIndexes_
+    [Fact]
+    public void CheckAreValidIndexes_WhenEnumerableIsEmpty_ShouldThrowAnUnexistingIndexBecauseEmptyException()
+    {
+        var list = new List<int>() { };
+
+        var ex = Assert.Throws<UnexistingIndexBecauseEmptyException>(() => list.CheckAreValidIndexes_(new[] {1,2,3}));
+    }
+    [Fact]
+    public void CheckAreValidIndexes_WhenIndexesAreValid_ShouldNotThrowAnException()
+    {
+        var list = new List<int>() { 1, 2, 3 };
+        list.CheckAreValidIndexes_(new[] { 0, 1, 2 });
+        Assert.True(true);
+    }
+    [Fact]
+    public void CheckAreValidIndexes_IfAnIndexIsInvalidAndNotEmptyEnumerable_ShouldThrowAnOutOfRangeIntegerException()
+    {
+        var list = new List<int>() { 1, 2, 3 };
+        var maxIndex = list.Count - 1;
+        var invalidIndex = maxIndex + 1;
+        var ex = Assert.Throws<OutOfRangeIntegerException>(() => list.CheckAreValidIndexes_(new[] { 0, 1, 2, invalidIndex }));
+
+        var expectedMessage = string.Format(OutOfRangeIntegerException.MESSAGE_FORMAT, "IEnumerable Index", invalidIndex, 0, maxIndex);
+        Assert.Equal(expectedMessage, ex.Message);
+    }
+    #endregion CheckAreValidIndexes_
 
 
     #region ChunkExists_
@@ -331,7 +359,136 @@ public class IEnumerableExtensionTests
     #endregion GetChunk_
 
 
-    //---------------------------------------------------------
+    #region ToChunks_
+    [Fact]
+    public void ToChunks_WhenNbElementsAllowsAllChunksToHaveTheIdealSize_ShouldOnlyReturnChunksOfTheSameSize()
+    {
+        var list = new List<int>() { 0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20 };
+
+        int idealNbElementsInAChunk = 3;
+
+        //
+        IList<IEnumerable<int>> result = list.ToChunks_(idealNbElementsInAChunk);
+
+        //
+        List<IEnumerable<int>> expectedResult = new()
+        {
+            new int[] { 0, 1, 2 },
+            new int[] { 3, 4, 5 },
+            new int[] { 6, 7, 8 },
+            new int[] { 9, 10, 11 },
+            new int[] { 12, 13, 14 },
+            new int[] { 15, 16, 17 },
+            new int[] { 18, 19, 20 }
+        };
+        Assert.Equal(expectedResult, result);
+    }
+
+    [Fact]
+    public void ToChunks_WhenNbElementsDoesntAllowAllChunksToHaveTheIdealSize_ShouldReturnChunksOfTheSameSizeExceptTheLastOne()
+    {
+        var list = new List<int>() { 0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20, 21, 22 };
+
+        int idealNbElementsInAChunk = 3;
+
+        //
+        IList<IEnumerable<int>> result = list.ToChunks_(idealNbElementsInAChunk);
+
+        //
+        List<IEnumerable<int>> expectedResult = new()
+        {
+            new int[] { 0, 1, 2 },
+            new int[] { 3, 4, 5 },
+            new int[] { 6, 7, 8 },
+            new int[] { 9, 10, 11 },
+            new int[] { 12, 13, 14 },
+            new int[] { 15, 16, 17 },
+            new int[] { 18, 19, 20 },
+            new int[] { 21, 22 },
+        };
+        Assert.Equal(expectedResult, result);
+    }
+
+    [Fact]
+    public void ToChunks_WhenNbElementsDoesntAllowAllChunksToHaveTheIdealSize_ShouldReturnChunksOfTheSameSizeExceptTheLastOne_2()
+    {
+        string str = "ABCDEFGHIJKLMN";
+
+        int idealNbElementsInAChunk = 3;
+
+        //
+        IList<IEnumerable<char>> result = str.ToChunks_(idealNbElementsInAChunk);
+
+        //
+        List<IEnumerable<char>> expectedResult = new()
+        {
+            new char[] { 'A', 'B', 'C' },
+            new char[] { 'D', 'E', 'F' },
+            new char[] { 'G', 'H', 'I' },
+            new char[] { 'J', 'K', 'L' },
+            new char[] { 'M', 'N' },
+        };
+        Assert.Equal(expectedResult, result);
+        //Assert.Equal("ABC", string.Join("", expectedResult[0]));
+        //Assert.Equal("ABC", expectedResult[0].ToString_());
+    }
+
+    [Fact]
+    public void ToChunks_WhenListIsEmpty_ShouldReturnAnEmptyList()
+    {
+        var list = new List<int>() {};
+
+        //
+        IList<IEnumerable<int>> result = list.ToChunks_(1);
+
+        //
+        Assert.Empty(result);
+    }
+
+    [Theory]
+    [InlineData(0)]
+    [InlineData(-1)]
+    public void ToChunks_WhenParamIdealNbElementsInAChunkIsUnder1_ShouldThrowAnIntShouldBeGreaterOrEqualException(int invalidIdealNbElementsInAChunk)
+    {
+        var list = new List<int>() { 10, 20, 30, 40};
+
+        //Act & Assert
+        var ex = Assert.Throws<IntShouldBeGreaterOrEqualException>(() => list.ToChunks_(invalidIdealNbElementsInAChunk));
+
+        var expectedMessage = string.Format(IntShouldBeGreaterOrEqualException.MESSAGE_FORMAT, "idealNbElementsInAChunk", invalidIdealNbElementsInAChunk, 1);
+        Assert.Equal(expectedMessage, ex.Message);
+
+    }
+    #endregion ToChunks_
+
+
+    #region ToString_
+    [Fact]
+    public void ToString_WhenTypeIsString_ShouldReturnTheCorrectConcatenatedString()
+    {
+        var list = new List<string>() { "HOW", " ", "ARE", " ", "YOU ?"};
+
+        //
+        string result = list.ToString_();
+
+        //
+        Assert.Equal($"{list[0]}{list[1]}{list[2]}{list[3]}{list[4]}", result);
+    }
+    [Fact]
+    public void ToString_WhenTypeIsChar_ShouldReturnTheCorrectConcatenatedString()
+    {
+        var list = new List<char>() { 'A', 'B', 'C', 'D' };
+
+        //
+        string result = list.ToString_();
+
+        //
+        Assert.Equal($"{list[0]}{list[1]}{list[2]}{list[3]}", result);
+    }
+    #endregion ToString_
+
+
+    //=============================================================================================
     class UnexistingChunkBoundsData : TheoryData<int, int>
     {
         public UnexistingChunkBoundsData()

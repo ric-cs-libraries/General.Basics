@@ -25,7 +25,7 @@ public static partial class IListExtension
 
     }
 
-    public static void Shuffle_<T>(this IList<T> list, IEnumerable<(int index, int otherIndex)> indexesToSwap)
+    public static void Shuffle_<T>(this IList<T> list, IEnumerable<(int Index, int OtherIndex)> indexesToSwap)
     {
         if (list.Any())
         {
@@ -36,13 +36,36 @@ public static partial class IListExtension
         }
     }
 
-    public static void ReverseShuffle_<T>(this IList<T> list, IEnumerable<(int index, int otherIndex)> indexesToSwap)
+    public static void ReverseShuffle_<T>(this IList<T> list, IEnumerable<(int Index, int OtherIndex)> indexesToSwap)
     {
         if (list.Any())
         {
-            IEnumerable<(int index, int otherIndex)> reversedIndexesToSwap = indexesToSwap.Reverse(); //REM.: indexesToSwap.Reverse() doesn't modify indexesToSwap.
-            list.Shuffle_(reversedIndexesToSwap); 
+            IEnumerable<(int Index, int OtherIndex)> reversedIndexesToSwap = indexesToSwap.Reverse(); //REM.: indexesToSwap.Reverse() doesn't modify indexesToSwap.
+            list.Shuffle_(reversedIndexesToSwap);
         }
     }
 
+    public static void InsertAt_<T>(this IList<T> list, IEnumerable<(int Index, T Value)> elementsToInsert)
+    {
+        list.CheckAreValidIndexes_(elementsToInsert.Select(e => e.Index));
+
+        elementsToInsert = elementsToInsert.OrderBy(e => e.Index);
+
+        foreach (var elementToInsert in elementsToInsert)
+        {
+            list.Insert(elementToInsert.Index, elementToInsert.Value);
+        }
+    }
+
+    public static void RemoveAt_<T>(this IList<T> list, IEnumerable<int> elementsToRemoveIndex)
+    {
+        list.CheckAreValidIndexes_(elementsToRemoveIndex);
+
+        var elementsToRemoveIndex_ = elementsToRemoveIndex.OrderByDescending(e => e); //Will start by the highest index of elementsToRemoveIndex.
+
+        foreach (var elementToRemoveIndex in elementsToRemoveIndex_)
+        {
+            list.RemoveAt(elementToRemoveIndex);
+        }
+    }
 }

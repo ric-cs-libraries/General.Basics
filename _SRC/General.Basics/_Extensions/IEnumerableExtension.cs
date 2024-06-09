@@ -1,4 +1,5 @@
 ﻿using General.Basics.ErrorHandling;
+using System.Collections.Generic;
 
 
 namespace General.Basics.Extensions;
@@ -46,6 +47,14 @@ public static partial class IEnumerableExtension
         }
     }
 
+    public static void CheckAreValidIndexes_<T>(this IEnumerable<T> enumerable, IEnumerable<int> indexes)
+    {
+        foreach (var index in indexes)
+        {
+            enumerable.CheckIsValidIndex_(index);
+        }
+    }
+
     public static IEnumerable<T> GetChunk_<T>(this IEnumerable<T> enumerable, int startIndex, int endIndex)
     {
         enumerable.CheckChunkExists_(startIndex, endIndex);
@@ -84,4 +93,41 @@ public static partial class IEnumerableExtension
         return nearestInfValue;
     }
 
+    public static List<IEnumerable<T>> ToChunks_<T>(this IEnumerable<T> enumerable, int idealNbElementsInAChunk)
+    {
+        List<IEnumerable<T>> result = new();
+
+        idealNbElementsInAChunk.CheckIsGreaterOrEqualTo_(1, nameof(idealNbElementsInAChunk));
+
+        int nbElements = enumerable.Count();
+        if (nbElements > 0)
+        {
+            IEnumerable<T> chunk;
+            int startIndex = 0;
+            while (startIndex + idealNbElementsInAChunk <= nbElements)
+            {
+                chunk = enumerable.Skip(startIndex).Take(idealNbElementsInAChunk);
+                result.Add(chunk);
+
+                startIndex += idealNbElementsInAChunk;
+            }
+
+            if (startIndex != nbElements)
+            {
+                chunk = enumerable.Skip(startIndex); //Last remaining chunk
+                result.Add(chunk);
+            }
+        }
+
+        return result;
+    }
+
+    public static string ToString_(this IEnumerable<char> chars)
+    {
+        return string.Join("", chars);
+    }
+    public static string ToString_(this IEnumerable<string> strings)
+    {
+        return string.Join("", strings);
+    }
 }

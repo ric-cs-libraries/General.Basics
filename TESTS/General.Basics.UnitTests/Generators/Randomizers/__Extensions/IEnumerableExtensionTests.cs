@@ -3,9 +3,7 @@ using Xunit;
 
 using General.Basics.ErrorHandling;
 
-using General.Basics.Generators.Interfaces;
-using General.Basics.Generators.Extensions;
-using Microsoft.VisualStudio.TestPlatform.ObjectModel;
+
 
 namespace General.Basics.Generators.Extensions.UnitTests;
 
@@ -21,7 +19,7 @@ public class IEnumerableExtensionTests
     //    IEnumerable<string> list = new List<string>() { "AA", "BB", "CCC", "D", "EEE", "FF", "GGGGG", "HH", "II", "JJJ", "KKKKK" };
 
     //    //--- Act & Assert
-    //    var randomElements = Enumerable.Range(1, 30).Select(n =>  list.GetRandomElement_());
+    //    var randomElements = Enumerable.Range(1, 30).Select(n => list.GetRandomElement_());
 
     //    //
     //    Assert.True(true);
