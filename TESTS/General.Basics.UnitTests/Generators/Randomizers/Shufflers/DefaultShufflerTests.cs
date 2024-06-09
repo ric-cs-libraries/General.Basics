@@ -4,7 +4,7 @@ using Xunit;
 
 using General.Basics.Generators.Shufflers.Interfaces;
 using General.Basics.Generators.Shufflers;
-
+using General.Basics.ErrorHandling;
 
 namespace General.Basics.Generators.Shufflers.UnitTests;
 
@@ -12,7 +12,6 @@ public class DefaultShufflerTests
 {
 
     #region Shuffle
-
     [Fact]
     public void Shuffle__ShouldShuffleAccordingToTheComputedSwappedIndexes()
     {
@@ -147,5 +146,77 @@ public class DefaultShufflerTests
     }
 
     #endregion Shuffle
+
+    #region GetIndexesToSwap
+    [Fact]
+    public void GetIndexesToSwap_WhenListLengthIsGreaterThan1_ShouldReturnTheCorrectComputedIndexesToSwap()
+    {
+        //--- Arrange ---
+        IShuffler shuffler = new DefaultShuffler();
+        int listLength = 8;
+
+
+        //--- Act ---
+        IEnumerable<(int Index, int OtherIndex)> indexesToSwap = shuffler.GetIndexesToSwap(listLength);
+
+        //--- Assert ---
+        List<(int Index, int OtherIndex)> expectedComputedSwappedIndexes = new()
+        {
+            (7,6), (6,4), (4,3), (3,4), (1,3), (0,1)
+        };
+        Assert.Equal(expectedComputedSwappedIndexes, indexesToSwap);
+    }
+
+    [Fact]
+    public void GetIndexesToSwap_WhenListLengthIsGreaterThan1_ShouldReturnTheCorrectComputedIndexesToSwap_2()
+    {
+        //--- Arrange ---
+        IShuffler shuffler = new DefaultShuffler();
+        int listLength = 2;
+
+
+        //--- Act ---
+        IEnumerable<(int Index, int OtherIndex)> indexesToSwap = shuffler.GetIndexesToSwap(listLength);
+
+        //--- Assert ---
+        List<(int Index, int OtherIndex)> expectedComputedSwappedIndexes = new()
+        {
+            (0,1)
+        };
+        Assert.Equal(expectedComputedSwappedIndexes, indexesToSwap);
+    }
+
+    [Theory]
+    [InlineData(0)]
+    [InlineData(1)]
+    public void GetIndexesToSwap_WhenListLengthIsPositiveButLowerThan2_ShouldReturnAnEmptyIEnumerable(int listLength)
+    {
+        //--- Arrange ---
+        IShuffler shuffler = new DefaultShuffler();
+
+
+        //--- Act ---
+        IEnumerable<(int Index, int OtherIndex)> indexesToSwap = shuffler.GetIndexesToSwap(listLength);
+
+        //--- Assert ---
+        Assert.Empty(indexesToSwap);
+    }
+
+    [Theory]
+    [InlineData(-1)]
+    [InlineData(-2)]
+    public void GetIndexesToSwap_WhenListLengthIsNegative_ShouldReturnAMustBePositiveIntegerException(int listLength)
+    {
+        //--- Arrange ---
+        IShuffler shuffler = new DefaultShuffler();
+
+
+        //--- Act & Assert ---
+        var ex = Assert.Throws<MustBePositiveIntegerException>(() => shuffler.GetIndexesToSwap(listLength));
+
+        var expectedMessage = string.Format(MustBePositiveIntegerException.MESSAGE_FORMAT, "List length", listLength);
+        Assert.Equal(expectedMessage, ex.Message);
+    }
+    #endregion GetIndexesToSwap
 
 }

@@ -1,4 +1,5 @@
 ﻿
+using General.Basics.ErrorHandling;
 using General.Basics.Extensions;
 using General.Basics.Others;
 
@@ -21,16 +22,30 @@ public class DefaultShuffler : IShuffler
 
     public void Shuffle<T>(IList<T> list)
     {
-        if (list.Count > 1)
+        var indexesToSwap = GetIndexesToSwap(list.Count);
+        if (indexesToSwap.Any())
         {
-            int listMaxIndex = list.GetLastIndex_()!.Value;
+            list.Shuffle_(indexesToSwap);
+            LastSwappedIndexes = indexesToSwap;
+        }
+    }
+
+    public IEnumerable<(int Index, int OtherIndex)> GetIndexesToSwap(int listLength)
+    {
+        if (listLength < 0)
+        {
+            throw new MustBePositiveIntegerException(listLength, "List length");
+        }
+
+        var indexesToSwap = Enumerable.Empty<(int, int)>();
+        if (listLength > 1)
+        {
+            int listMaxIndex = listLength - 1;
             IntsInterval leftValueAuthorizedInterval = new(minValue: 0, maxValue: listMaxIndex);
             IntsInterval rightValueAuthorizedInterval = leftValueAuthorizedInterval;
-            var indexesToSwap = intsPairsGenerator.GetPairs(MaxNbSwaps, leftValueAuthorizedInterval, rightValueAuthorizedInterval, distinctValue: true);
-
-            LastSwappedIndexes = indexesToSwap;
-            list.Shuffle_(indexesToSwap);
+            indexesToSwap = intsPairsGenerator.GetPairs(MaxNbSwaps, leftValueAuthorizedInterval, rightValueAuthorizedInterval, distinctValue: true);
         }
+        return indexesToSwap;
     }
 
     protected virtual int MaxNbSwaps => 500;
