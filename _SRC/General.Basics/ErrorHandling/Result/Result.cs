@@ -46,7 +46,7 @@ public class Result<TValue> : Result
     //Qqch à retourner mais, une erreur est survenue.
     public static new Result<TValue> NotOk(Error error) => new(error);
     //Qqch à retourner et pas d'erreur.
-    public static Result<TValue> Ok(TValue value) => new(value);
+    public static Result<TValue> Ok(TValue? value) => new(value);
 
     public static implicit operator Result<TValue>(TValue? value) => new(value);
     public static implicit operator Result<TValue>(Error error) => Result<TValue>.NotOk(error);

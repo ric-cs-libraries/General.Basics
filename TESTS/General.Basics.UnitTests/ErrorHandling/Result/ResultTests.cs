@@ -42,7 +42,7 @@ public class ResultTests
     }
 
     [Fact]
-    public void ResultOfTOk__ShouldInitializeFieldsCorrectly()
+    public void ResultOfTOk_WhenValueIsNotNull_ShouldInitializeFieldsCorrectly()
     {
         var value = 150;
         Result<int> result = Result<int>.Ok(value);
@@ -54,7 +54,7 @@ public class ResultTests
     }
 
     [Fact]
-    public void ResultOfTOk__ShouldInitializeFieldsCorrectly_2()
+    public void ResultOfTOk_WhenValueIsNotNull_ShouldInitializeFieldsCorrectly_2()
     {
         MyClass value = new();
         Result<MyClass> result = Result<MyClass>.Ok(value);
@@ -63,6 +63,19 @@ public class ResultTests
         Assert.False(result.IsFailure);
         Assert.Null(result.Error);
         Assert.Equal(value, result.Value);
+    }
+
+    [Fact]
+    public void ResultOfTOk_WhenValueIsNull_ShouldInitializeFieldsCorrectly()
+    {
+        MyClass? value = null;
+        Result<MyClass> result = Result<MyClass>.Ok(value);
+
+        Assert.True(result.IsSuccess);
+        Assert.False(result.IsFailure);
+        Assert.Null(result.Error);
+        Assert.Equal(value, result.Value);
+        Assert.Null( result.Value);
     }
 
     [Fact]
