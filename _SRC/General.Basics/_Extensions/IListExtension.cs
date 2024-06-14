@@ -47,8 +47,6 @@ public static partial class IListExtension
 
     public static void InsertAt_<T>(this IList<T> list, IEnumerable<(int Index, T Value)> elementsToInsert)
     {
-        list.CheckAreValidIndexes_(elementsToInsert.Select(e => e.Index));
-
         elementsToInsert = elementsToInsert.OrderBy(e => e.Index);
 
         foreach (var elementToInsert in elementsToInsert)

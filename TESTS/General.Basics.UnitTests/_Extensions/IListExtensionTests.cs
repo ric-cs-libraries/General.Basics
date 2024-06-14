@@ -1,9 +1,8 @@
 ﻿using Xunit;
 
 
-using General.Basics.Extensions;
 using General.Basics.ErrorHandling;
-
+using General.Basics.Extensions;
 
 
 namespace General.Basics.Extensions.UnitTests;
@@ -294,17 +293,23 @@ public class IListExtensionTests
     }
 
     [Fact]
-    public void InsertAt_IfAnIndexIsInvalid_ShoudldThrowAnOutOfRangeIntegerException()
+    public void InsertAt_IfAnIndexIsInvalid_ShoudldThrowAnArgumentOutOfRangeException()
     {
         //--- Arrange ---
         List<int> list = new() { 0, 1, 2, 3, 4, 5, 6 };
-        var maxIndex = list.Count - 1;
-        var invalidIndex = maxIndex + 1;
+
+
+        var invalidIndexInsertionPos = 3;
+        var nbInsertions = invalidIndexInsertionPos + 1;
+        var invalidIndex = list.Count + invalidIndexInsertionPos + 1; //+1 : one beyond the max(= newLength)
+        (int Index, int Value)[] insertions = new (int Index, int Value)[nbInsertions];
+        insertions[invalidIndexInsertionPos - 3] = (3, 7);
+        insertions[invalidIndexInsertionPos - 2] = (2, 10);
+        insertions[invalidIndexInsertionPos - 1] = (4, 15);
+        insertions[invalidIndexInsertionPos] = (invalidIndex, 16);
 
         //--- Act & Assert ---
-        var ex = Assert.Throws<OutOfRangeIntegerException>(() => list.InsertAt_(new[] { (6, 77), (2, 7), (invalidIndex, 5), (4, 8), (0, 9) }));
-        var expectedMessage = string.Format(OutOfRangeIntegerException.MESSAGE_FORMAT, "IEnumerable Index", invalidIndex, 0, maxIndex);
-        Assert.Equal(expectedMessage, ex.Message);
+        var ex = Assert.Throws<ArgumentOutOfRangeException>(() => list.InsertAt_(insertions));
     }
 
     #endregion InsertAt_
@@ -315,7 +320,6 @@ public class IListExtensionTests
     {
         //--- Arrange ---
         List<int> list = new() { 0, 1, 2, 3, 4, 5, 6, 77, 88 };
-
 
         //--- Act ---
         list.RemoveAt_(new[] { 2, 1, 4, 4, 7, 0 });
