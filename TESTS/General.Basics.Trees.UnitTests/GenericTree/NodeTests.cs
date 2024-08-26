@@ -69,7 +69,7 @@ public class NodeTests
     }
 
     [Fact]
-    public void Add_WhenAddALeaf_ParentNodeShouldHaveAtleastAChild()
+    public void Add_WhenAddALeaf_ParentNodeShouldHaveAtLeastAChild()
     {
         //--- Arrange ---
         var parentNode = Node<int>.Create();
