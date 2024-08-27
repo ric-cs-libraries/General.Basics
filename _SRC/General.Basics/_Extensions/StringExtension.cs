@@ -250,4 +250,54 @@ public static class StringExtension
         return result;
     }
 
+    public static string GetFromEnd_(this string str, int chunkLength)
+    {
+        //if (str.IsEmpty_())
+        //{
+        //    var subject = "String";
+        //    throw new UnexistingChunkBecauseEmptyException(startIndex: null, endIndex: null, subject);
+        //}
+
+        if (chunkLength < 0)
+        {
+            throw new MustBePositiveIntegerException(chunkLength, "Chunk length");
+        }
+
+        if (chunkLength == 0 || str.IsEmpty_())
+            return string.Empty;
+
+        int startIndex = str.GetLastIndex_()!.Value - (chunkLength - 1);
+        IEnumerable<char> chars = str.GetChunk_(startIndex);
+        var result = chars.ToString_();
+        return result;
+    }
+
+    public static string GetFromEndUntil_(this string str, Predicate<char> stopGettingCharsCondition)
+    {
+        List<char> endingChars = new();
+
+        int strLength = str.Length;
+        char element;
+        for (int index = strLength - 1; index >= 0; index--)
+        {
+            element = str[index];
+
+            if (stopGettingCharsCondition(element))
+                break;
+
+            endingChars.Add(element);
+        }
+
+        endingChars.Reverse();
+        string result = endingChars.ToString_();
+        return result;
+    }
+
+    public static List<string> ToList_(this string str)
+    {
+        var result = str.ToCharArray().Select(@char => $"{@char}").ToList();
+        return result;
+    }
+
+
 }

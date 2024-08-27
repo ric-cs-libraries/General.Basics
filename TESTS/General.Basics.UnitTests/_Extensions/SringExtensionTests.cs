@@ -970,8 +970,164 @@ public class SringExtensionTests
     }
     #endregion Capitalize_
 
+    #region ToList_
+    [Fact]
+    public void ToList_WhenTheStringIsNotEmpty_ShouldReturnTheCorrectListOfMonoCharStrings()
+    {
+        //--- Arrange ---
+        var str = "ABCD";
+
+
+        //--- Act ---
+        var result = str.ToList_();
+
+        //--- Assert ---
+        Assert.Equal(new List<string>() { "A", "B", "C", "D" }, result);
+    }
+    [Fact]
+    public void ToList_WhenTheStringIsEmpty_ShouldReturnAnEmptyList()
+    {
+        //--- Arrange ---
+        var str = string.Empty;
+
+
+        //--- Act ---
+        var result = str.ToList_();
+
+        //--- Assert ---
+        Assert.Equal(new List<string>() {}, result);
+        Assert.Equal(Enumerable.Empty<string>(), result);
+    }
+    #endregion ToList_
+
+    #region GetFromEndUntil_
+    [Theory]
+    [ClassData(typeof(GetFromEndUntilData))]
+    public void GetFromEndUntil__ShouldReturnTheCorrectChunk(string str, Predicate<char> predicate, string expectedResult)
+    {
+        //--- Act ---
+        var result = str.GetFromEndUntil_(predicate);
+
+        //--- Assert ---
+        Assert.Equal(expectedResult, result);
+    }
+    #endregion GetFromEndUntil_
+
+    #region GetFromEnd_
+    [Fact]
+    public void GetFromEnd_WhenFullChunkExists_ShouldReturnTheCorrectChunk()
+    {
+        var str = "0123456";
+        var chunkLength = 4;
+
+        var result = str.GetFromEnd_(chunkLength);
+
+        Assert.Equal("3456", result);
+    }
+
+    [Fact]
+    public void GetFromEnd_WhenFullChunkExistsAndChunkLengthIsEqualToTheStringLength_ShouldReturnTheFullString()
+    {
+        var str = "0123456";
+        var chunkLength = str.Length;
+
+        var result = str.GetFromEnd_(chunkLength);
+
+        Assert.Equal(str, result);
+        Assert.True(str == result);
+        Assert.False(object.ReferenceEquals(str, result));
+    }
+    
+    [Fact]
+    public void GetFromEnd_WhenChunkLengthIsLongerThanTheStringLength_ShouldThrowAnUnexistingChunkException()
+    {
+        var str = "01234";
+        var chunkLength = str.Length + 1;
+        var minIndex = 0;
+        var maxIndex = str.GetLastIndex_();
+        int endIndex = maxIndex!.Value;
+        int startIndex = endIndex - (chunkLength - 1);
+
+        var ex = Assert.Throws<UnexistingChunkException>(() => str.GetFromEnd_(chunkLength));
+
+        var expectedMessage = string.Format(UnexistingChunkException.MESSAGE_FORMAT, "String", startIndex, endIndex, minIndex, maxIndex);
+        Assert.Equal(expectedMessage, ex.Message);
+    }
+
+    //[Theory]
+    //[InlineData(0)]
+    //[InlineData(1)]
+    //public void GetFromEnd_WhenStringIsEmpty_ShouldAlwaysThrowAnUnexistingChunkBecauseEmptyException(int chunkLength)
+    //{
+    //    var str = string.Empty;
+    //    int? startIndex = null;
+    //    int? endIndex = null;
+
+    //    var ex = Assert.Throws<UnexistingChunkBecauseEmptyException>(() => str.GetFromEnd_(chunkLength));
+
+    //    var expectedMessage = string.Format(UnexistingChunkBecauseEmptyException.MESSAGE_FORMAT, "String", startIndex, endIndex);
+    //    Assert.Equal(expectedMessage, ex.Message);
+    //}
+
+    
+    [Theory]
+    [InlineData(0)]
+    [InlineData(1)]
+    public void GetFromEnd_WhenStringIsEmptyAndChunkLengthIsNotNegative_ShouldAlwaysReturnAnEmptyString(int chunkLength)
+    {
+        var str = string.Empty;
+
+        var result = str.GetFromEnd_(chunkLength);
+
+        Assert.Empty(result);
+    }
+    
+    [Fact]
+    public void GetFromEnd_WhenChunkLengthIsZero_ShouldAlwaysReturnAnEmptyString()
+    {
+        var chunkLength = 0;
+        var str1 = "01234";
+        var str2 = string.Empty;
+
+        var result1 = str1.GetFromEnd_(chunkLength);
+        var result2 = str2.GetFromEnd_(chunkLength);
+
+        Assert.Empty(result1);
+        Assert.Empty(result2);
+    }
+    
+    [Fact]
+    public void GetFromEnd_WhenChunkLengthIsNegative_ShouldAlwaysThrowMustBePositiveIntegerException()
+    {
+        var str1 = "01234";
+        var str2 = string.Empty;
+        var chunkLength = -1;
+
+        var ex1 = Assert.Throws<MustBePositiveIntegerException>(() => str1.GetFromEnd_(chunkLength));
+        var ex2 = Assert.Throws<MustBePositiveIntegerException>(() => str2.GetFromEnd_(chunkLength));
+
+        var expectedMessage1 = string.Format(MustBePositiveIntegerException.MESSAGE_FORMAT, "Chunk length", chunkLength);
+        var expectedMessage2 = expectedMessage1;
+        Assert.Equal(expectedMessage1, ex1.Message);
+        Assert.Equal(expectedMessage2, ex2.Message);
+    }
+    #endregion GetFromEnd_
+
 
     //---------------------------------------------------------
+    class GetFromEndUntilData : TheoryData<string, Predicate<char>, string>
+    {
+        public GetFromEndUntilData()
+        {
+            var fullStr = "012345689";
+
+            Add(fullStr, (char c) => c == '4', fullStr.Substring(5));
+            Add("", (char c) => c == '4', "");
+            Add(fullStr, (char c) => c == 'A', fullStr);
+            Add(fullStr, (char c) => c == fullStr.Last(), "");
+        }
+    }
+
     class UnexistingChunkBoundsData : TheoryData<int, int>
     {
         public UnexistingChunkBoundsData()
