@@ -30,9 +30,9 @@ public class Result
 
 public class Result<TValue> : Result
 {
-    private readonly TValue? _value;
+    private readonly TValue _value;
 
-    public TValue? Value
+    public TValue Value
     {
         get
         {
@@ -46,14 +46,14 @@ public class Result<TValue> : Result
     //Qqch à retourner mais, une erreur est survenue.
     public static new Result<TValue> NotOk(Error error) => new(error);
     //Qqch à retourner et pas d'erreur.
-    public static Result<TValue> Ok(TValue? value) => new(value);
+    public static Result<TValue> Ok(TValue value) => new(value);
 
-    public static implicit operator Result<TValue>(TValue? value) => new(value);
+    public static implicit operator Result<TValue>(TValue value) => new(value);
     public static implicit operator Result<TValue>(Error error) => Result<TValue>.NotOk(error);
 
-    public static implicit operator TValue?(Result<TValue> result) => result.Value;
+    public static implicit operator TValue(Result<TValue> result) => result.Value;
 
-    protected internal Result(TValue? value) : base()
+    protected internal Result(TValue value) : base()
     {
         _value = value;
     }
