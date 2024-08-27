@@ -2,7 +2,7 @@ namespace General.Basics.ErrorHandling;
 
 public class MustBePositiveIntegerException : Exception
 {
-    public const string MESSAGE_FORMAT = "{0} must be a >=0 integer : '{1}' unauthorized.";
+    public const string MESSAGE_FORMAT = "{0} must be an integer >=0 : '{1}' unauthorized.";
 
     public override string Message { get; }
 
