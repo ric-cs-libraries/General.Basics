@@ -10,18 +10,21 @@ public class CheckTests
 {
     #region NotNull
     [Fact]
-    public void NotNull_WhenNull_ShouldThrowANullReferenceExceptionWithTheCorrectMessage()
+    public void NotNull_WhenNull_ShouldThrowAMustNotBeNullExceptionWithTheCorrectMessage()
     {
         //--- Arrange ---
         string? myNullableString = null;
-        
+        int? myNullableInt = null;
+
 
         //--- Act && Assert ---
-        var ex = Assert.Throws<NullReferenceException>(() => Check.NotNull(myNullableString!, nameof(myNullableString)));
+        var ex1 = Assert.Throws<MustNotBeNullException>(() => Check.NotNull(myNullableString, nameof(myNullableString)));
+        var ex2 = Assert.Throws<MustNotBeNullException>(() => Check.NotNull(myNullableInt, nameof(myNullableInt)));
 
-        var expectedMessage = string.Format(Check.NOT_NULL_MESSAGE_FORMAT, nameof(myNullableString));
-        Assert.Equal(expectedMessage, ex.Message);
-
+        var expectedMessage1 = string.Format(MustNotBeNullException.MESSAGE_FORMAT, nameof(myNullableString));
+        var expectedMessage2 = string.Format(MustNotBeNullException.MESSAGE_FORMAT, nameof(myNullableInt));
+        Assert.Equal(expectedMessage1, ex1.Message);
+        Assert.Equal(expectedMessage2, ex2.Message);
     }
 
     [Fact]
@@ -29,10 +32,12 @@ public class CheckTests
     {
         //--- Arrange ---
         string? myNullableString = "";
+        int? myNullableInt = 0;
 
 
         //--- Act ---
         Check.NotNull(myNullableString, nameof(myNullableString));
+        Check.NotNull(myNullableInt, nameof(myNullableInt));
 
         //--- Assert ---
         Assert.True(true);
