@@ -70,7 +70,7 @@ public class IListExtensionTests
         var maxIndex = list.Count - 1;
         var invalidIndex = maxIndex + 1;
 
-        var expectedMessage = string.Format(OutOfRangeIntegerException.MESSAGE_FORMAT, "IEnumerable Index", invalidIndex, 0, maxIndex);
+        var expectedMessage = string.Format(OutOfRangeIntegerException.MESSAGE_FORMAT, "List`1 Index", invalidIndex, 0, maxIndex);
         var ex1 = Assert.Throws<OutOfRangeIntegerException>(() => list.Swap_(invalidIndex, 1));
         var ex2 = Assert.Throws<OutOfRangeIntegerException>(() => list.Swap_(1, invalidIndex));
         Assert.Equal(expectedMessage, ex1.Message);
@@ -146,7 +146,7 @@ public class IListExtensionTests
         };
 
         //--- Act & Assert ---
-        var expectedMessage = string.Format(OutOfRangeIntegerException.MESSAGE_FORMAT, "IEnumerable Index", invalidIndex, 0, maxIndex);
+        var expectedMessage = string.Format(OutOfRangeIntegerException.MESSAGE_FORMAT, "List`1 Index", invalidIndex, 0, maxIndex);
         var ex = Assert.Throws<OutOfRangeIntegerException>(() => list.Shuffle_(indexesToSwap));
         Assert.Equal(expectedMessage, ex.Message);
     }
@@ -271,7 +271,7 @@ public class IListExtensionTests
         };
 
         //--- Act & Assert ---
-        var expectedMessage = string.Format(OutOfRangeIntegerException.MESSAGE_FORMAT, "IEnumerable Index", invalidIndex, 0, maxIndex);
+        var expectedMessage = string.Format(OutOfRangeIntegerException.MESSAGE_FORMAT, "List`1 Index", invalidIndex, 0, maxIndex);
         var ex = Assert.Throws<OutOfRangeIntegerException>(() => list.ReverseShuffle_(indexesToSwap));
         Assert.Equal(expectedMessage, ex.Message);
     }
@@ -338,7 +338,7 @@ public class IListExtensionTests
 
         //--- Act & Assert ---
         var ex = Assert.Throws<OutOfRangeIntegerException>(() => list.RemoveAt_(new HashSet<int>() { 2, 1, invalidIndex, 4, 7, 0 }));
-        var expectedMessage = string.Format(OutOfRangeIntegerException.MESSAGE_FORMAT, "IEnumerable Index", invalidIndex, 0, maxIndex);
+        var expectedMessage = string.Format(OutOfRangeIntegerException.MESSAGE_FORMAT, "List`1 Index", invalidIndex, 0, maxIndex);
         Assert.Equal(expectedMessage, ex.Message);
     }
 
