@@ -9,10 +9,13 @@ namespace General.Basics.ErrorHandling.UnitTests;
 public class UnexistingChunkBecauseEmptyExceptionTests
 {
     [Theory]
-    [InlineData(0,0)]
+    [InlineData(0, 0)]
     [InlineData(0, 1)]
     [InlineData(2, 3)]
-    public void Instanciation__TheExceptionShouldContainTheCorrectMessage(int startIndex, int endIndex)
+    [InlineData(5, null)]
+    [InlineData(null, 5)]
+    [InlineData(null, null)]
+    public void Instanciation__TheExceptionShouldContainTheCorrectMessage(int? startIndex, int? endIndex)
     {
         var subject = "List";
 
