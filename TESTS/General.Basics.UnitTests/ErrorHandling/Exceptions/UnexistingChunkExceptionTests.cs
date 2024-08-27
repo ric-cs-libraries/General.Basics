@@ -10,7 +10,7 @@ public class UnexistingChunkExceptionTests
 {
     [Theory]
     [ClassData(typeof(InstanciationTestsChunkBoundsData))]
-    public void Instanciation__TheExceptionShouldContainTheCorrectMessage(int startIndex, int endIndex)
+    public void Instanciation__TheExceptionShouldContainTheCorrectMessage(int startIndex, int? endIndex)
     {
         var subject = "List";
         var minIndex = 0;
@@ -22,7 +22,7 @@ public class UnexistingChunkExceptionTests
     }
 
     //---------------------------------------------------------
-    class InstanciationTestsChunkBoundsData : TheoryData<int, int>
+    class InstanciationTestsChunkBoundsData : TheoryData<int, int?>
     {
         public InstanciationTestsChunkBoundsData()
         {
@@ -30,6 +30,7 @@ public class UnexistingChunkExceptionTests
             Add(1, 51);
             Add(51, 52);
             Add(5, 1);
+            Add(5, null);
         }
     }
 }
