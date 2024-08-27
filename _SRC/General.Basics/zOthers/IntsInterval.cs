@@ -3,11 +3,11 @@
 namespace General.Basics.Others;
 
 
-public record IntsInterval : IntervalBase<int>
+public record IntsInterval : IntervalBase<int?>
 {
-	public IntsInterval(int minValue, int maxValue) : base(minValue, maxValue)
+	public IntsInterval(int? minValue, int? maxValue) : base(minValue, maxValue)
 	{
     }
 
-    protected override bool IsLowerOrEqual(int value1, int value2) => value1 <= value2;
+    protected override bool IsLowerOrEqual(int? value1, int? value2) => value1!.Value <= value2!.Value;
 }
