@@ -178,7 +178,7 @@ public class IEnumerableExtensionTests
 
         var ex = Assert.Throws<UnexistingIndexBecauseEmptyException>(() => list.CheckIsValidIndex_(index));
 
-        var expectedMessage = string.Format(UnexistingIndexBecauseEmptyException.MESSAGE_FORMAT, "IEnumerable", index);
+        var expectedMessage = string.Format(UnexistingIndexBecauseEmptyException.MESSAGE_FORMAT, "List`1", index);
         Assert.Equal(expectedMessage, ex.Message);
     }
 
@@ -199,7 +199,7 @@ public class IEnumerableExtensionTests
         var invalidIndex = maxIndex + 1;
         var ex = Assert.Throws<OutOfRangeIntegerException>(() => list.CheckIsValidIndex_(invalidIndex));
 
-        var expectedMessage = string.Format(OutOfRangeIntegerException.MESSAGE_FORMAT, "IEnumerable Index", invalidIndex, 0, maxIndex);
+        var expectedMessage = string.Format(OutOfRangeIntegerException.MESSAGE_FORMAT, "List`1 Index", invalidIndex, 0, maxIndex);
         Assert.Equal(expectedMessage, ex.Message);
     }
     #endregion CheckIsValidIndex_
@@ -227,7 +227,7 @@ public class IEnumerableExtensionTests
         var invalidIndex = maxIndex + 1;
         var ex = Assert.Throws<OutOfRangeIntegerException>(() => list.CheckAreValidIndexes_(new[] { 0, 1, 2, invalidIndex }));
 
-        var expectedMessage = string.Format(OutOfRangeIntegerException.MESSAGE_FORMAT, "IEnumerable Index", invalidIndex, 0, maxIndex);
+        var expectedMessage = string.Format(OutOfRangeIntegerException.MESSAGE_FORMAT, "List`1 Index", invalidIndex, 0, maxIndex);
         Assert.Equal(expectedMessage, ex.Message);
     }
     #endregion CheckAreValidIndexes_
@@ -285,7 +285,7 @@ public class IEnumerableExtensionTests
 
         var ex = Assert.Throws<UnexistingChunkBecauseEmptyException>(() => list.CheckChunkExists_(startIndex, endIndex));
 
-        var expectedMessage = string.Format(UnexistingChunkBecauseEmptyException.MESSAGE_FORMAT, "IEnumerable", startIndex, endIndex);
+        var expectedMessage = string.Format(UnexistingChunkBecauseEmptyException.MESSAGE_FORMAT, "List`1", startIndex, endIndex);
         Assert.Equal(expectedMessage, ex.Message);
     }
 
@@ -310,12 +310,12 @@ public class IEnumerableExtensionTests
 
         var ex = Assert.Throws<UnexistingChunkException>(() => list.CheckChunkExists_(startIndex, endIndex));
 
-        var expectedMessage = string.Format(UnexistingChunkException.MESSAGE_FORMAT, "IEnumerable", startIndex, endIndex, minIndex, maxIndex);
+        var expectedMessage = string.Format(UnexistingChunkException.MESSAGE_FORMAT, "List`1", startIndex, endIndex, minIndex, maxIndex);
         Assert.Equal(expectedMessage, ex.Message);
     }
     #endregion CheckChunkExists_
 
-    #region GetChunk_
+    #region GetChunk_ (with startIndex and endIndex specified)
     [Theory]
     [InlineData(-1, -1)]
     [InlineData(-1, 0)]
@@ -328,7 +328,7 @@ public class IEnumerableExtensionTests
 
         var ex = Assert.Throws<UnexistingChunkBecauseEmptyException>(() => list.GetChunk_(startIndex, endIndex));
 
-        var expectedMessage = string.Format(UnexistingChunkBecauseEmptyException.MESSAGE_FORMAT, "IEnumerable", startIndex, endIndex);
+        var expectedMessage = string.Format(UnexistingChunkBecauseEmptyException.MESSAGE_FORMAT, "List`1", startIndex, endIndex);
         Assert.Equal(expectedMessage, ex.Message);
     }
 
@@ -353,10 +353,167 @@ public class IEnumerableExtensionTests
 
         var ex = Assert.Throws<UnexistingChunkException>(() => list.GetChunk_(startIndex, endIndex));
 
-        var expectedMessage = string.Format(UnexistingChunkException.MESSAGE_FORMAT, "IEnumerable", startIndex, endIndex, minIndex, maxIndex);
+        var expectedMessage = string.Format(UnexistingChunkException.MESSAGE_FORMAT, "List`1", startIndex, endIndex, minIndex, maxIndex);
         Assert.Equal(expectedMessage, ex.Message);
     }
-    #endregion GetChunk_
+    #endregion GetChunk_ (with startIndex and endIndex specified)
+
+    #region GetChunk_ (with only startIndex specified)
+    [Fact]
+    public void GetChunk_WhenChunkExists_ShouldReturnTheCorrectChunk_()
+    {
+        var list = new List<int>() { 0, 1, 2, 3, 4, 5, 6 };
+        var startIndex = 3;
+
+        var result = list.GetChunk_(startIndex);
+
+        Assert.Equal(new[] {3,4,5,6}, result);
+    }
+    [Fact]
+    public void GetChunk_WhenChunkExistsAndStartIndexEqualsLastIndex_ShouldReturnTheCorrectChunkWithOnlyTheLastValue_()
+    {
+        var list = new List<int>() { 0, 1, 2, 3, 4, 5, 6 };
+        var startIndex = list.GetLastIndex_();
+
+        var result = list.GetChunk_(startIndex!.Value);
+
+        Assert.Equal(new[] { 6 }, result);
+    }
+    [Fact]
+    public void GetChunk_WhenChunkDoesntExist_ShouldThrowAnUnexistingChunkException()
+    {
+        var list = new List<int>() { 0, 1, 2, 3, 4, 5, 6 };
+        var minIndex = 0;
+        var maxIndex = list.GetLastIndex_();
+        var startIndex = maxIndex!.Value + 1;
+        int endIndex = maxIndex!.Value;
+
+        var ex = Assert.Throws<UnexistingChunkException>(() => list.GetChunk_(startIndex));
+
+        var expectedMessage = string.Format(UnexistingChunkException.MESSAGE_FORMAT, "List`1", startIndex, endIndex, minIndex, maxIndex);
+        Assert.Equal(expectedMessage, ex.Message);
+    }
+    [Fact]
+    public void GetChunk_WhenEnumerableIsEmpty_ShouldThrowAnUnexistingChunkBecauseEmptyException_()
+    {
+        List<int> list = new();
+        var startIndex = 0;
+        int? endIndex = null;
+
+        var ex = Assert.Throws<UnexistingChunkBecauseEmptyException>(() => list.GetChunk_(startIndex));
+
+        var expectedMessage = string.Format(UnexistingChunkBecauseEmptyException.MESSAGE_FORMAT, "List`1", startIndex, endIndex);
+        Assert.Equal(expectedMessage, ex.Message);
+    }
+    #endregion GetChunk_ (with only startIndex specified)
+
+
+    #region GetChunkFromEnd_
+    [Fact]
+    public void GetChunkFromEnd_WhenFullChunkExists_ShouldReturnTheCorrectChunk()
+    {
+        var list = new List<int>() { 0, 1, 2, 3, 4, 5, 6 };
+        var chunkLength = 4;
+
+        var result = list.GetChunkFromEnd_(chunkLength);
+
+        Assert.Equal(new[] { 3, 4, 5, 6 }, result);
+    }
+    [Fact]
+    public void GetChunkFromEnd_WhenFullChunkExists_ShouldReturnTheCorrectChunk_()
+    {
+        var str = "ABCDEF"; //IEnumerable<char>
+        var chunkLength = 4;
+
+        var result = str.GetChunkFromEnd_(chunkLength); //Mais ici result n'est pas une string, mais une IEnumerable<char> .
+
+        Assert.Equal("CDEF".ToCharArray(), result);
+    }
+    [Fact]
+    public void GetChunkFromEnd_WhenFullChunkExistsAndChunkLengthIsEqualToTheEnumerableLength_ShouldReturnAnEnumerableContainingAllTheElements()
+    {
+        var list = new List<int>() { 0, 1, 2, 3, 4 };
+        var chunkLength = list.Count;
+
+        var result = list.GetChunkFromEnd_(chunkLength);
+
+        Assert.Equal(list, result);
+        Assert.False(list == result);
+    }
+    
+    [Fact]
+    public void GetChunkFromEnd_WhenChunkLengthIsLongerThanTheEnumerableLength_ShouldThrowAnUnexistingChunkException()
+    {
+        var list = new List<int>() { 0, 1, 2, 3, 4 };
+        var chunkLength = list.Count + 1;
+        var minIndex = 0;
+        var maxIndex = list.GetLastIndex_();
+        int endIndex = maxIndex!.Value;
+        int startIndex = endIndex - (chunkLength-1);
+
+        var ex = Assert.Throws<UnexistingChunkException>(() => list.GetChunkFromEnd_(chunkLength));
+
+        var expectedMessage = string.Format(UnexistingChunkException.MESSAGE_FORMAT, "List`1", startIndex, endIndex, minIndex, maxIndex);
+        Assert.Equal(expectedMessage, ex.Message);
+    }
+    //[Theory]
+    //[InlineData(0)]
+    //[InlineData(1)]
+    //public void GetChunkFromEnd_WhenEnumerableIsEmpty_ShouldAlwaysThrowAnUnexistingChunkBecauseEmptyException(int chunkLength)
+    //{
+    //    List<int> list = new();
+    //    int? startIndex = null;
+    //    int? endIndex = null;
+
+    //    var ex = Assert.Throws<UnexistingChunkBecauseEmptyException>(() => list.GetChunkFromEnd_(chunkLength));
+
+    //    var expectedMessage = string.Format(UnexistingChunkBecauseEmptyException.MESSAGE_FORMAT, "List`1", startIndex, endIndex);
+    //    Assert.Equal(expectedMessage, ex.Message);
+    //}
+
+    [Theory]
+    [InlineData(0)]
+    [InlineData(1)]
+    public void GetChunkFromEnd_WhenEnumerableIsEmptyAndChunkLengthIsNotNegative_ShouldAlwaysReturnAnEmptyEnumerable(int chunkLength)
+    {
+        var list = new List<int>() { };
+
+        var result = list.GetChunkFromEnd_(chunkLength);
+
+        Assert.Empty(result);
+    }
+
+    [Fact]
+    public void GetChunkFromEnd_WhenChunkLengthIsZero_ShouldAlwaysReturnAnEmptyEnumerable()
+    {
+        var chunkLength = 0;
+        var list1 = new List<int>() { 0, 1, 2, 3, 4 };
+        var list2 = new List<int>() {};
+
+        var result1 = list1.GetChunkFromEnd_(chunkLength);
+        var result2 = list2.GetChunkFromEnd_(chunkLength);
+
+        Assert.Empty(result1);
+        Assert.Empty(result2);
+    }
+
+    [Fact]
+    public void GetChunkFromEnd_WhenChunkLengthIsNegative_ShouldAlwaysThrowMustBePositiveIntegerException()
+    {
+        var list1 = new List<int>() { 0, 1, 2, 3, 4 };
+        var list2 = new List<int>() { };
+        var chunkLength = -1;
+
+        var ex1 = Assert.Throws<MustBePositiveIntegerException>(() => list1.GetChunkFromEnd_(chunkLength));
+        var ex2 = Assert.Throws<MustBePositiveIntegerException>(() => list2.GetChunkFromEnd_(chunkLength));
+
+        var expectedMessage1 = string.Format(MustBePositiveIntegerException.MESSAGE_FORMAT, "Chunk length", chunkLength);
+        var expectedMessage2 = expectedMessage1;
+        Assert.Equal(expectedMessage1, ex1.Message);
+        Assert.Equal(expectedMessage2, ex2.Message);
+    }
+    #endregion GetChunkFromEnd_
+
 
 
     #region ToChunks_
@@ -484,6 +641,20 @@ public class IEnumerableExtensionTests
 
         //
         Assert.Equal($"{list[0]}{list[1]}{list[2]}{list[3]}", result);
+    }
+    [Fact]
+    public void ToString_WhenTypeIsIEnumerableOfChars_ShouldReturnTheCorrectConcatenatedString()
+    {
+        var chars1 = new List<char>() { 'A', 'B'};
+        var chars2 = new List<char>() { 'C', 'D'};
+        var chars3 = new List<char>() { 'I' };
+        IEnumerable<IEnumerable<char>> list = new[] { chars1, chars2, chars3 };
+
+        //
+        string result = list.ToString_();
+
+        //
+        Assert.Equal($"{chars1[0]}{chars1[1]}{chars2[0]}{chars2[1]}{chars3[0]}", result);
     }
     #endregion ToString_
 

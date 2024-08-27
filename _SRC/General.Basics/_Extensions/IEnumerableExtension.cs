@@ -34,7 +34,7 @@ public static partial class IEnumerableExtension
     {
         if (!enumerable.IsValidIndex_(index))
         {
-            var subject = "IEnumerable";
+            var subject =  enumerable.GetType().Name;
             int maxIndex = enumerable.Count() - 1;
 
             if (maxIndex < 0)
@@ -63,6 +63,40 @@ public static partial class IEnumerableExtension
         return result;
     }
 
+    public static IEnumerable<T> GetChunk_<T>(this IEnumerable<T> enumerable, int startIndex)
+    {
+        if (enumerable.IsEmpty_())
+        {
+            var subject = enumerable.GetType().Name;
+            throw new UnexistingChunkBecauseEmptyException(startIndex, endIndex: null, subject);
+        }
+
+        int? endIndex = enumerable.GetLastIndex_();
+        var result = enumerable.GetChunk_(startIndex, endIndex!.Value);
+        return result;
+    }
+
+    public static IEnumerable<T> GetChunkFromEnd_<T>(this IEnumerable<T> enumerable, int chunkLength)
+    {
+        //if (enumerable.IsEmpty_())
+        //{
+        //    var subject = enumerable.GetType().Name;
+        //    throw new UnexistingChunkBecauseEmptyException(startIndex: null, endIndex: null, subject);
+        //}
+
+        if (chunkLength < 0)
+        {
+            throw new MustBePositiveIntegerException(chunkLength, "Chunk length");
+        }
+
+        if (chunkLength == 0 || enumerable.IsEmpty_())
+            return Enumerable.Empty<T>();
+
+        int startIndex = enumerable.GetLastIndex_()!.Value - (chunkLength-1);
+        var result = enumerable.GetChunk_(startIndex);
+        return result;
+    }
+
     public static bool ChunkExists_<T>(this IEnumerable<T> enumerable, int startIndex, int endIndex)
     {
         var result = (endIndex >= startIndex);
@@ -74,7 +108,7 @@ public static partial class IEnumerableExtension
     {
         if (!enumerable.ChunkExists_(startIndex, endIndex))
         {
-            var subject = "IEnumerable";
+            var subject = enumerable.GetType().Name;
             if (enumerable.IsEmpty_())
             {
                 throw new UnexistingChunkBecauseEmptyException(startIndex, endIndex, subject);
@@ -120,6 +154,11 @@ public static partial class IEnumerableExtension
         }
 
         return result;
+    }
+
+    public static string ToString_(this IEnumerable<IEnumerable<char>> charss)
+    {
+        return charss.Select(chars => chars.ToString_()).ToString_();
     }
 
     public static string ToString_(this IEnumerable<char> chars)
