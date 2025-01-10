@@ -30,7 +30,7 @@ public class Result
 
 public class Result<TValue> : Result
 {
-    private readonly TValue _value;
+    private readonly TValue _value = default!;
 
     public TValue Value
     {
