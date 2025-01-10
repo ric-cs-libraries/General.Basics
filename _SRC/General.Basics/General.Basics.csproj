@@ -3,15 +3,19 @@
 	<PropertyGroup>
 
 		<MyPackageMajorVersion>$(MyGeneralBasics_MajorVersion)</MyPackageMajorVersion>
-		<MyPackageMinorVersion>5</MyPackageMinorVersion>
-		<MyPackagePatchVersion>1</MyPackagePatchVersion>
+		<MyPackageMinorVersion>0</MyPackageMinorVersion>
+		<MyPackagePatchVersion>0</MyPackagePatchVersion>
 
 		<Description><!-- Mettre ici en 1 ligne (même longue), le descriptif des nouveautés, pour cette nouvelle version du Package Nuget -->
-			IShuffler add:  GetIndexesToSwap(int listLength) .
+			v3.0 : divers remaniements dans Extensions/, et ajout fonctionnalités à classe Result.
 		</Description>
 
 	</PropertyGroup>
 
 	<Import Project="$(MyCommonCsProjSrcPath)/SetVersions.csproj" /><!-- Affectation de <PackageVersion> et <Version> -->
+
+	<ItemGroup>
+	  <Compile Remove="_TEST*_MUST_BE_WRITTEN\**" />
+	</ItemGroup>
 
 </Project>
