@@ -1,8 +1,7 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk">
 
 	<ItemGroup>
-		<ProjectReference Include="../../_SRC/General.Basics.Trees/General.Basics.Trees.csproj" />
-		<ProjectReference Include="..\..\_SRC\General.Basics\General.Basics.csproj" />
+		<ProjectReference Include="..\..\_SRC\General.Basics.Trees\General.Basics.Trees.csproj" />
 	</ItemGroup>
 
 </Project>

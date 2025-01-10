@@ -69,7 +69,7 @@ public class ResultTests
     public void ResultOfTOk_WhenValueIsNull_ShouldInitializeFieldsCorrectly()
     {
         MyClass? value = null;
-        Result<MyClass> result = Result<MyClass>.Ok(value);
+        Result<MyClass> result = Result<MyClass>.Ok(value!);
 
         Assert.True(result.IsSuccess);
         Assert.False(result.IsFailure);
