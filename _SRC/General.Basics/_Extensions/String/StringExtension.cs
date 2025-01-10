@@ -300,4 +300,23 @@ public static class StringExtension
     }
 
 
+    public static string ReplacePlaceHolders_(this string str, IDictionary<string, string> replacements)
+    {
+        string result = str;
+        foreach (KeyValuePair<string, string> replacement in replacements)
+        {
+            result = result.Replace(replacement.Key, replacement.Value);
+        }
+        return result;
+    }
+
+    public static string Backslash_(this string str)
+    {
+        return str.Replace('/', '\\');
+    }
+
+    public static string Slash_(this string str)
+    {
+        return str.Replace('\\', '/');
+    }
 }

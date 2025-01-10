@@ -1,5 +1,4 @@
 ﻿using General.Basics.ErrorHandling;
-using System.Collections.Generic;
 
 
 namespace General.Basics.Extensions;
@@ -34,7 +33,7 @@ public static partial class IEnumerableExtension
     {
         if (!enumerable.IsValidIndex_(index))
         {
-            var subject =  enumerable.GetType().Name;
+            var subject = enumerable.GetType().Name;
             int maxIndex = enumerable.Count() - 1;
 
             if (maxIndex < 0)
@@ -92,7 +91,7 @@ public static partial class IEnumerableExtension
         if (chunkLength == 0 || enumerable.IsEmpty_())
             return Enumerable.Empty<T>();
 
-        int startIndex = enumerable.GetLastIndex_()!.Value - (chunkLength-1);
+        int startIndex = enumerable.GetLastIndex_()!.Value - (chunkLength - 1);
         var result = enumerable.GetChunk_(startIndex);
         return result;
     }
@@ -118,13 +117,6 @@ public static partial class IEnumerableExtension
             int maxIndex = enumerable.Count() - 1;
             throw new UnexistingChunkException(startIndex, endIndex, minIndex, maxIndex, subject);
         }
-    }
-
-    public static int? GetNearestInfValue_(this IEnumerable<int> enumerable, int value)
-    {
-        IEnumerable<int> eligibles = enumerable.Where(elementValue => elementValue <= value).OrderBy(elementValue => elementValue);
-        int? nearestInfValue = (eligibles.Any()) ? eligibles.Last() : null;
-        return nearestInfValue;
     }
 
     public static List<IEnumerable<T>> ToChunks_<T>(this IEnumerable<T> enumerable, int idealNbElementsInAChunk)
@@ -156,17 +148,4 @@ public static partial class IEnumerableExtension
         return result;
     }
 
-    public static string ToString_(this IEnumerable<IEnumerable<char>> charss)
-    {
-        return charss.Select(chars => chars.ToString_()).ToString_();
-    }
-
-    public static string ToString_(this IEnumerable<char> chars)
-    {
-        return string.Join("", chars);
-    }
-    public static string ToString_(this IEnumerable<string> strings)
-    {
-        return string.Join("", strings);
-    }
 }
