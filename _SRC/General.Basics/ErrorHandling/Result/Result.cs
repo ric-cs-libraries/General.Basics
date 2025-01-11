@@ -2,9 +2,9 @@
 
 namespace General.Basics.ErrorHandling;
 
+
 public class Result
 {
-
     public bool IsSuccess => (Errors is null) || !Errors.Any();
     public bool IsFailure => !IsSuccess;
 

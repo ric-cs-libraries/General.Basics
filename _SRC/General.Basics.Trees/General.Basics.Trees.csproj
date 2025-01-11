@@ -16,7 +16,6 @@
 
 	<ItemGroup>
 		<PackageReference Include="General.Basics" Version="$(MyGeneralBasics_MajorVersion).$(MyDependenciesVersionWildcard)" />
-		<PackageReference Include="General.Basics.Reflection" Version="$(MyGeneralBasicsReflection_MajorVersion).$(MyDependenciesVersionWildcard)" />
 	</ItemGroup>
 
 </Project>

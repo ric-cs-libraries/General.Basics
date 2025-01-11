@@ -1,6 +1,4 @@
 ﻿using General.Basics.ErrorHandling;
-
-
 namespace General.Basics.Extensions;
 
 public static partial class IEnumerableExtension
@@ -33,7 +31,7 @@ public static partial class IEnumerableExtension
     {
         if (!enumerable.IsValidIndex_(index))
         {
-            var subject = enumerable.GetType().Name;
+            var subject =  enumerable.GetType().Name;
             int maxIndex = enumerable.Count() - 1;
 
             if (maxIndex < 0)
@@ -91,7 +89,7 @@ public static partial class IEnumerableExtension
         if (chunkLength == 0 || enumerable.IsEmpty_())
             return Enumerable.Empty<T>();
 
-        int startIndex = enumerable.GetLastIndex_()!.Value - (chunkLength - 1);
+        int startIndex = enumerable.GetLastIndex_()!.Value - (chunkLength-1);
         var result = enumerable.GetChunk_(startIndex);
         return result;
     }
@@ -148,4 +146,37 @@ public static partial class IEnumerableExtension
         return result;
     }
 
+    public static bool ContainsSameElementsAs_<T>(this IEnumerable<T> enumerable, IEnumerable<T> elements, IEqualityComparer<T>? comparer = null)
+    {
+        //?? VERIFIER si la méthode marche avec le : comparer !!?
+        var enumerableAsHashSet = enumerable.ToHashSet<T>(comparer); //Sans doublons éventuels
+        var elementsAsHashSet = elements.ToHashSet<T>(comparer); //Sans doublons éventuels
+
+        var response = (enumerableAsHashSet.Count() == elementsAsHashSet.Count());
+        if (response)
+        {
+            enumerableAsHashSet.SymmetricExceptWith(elementsAsHashSet); //vire les éléments communs, et ajoute ceux en plus de : elements.
+            response = !enumerableAsHashSet.Any();
+        }
+        return response;
+    }
+
+    public static bool ContainsAll_<T>(this IEnumerable<T> enumerable, IEnumerable<T> elements, IEqualityComparer<T>? comparer = null)
+    {
+        var response = elements.All(element => enumerable.Contains(element, comparer));
+        return response;
+    }
+
+    public static IList<T> GetExceedingElementsFrom_<T>(this IEnumerable<T> enumerable, IEnumerable<T> elements, IEqualityComparer<T>? comparer = null)
+    {
+        List<T> exceedingElements = new();
+        foreach (var element in elements)
+        {
+            if (!enumerable.Contains(element, comparer))
+            {
+                exceedingElements.Add(element);
+            }
+        }
+        return exceedingElements;
+    }
 }

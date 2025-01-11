@@ -1,5 +1,4 @@
 ﻿using General.Basics.ErrorHandling;
-using System.Linq;
 using System.Web;
 
 namespace General.Basics.Extensions;
@@ -48,7 +47,7 @@ public static class StringExtension
             throw new StringWithIllegalCharException(str, str[index]);
         }
     }
-    
+
     public static void CheckDoesntContainTooManyOfAChar_(this string str, char theChar, int maxNbOccurrencesOfTheChar)
     {
         int charNbOccurences = str.Count(chr => chr == theChar);

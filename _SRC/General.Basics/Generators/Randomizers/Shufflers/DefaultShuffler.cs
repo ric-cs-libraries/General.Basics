@@ -1,7 +1,7 @@
 ﻿
 using General.Basics.ErrorHandling;
 using General.Basics.Extensions;
-using General.Basics.Others;
+using General.Basics.Intervals;
 
 using General.Basics.Generators.TupleGenerators.Interfaces;
 using General.Basics.Generators.Shufflers.Interfaces;

@@ -1,4 +1,4 @@
-﻿using General.Basics.Others;
+﻿using General.Basics.Intervals;
 
 
 namespace General.Basics.Generators.TupleGenerators.Interfaces;

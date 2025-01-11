@@ -3,19 +3,15 @@
 	<PropertyGroup>
 
 		<MyPackageMajorVersion>$(MyGeneralBasics_MajorVersion)</MyPackageMajorVersion>
-		<MyPackageMinorVersion>0</MyPackageMinorVersion>
+		<MyPackageMinorVersion>1</MyPackageMinorVersion>
 		<MyPackagePatchVersion>0</MyPackagePatchVersion>
 
 		<Description><!-- Mettre ici en 1 ligne (même longue), le descriptif des nouveautés, pour cette nouvelle version du Package Nuget -->
-			v3.0 : divers remaniements dans Extensions/, et ajout fonctionnalités à classe Result.
+			v4.1.0 : Modif. de nombreux namespaces ET incorporation de nombreuses nouvelles fonctionnalités(pas toutes testées).
 		</Description>
 
 	</PropertyGroup>
 
 	<Import Project="$(MyCommonCsProjSrcPath)/SetVersions.csproj" /><!-- Affectation de <PackageVersion> et <Version> -->
-
-	<ItemGroup>
-	  <Compile Remove="_TEST*_MUST_BE_WRITTEN\**" />
-	</ItemGroup>
 
 </Project>
