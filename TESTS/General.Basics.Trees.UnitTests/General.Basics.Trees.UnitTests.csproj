@@ -1,7 +1,0 @@
-﻿<Project Sdk="Microsoft.NET.Sdk">
-
-	<ItemGroup>
-		<ProjectReference Include="..\..\_SRC\General.Basics.Trees\General.Basics.Trees.csproj" />
-	</ItemGroup>
-
-</Project>

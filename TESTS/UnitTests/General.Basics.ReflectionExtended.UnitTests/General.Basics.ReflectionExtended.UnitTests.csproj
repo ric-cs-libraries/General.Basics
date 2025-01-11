@@ -1,0 +1,5 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+  <ItemGroup>
+    <ProjectReference Include="..\..\..\_SRC\General.Basics.ReflectionExtended\General.Basics.ReflectionExtended.csproj" />
+  </ItemGroup>
+</Project>
