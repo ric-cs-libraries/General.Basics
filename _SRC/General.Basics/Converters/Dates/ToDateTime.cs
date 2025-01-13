@@ -1,7 +1,7 @@
 ﻿using General.Basics.ErrorHandling;
 
 
-namespace General.Basics.Converters;
+namespace General.Basics.Converters.Dates;
 
 public class ToDateTime
 {

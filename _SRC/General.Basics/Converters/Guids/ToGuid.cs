@@ -1,6 +1,6 @@
 ﻿using General.Basics.ErrorHandling;
 
-namespace General.Basics.Converters;
+namespace General.Basics.Converters.Guids;
 
 public class ToGuid
 {
@@ -11,7 +11,7 @@ public class ToGuid
         Guid asGuid = Guid.Empty;
         bool isValid = !string.IsNullOrWhiteSpace(str) && Guid.TryParse(str, out asGuid);
 
-        if (!isValid) 
+        if (!isValid)
         {
             InvalidGuidError error = new(str, subjectLabel);
             return Result<Guid>.NotOk(error);
