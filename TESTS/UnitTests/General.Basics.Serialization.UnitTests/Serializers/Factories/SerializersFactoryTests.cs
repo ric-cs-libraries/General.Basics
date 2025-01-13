@@ -35,7 +35,7 @@ public class SerializersFactoryTests
         SerializersFactory factory1 = SerializersFactory.Create(Serializer.Native);
         SerializersFactory factory2 = SerializersFactory.Create();
 
-        ISerializer serializer = factory2.Get();
+        ISerializer serializer = factory2.GetSingleton();
 
         Assert.IsType<NewtonSoftSerializer>(serializer);
     }
@@ -46,7 +46,7 @@ public class SerializersFactoryTests
         SerializersFactory factory1 = SerializersFactory.Create(Serializer.Native);
         SerializersFactory factory2 = SerializersFactory.Create(Serializer.NewtonSoft);
 
-        ISerializer serializer = factory2.Get();
+        ISerializer serializer = factory2.GetSingleton();
 
         Assert.IsType<NewtonSoftSerializer>(serializer);
     }
@@ -57,7 +57,7 @@ public class SerializersFactoryTests
         SerializersFactory factory1 = SerializersFactory.Create(Serializer.NewtonSoft);
         SerializersFactory factory2 = SerializersFactory.Create(Serializer.Native);
 
-        ISerializer serializer = factory2.Get();
+        ISerializer serializer = factory2.GetSingleton();
 
         Assert.IsType<NativeSerializer>(serializer);
     }
@@ -65,10 +65,10 @@ public class SerializersFactoryTests
     [Fact]
     public void Get___ShouldAlwaysReturnASingleton()
     {
-        ISerializer native1 = SerializersFactory.Create(Serializer.NewtonSoft).Get();
-        ISerializer newtonS1 = SerializersFactory.Create(Serializer.Native).Get();
-        ISerializer native2 = SerializersFactory.Create(Serializer.NewtonSoft).Get();
-        ISerializer newtonS2 = SerializersFactory.Create(Serializer.Native).Get();
+        ISerializer native1 = SerializersFactory.Create(Serializer.NewtonSoft).GetSingleton();
+        ISerializer newtonS1 = SerializersFactory.Create(Serializer.Native).GetSingleton();
+        ISerializer native2 = SerializersFactory.Create(Serializer.NewtonSoft).GetSingleton();
+        ISerializer newtonS2 = SerializersFactory.Create(Serializer.Native).GetSingleton();
 
         Assert.Equal(native1, native2);
         Assert.Equal(newtonS1, newtonS2);
@@ -80,6 +80,6 @@ public class SerializersFactoryTests
         int unknownSerializerEnumCode = 10;
         var factory  = SerializersFactory.Create((Serializer)unknownSerializerEnumCode);
 
-        var ex = Assert.Throws<UnhandledSerializerEnumCodeException>(() => factory.Get());
+        var ex = Assert.Throws<UnhandledSerializerEnumCodeException>(() => factory.GetSingleton());
     }
 }

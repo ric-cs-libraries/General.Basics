@@ -27,7 +27,7 @@ public class SerializersFactory
         if (factory is null)
         {
             factory = new SerializersFactory(serializer);
-        } 
+        }
         else
         {
             factory.Serializer = serializer;
@@ -35,7 +35,7 @@ public class SerializersFactory
         return factory;
     }
 
-    public ISerializer Get()
+    public ISerializer GetSingleton()
     {
         ISerializer result = Serializer switch
         {
