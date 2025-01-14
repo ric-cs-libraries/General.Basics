@@ -2,4 +2,7 @@
   <ItemGroup>
     <ProjectReference Include="..\..\..\_SRC\General.Basics\General.Basics.csproj" />
   </ItemGroup>
+  <ItemGroup>
+    <Folder Include="Reflection\POO\_Extensions\" />
+  </ItemGroup>
 </Project>

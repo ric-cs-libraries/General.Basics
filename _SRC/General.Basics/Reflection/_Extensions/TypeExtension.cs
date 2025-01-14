@@ -2,7 +2,7 @@
 
 namespace General.Basics.Reflection.Extensions;
 
-public static class TypeExtension
+public static partial class TypeExtension
 {
     public static string GetSimpleName_(this Type type)
     {
