@@ -2,12 +2,15 @@
 
 	<PropertyGroup>
 
-		<MyPackageMajorVersion>$(MyGeneralBasicsReflection_MajorVersion)</MyPackageMajorVersion>
-		<MyPackageMinorVersion>1</MyPackageMinorVersion>
+		<MyPackageMajorVersion>$(MyGeneralBasicsReflectionExtended_MajorVersion)</MyPackageMajorVersion>
+		<MyPackageMinorVersion>0</MyPackageMinorVersion>
 		<MyPackagePatchVersion>0</MyPackagePatchVersion>
 
 		<Description>
-			v2.1 : pour la famille d'Exception  TypeShouldBe... de /POO/BasicElements/, utilisation du type.GetFullName_(), plutôt que juste type.Name.
+			v3.0 : suppression des méthodes d'extension (dans General.Basics.ReflectionExtended.POO.Extensions) :
+			        - public static bool IsOfType_(this Type type, Type ofType)
+			        - public static bool Implements_(this Type type, Type interfaceType)
+                  (déplacées dans package General.Basics, namespace : namespace General.Basics.Reflection.POO.Extensions)
 		</Description>
 
 	</PropertyGroup>

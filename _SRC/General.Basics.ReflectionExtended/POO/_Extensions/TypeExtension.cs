@@ -1,39 +1,14 @@
 ﻿using General.Basics.ReflectionExtended.POO.Abstracts;
 using General.Basics.ReflectionExtended.POO.ErrorHandling;
 
-namespace General.Basics.ReflectionExtended.POO;
+namespace General.Basics.ReflectionExtended.POO.Extensions;
 
 public static partial class TypeExtension
 {
-    //ATTENTION: IsOfType_ ne prend pas en compte l'héritage, ou l'implém. d'interfaces.
-    //           Utiliser type.BaseType au lieu de type, peut alors éventuellement être une solution.
-    public static bool IsOfType_(this Type type, Type ofType)
-    {
-        //Utile pour tester ce genre de chose (avec type = thisType, et ofType = typeof(MaClasse<>)) :
-        //                    typeof(MyClasse<>).IsAssignableFrom(thisType)   qui renvoie malheureusement toujours false <<<<<
-        // C-à-d qu'ici on veut renvoyer true SI thisType est >EXACTEMENT< LE type MyClasse<T,...> QUEL QUE SOIT  T,...  en fait !!
-
-        bool response = type.FullName is not null && ofType.FullName is not null
-                        && type.FullName!.StartsWith(ofType.FullName!);
-        return response;
-    }
-
-    public static bool Implements_(this Type type, Type interfaceType)
-    {
-        bool response = type.IsClass && interfaceType.IsInterface_() && interfaceType.IsAssignableFrom(type);
-        return response;
-    }
-
     public static bool Implements_(this Type type, Interface @interface)
     {
         bool result = type.IsClass && @interface.Type.IsAssignableFrom(type);
         return result;
-    }
-
-    public static bool IsInterface_(this Type type)
-    {
-        bool response = !type.IsClass && type.IsAbstract;
-        return response;
     }
 
     //classOrInterface : can describe a record or a class or an interface
@@ -46,7 +21,7 @@ public static partial class TypeExtension
     private static bool InheritsFrom(Type type, Type classOrInterfaceType)
     {
         bool result = false;
-        if ((classOrInterfaceType.IsClass && type.IsClass) || (classOrInterfaceType.IsInterface && type.IsInterface))
+        if (classOrInterfaceType.IsClass && type.IsClass || classOrInterfaceType.IsInterface && type.IsInterface)
         {
             result = classOrInterfaceType.IsAssignableFrom(type);
 

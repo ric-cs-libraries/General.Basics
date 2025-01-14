@@ -3,7 +3,7 @@ using General.Basics.ReflectionExtended.DynamicCalls.Interfaces;
 using System.Reflection;
 
 
-namespace General.Basics.ReflectionExtended.POO;
+namespace General.Basics.ReflectionExtended.POO.Extensions;
 
 public static class AssemblyExtension
 {
@@ -27,7 +27,7 @@ public static class AssemblyExtension
             types = types.Where(additionalFilter);
         }
 
-        IEnumerable<Class> classes = types.Select(type => (type.IsAbstract) ? new AbstractClass(type) : new Class(type));
+        IEnumerable<Class> classes = types.Select(type => type.IsAbstract ? new AbstractClass(type) : new Class(type));
 
         return classes.ToList();
     }
@@ -40,11 +40,11 @@ public static class AssemblyExtension
         IInstanciator instanciator = Instanciator.Create();
 
         IEnumerable<Class> classes = assembly.GetConcreteClassesImplementingTheInterface_(@interface)
-                                             .Where((Class concreteClass) => !concreteClass.Type.IsGenericType)
+                                             .Where((concreteClass) => !concreteClass.Type.IsGenericType)
                                              ;
 
         IEnumerable<TInterface> instances = classes
-                                           .Select((Class concreteClass) => instanciator.GetInstance(concreteClass, constructorParams))
+                                           .Select((concreteClass) => instanciator.GetInstance(concreteClass, constructorParams))
                                            .Cast<TInterface>();
 
         return instances.ToList();
@@ -60,7 +60,7 @@ public static class AssemblyExtension
         int nbGenericParameters = genericParametersType.Length;
 
         IEnumerable<Class> classes = assembly.GetConcreteClassesImplementingTheInterface_(@interface)
-                                            .Where((Class concreteClass) =>
+                                            .Where((concreteClass) =>
                                             {
                                                 bool b = concreteClass.Type.IsGenericType && concreteClass.Type.GetGenericArguments().Length == nbGenericParameters;
                                                 return b;
@@ -68,7 +68,7 @@ public static class AssemblyExtension
                                             ;
 
         IEnumerable<TInterface> instances = classes
-                                           .Select((Class concreteGenericClass) => instanciatorForGeneric.GetInstance(concreteGenericClass, genericParametersType, constructorParams))
+                                           .Select((concreteGenericClass) => instanciatorForGeneric.GetInstance(concreteGenericClass, genericParametersType, constructorParams))
                                            .Cast<TInterface>();
 
         return instances.ToList();

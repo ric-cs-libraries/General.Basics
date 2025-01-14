@@ -1,7 +1,8 @@
 ﻿using General.Basics.ReflectionExtended.POO;
+using General.Basics.ReflectionExtended.POO.Extensions;
 using Xunit;
 
-namespace General.Basics.ReflectionExtended.UnitTests.POO;
+namespace General.Basics.ReflectionExtended.UnitTests.POO.Extensions;
 
 public partial class TypeExtensionTests
 {

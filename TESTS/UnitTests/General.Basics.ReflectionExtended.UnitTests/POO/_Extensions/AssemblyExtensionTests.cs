@@ -1,12 +1,13 @@
 ﻿using General.Basics.Reflection.Extensions;
 using General.Basics.ReflectionExtended.Extensions;
 using General.Basics.ReflectionExtended.POO;
+using General.Basics.ReflectionExtended.POO.Extensions;
 using System.Reflection;
 using Xunit;
 
 
 
-namespace General.Basics.ReflectionExtended.UnitTests.POO;
+namespace General.Basics.ReflectionExtended.UnitTests.POO.Extensions;
 
 public class AssemblyExtensionTests
 {
