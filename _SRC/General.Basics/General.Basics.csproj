@@ -3,11 +3,15 @@
 	<PropertyGroup>
 
 		<MyPackageMajorVersion>$(MyGeneralBasics_MajorVersion)</MyPackageMajorVersion>
-		<MyPackageMinorVersion>2</MyPackageMinorVersion>
+		<MyPackageMinorVersion>3</MyPackageMinorVersion>
 		<MyPackagePatchVersion>0</MyPackagePatchVersion>
 
 		<Description>
-			v4.2.0 : ajout IStringConverter et StringConverterBase  (decorators like).
+            v4.3.0 : DateTimeOffsetExtension :
+                - chgt nom namespace -&gt; General.Basics.Extensions.Dates.Static
+                - DateTimeOffsetExtension.GetCurrentTimeStamp_() -&gt; en SECONDS et non plus milliseconds !!
+                - nouvelle : DateTimeOffsetExtension.GetCurrentMsTimeStamp_() -&gt; en milliseconds !
+                - Pas d'incrém. numéro version majeure (pas 5), car maîtrisé... par ailleurs.
 		</Description>
 
 	</PropertyGroup>
