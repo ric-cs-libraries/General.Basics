@@ -1,9 +1,6 @@
 using Xunit;
 
 
-using General.Basics.Generators;
-
-
 namespace General.Basics.Generators.UnitTests;
 
 public class IdsGeneratorTests
@@ -76,18 +73,35 @@ public class IdsGeneratorTests
     }
 
     [Fact]
-    public void GetNextGuidId_WhenCalled_ShouldReturnAnUniqueGuid()
+    public void NewGuid_WhenCalled_ShouldReturnAnUniqueGuid()
     {
         //--- Arrange ---
         var IdsGenerator = Generators.IdsGenerator.Create();
 
         //--- Act & Assert ---
         List<string> guids = new();
-        foreach(var _ in Enumerable.Range(1,100))
+        foreach (var _ in Enumerable.Range(1, 100))
         {
-            var guid = IdsGenerator.GetNextGuidId;
+            var guid = IdsGenerator.NewGuid;
             Assert.DoesNotContain(guid, guids);
             guids.Add(guid);
         }
     }
+
+    [Fact]
+    public void NewTimestampedGuid_WhenCalled_ShouldReturnAnUniqueString()
+    {
+        //--- Arrange ---
+        var IdsGenerator = Generators.IdsGenerator.Create();
+
+        //--- Act & Assert ---
+        List<string> ids = new();
+        foreach (var _ in Enumerable.Range(1, 100))
+        {
+            var id = IdsGenerator.NewTimestampedGuid;
+            Assert.DoesNotContain(id, ids);
+            ids.Add(id);
+        }
+    }
+
 }

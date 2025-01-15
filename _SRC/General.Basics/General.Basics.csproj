@@ -3,14 +3,13 @@
 	<PropertyGroup>
 
 		<MyPackageMajorVersion>$(MyGeneralBasics_MajorVersion)</MyPackageMajorVersion>
-		<MyPackageMinorVersion>3</MyPackageMinorVersion>
+		<MyPackageMinorVersion>4</MyPackageMinorVersion>
 		<MyPackagePatchVersion>0</MyPackagePatchVersion>
 
 		<Description>
-            v4.3.0 : DateTimeOffsetExtension :
-                - chgt nom namespace -&gt; General.Basics.Extensions.Dates.Static
-                - DateTimeOffsetExtension.GetCurrentTimeStamp_() -&gt; en SECONDS et non plus milliseconds !!
-                - nouvelle : DateTimeOffsetExtension.GetCurrentMsTimeStamp_() -&gt; en milliseconds !
+            v4.4.0 : 
+                - Ajout de IdsGenerator.NewTimestampedGuid (unique string prefixed by current timeestamp in milliseconds)
+                - Renommage de IdsGenerator.GetNextGuidId en IdsGenerator.NewGuid, et devient également static !
                 - Pas d'incrém. numéro version majeure (pas 5), car maîtrisé... par ailleurs.
 		</Description>
 

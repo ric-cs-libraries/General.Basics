@@ -1,4 +1,5 @@
-﻿using System.Diagnostics;
+﻿using General.Basics.Extensions.Dates.Static;
+using System.Diagnostics;
 
 
 namespace General.Basics.Generators;
@@ -9,12 +10,14 @@ public class IdsGenerator
     public const int DEFAULT_INITIAL_INT_ID = 0;
     public const int DEFAULT_INT_ID_STEP = 1;
 
+    private const string DEFAULT_SEPARATOR = "_";
 
-    public string GetNextGuidId => Guid.NewGuid().ToString();
 
+    public static string NewGuid => Guid.NewGuid().ToString();
+    public static string NewTimestampedGuid => $"{DateTimeOffsetExtension.GetCurrentMsTimeStamp_()}{DEFAULT_SEPARATOR}{NewGuid}";
 
     public int InitialIntId { get; }
-    public int CurrentIntId { get; private set;  }
+    public int CurrentIntId { get; private set; }
     public int IntIdStep { get; }
 
     private IdsGenerator(int initialIntId = DEFAULT_INITIAL_INT_ID, int intIdStep = DEFAULT_INT_ID_STEP)
