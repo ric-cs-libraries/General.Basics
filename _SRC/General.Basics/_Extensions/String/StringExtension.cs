@@ -78,14 +78,7 @@ public static class StringExtension
         bool result = false;
         if (!str.IsEmpty_())
         {
-            foreach (char chr in str)
-            {
-                result = (chr == theOnlyCharToFind);
-                if (!result)
-                {
-                    break;
-                }
-            }
+            result = str.All(chr => chr == theOnlyCharToFind);
         }
         return result;
     }
