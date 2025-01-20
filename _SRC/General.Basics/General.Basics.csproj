@@ -3,14 +3,13 @@
 	<PropertyGroup>
 
 		<MyPackageMajorVersion>$(MyGeneralBasics_MajorVersion)</MyPackageMajorVersion>
-		<MyPackageMinorVersion>4</MyPackageMinorVersion>
+		<MyPackageMinorVersion>0</MyPackageMinorVersion>
 		<MyPackagePatchVersion>0</MyPackagePatchVersion>
 
 		<Description>
-            v4.4.0 : 
-                - Ajout de IdsGenerator.NewTimestampedGuid (unique string prefixed by current timeestamp in milliseconds)
-                - Renommage de IdsGenerator.GetNextGuidId en IdsGenerator.NewGuid, et devient également static !
-                - Pas d'incrém. numéro version majeure (pas 5), car maîtrisé... par ailleurs.
+            v5.0 : 
+                  - IEnumerableExtension : ajout de ToStringAsArray_() sur IEnumerable&lt;char&gt; , (non testé).
+                  - Renommage de GetSomePropertiesNameAndValue en GetSomePropertiesNameAndValue_.
 		</Description>
 
 	</PropertyGroup>

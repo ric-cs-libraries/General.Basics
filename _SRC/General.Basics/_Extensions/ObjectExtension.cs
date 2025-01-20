@@ -4,7 +4,7 @@ namespace General.Basics.Extensions;
 
 public static class ObjectExtension
 {
-    public static Dictionary<string, string> GetSomePropertiesNameAndValue(this object obj, HashSet<string> propertiesOnlyOfName, HashSet<Type> propertiesOnlyOfType)
+    public static Dictionary<string, string> GetSomePropertiesNameAndValue_(this object obj, HashSet<string> propertiesOnlyOfName, HashSet<Type> propertiesOnlyOfType)
     {
         Dictionary<string, string> result = new();
 

@@ -21,4 +21,10 @@ public static partial class IEnumerableExtension
         string stringsAsArray = $"['{string.Join("', '", strings)}']";
         return stringsAsArray;
     }
+
+    public static string ToStringAsArray_(this IEnumerable<char> chars)
+    {
+        string charsAsArray = $"['{string.Join("', '", chars)}']";
+        return charsAsArray;
+    }
 }
