@@ -3,13 +3,14 @@
 	<PropertyGroup>
 
 		<MyPackageMajorVersion>$(MyGeneralBasics_MajorVersion)</MyPackageMajorVersion>
-		<MyPackageMinorVersion>0</MyPackageMinorVersion>
+		<MyPackageMinorVersion>1</MyPackageMinorVersion>
 		<MyPackagePatchVersion>0</MyPackagePatchVersion>
 
 		<Description>
-            v5.0 : 
-                  - IEnumerableExtension : ajout de ToStringAsArray_() sur IEnumerable&lt;char&gt; , (non testé).
-                  - Renommage de GetSomePropertiesNameAndValue en GetSomePropertiesNameAndValue_.
+                     v5.1 : 
+                           - StringExtension, ajout de :
+                                                         . public static string[] Split_(this string str, string separator)
+                                                         . public static string[] Split_(this string str, char separator)
 		</Description>
 
 	</PropertyGroup>

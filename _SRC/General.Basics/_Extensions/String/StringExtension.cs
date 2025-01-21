@@ -311,4 +311,16 @@ public static class StringExtension
     {
         return str.Replace('\\', '/');
     }
+
+    /// <returns> Contrary to the original Split(), Split_() will return an EMPTY string[], if str is empty</returns>
+    public static string[] Split_(this string str, string separator)
+    {
+        return (str.IsEmpty_()) ? Array.Empty<string>() : str.Split(separator);
+    }
+
+    /// <returns> Contrary to the original Split(), Split_() will return an EMPTY string[], if str is empty</returns>
+    public static string[] Split_(this string str, char separator)
+    {
+        return (str.IsEmpty_()) ? Array.Empty<string>() : str.Split(separator);
+    }
 }
