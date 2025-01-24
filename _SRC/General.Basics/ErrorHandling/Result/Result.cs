@@ -112,7 +112,7 @@ public class Result<TValue> : Result
         get
         {
             if (!IsSuccess)
-                throw new UnavailableResultValueException();
+                throw new UnavailableResultValueException(this);
             return _value;
         }
     }

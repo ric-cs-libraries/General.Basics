@@ -3,14 +3,12 @@
 	<PropertyGroup>
 
 		<MyPackageMajorVersion>$(MyGeneralBasics_MajorVersion)</MyPackageMajorVersion>
-		<MyPackageMinorVersion>1</MyPackageMinorVersion>
+		<MyPackageMinorVersion>2</MyPackageMinorVersion>
 		<MyPackagePatchVersion>0</MyPackagePatchVersion>
 
 		<Description>
-                     v5.1 : 
-                           - StringExtension, ajout de :
-                                                         . public static string[] Split_(this string str, string separator)
-                                                         . public static string[] Split_(this string str, char separator)
+                     v5.2 : 
+                            - Result, in case of UnavailableResultValueException : informations about the Error are now provided.
 		</Description>
 
 	</PropertyGroup>

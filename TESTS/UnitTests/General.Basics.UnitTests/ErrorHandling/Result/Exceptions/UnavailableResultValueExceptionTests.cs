@@ -1,9 +1,6 @@
 using Xunit;
 
 
-using General.Basics.ErrorHandling;
-
-
 namespace General.Basics.ErrorHandling.UnitTests;
 
 public class UnavailableResultValueExceptionTests
@@ -13,14 +10,16 @@ public class UnavailableResultValueExceptionTests
     public void Instanciation___TheExceptionShouldContainTheCorrectMessage()
     {
         //--- Arrange ---
-        var ex = new UnavailableResultValueException();
+        Error error = new Error(code: "20", debugMessageTemplate: "A");
+        Result result_ = Result.NotOk(error);
+        var ex = new UnavailableResultValueException(result_);
 
 
         //--- Act ---
         var result = ex.Message;
 
         //--- Assert ---
-        var expectedMessage = UnavailableResultValueException.MESSAGE;
+        var expectedMessage = string.Format(UnavailableResultValueException.MESSAGE, result_.Error!.ToString());
         Assert.Equal(expectedMessage, result);
     }
 }

@@ -98,6 +98,7 @@ public class ResultTests
         Result<MyClass> result = Result<MyClass>.NotOk(ERROR);
 
         var ex = Assert.Throws<UnavailableResultValueException>(() => result.Value);
+        Assert.Equal(string.Format(UnavailableResultValueException.MESSAGE, ERROR.ToString()), ex.Message);
     }
 
     [Fact]
@@ -130,9 +131,7 @@ public class ResultTests
         Assert.Equal(error, result.Errors![0]);
 
         var ex = Assert.Throws<UnavailableResultValueException>(() => result.Value);
-
-        var expectedMessage = UnavailableResultValueException.MESSAGE;
-        Assert.Equal(expectedMessage, ex.Message);
+        Assert.Equal(string.Format(UnavailableResultValueException.MESSAGE, error.ToString()), ex.Message);
     }
 
 
@@ -156,6 +155,7 @@ public class ResultTests
         Result<MyClass> result = Result<MyClass>.NotOk(ERROR);
 
         var ex = Assert.Throws<UnavailableResultValueException>(() => { MyClass? v = result; });   //Implicit Operator : Result<MyClass> ---> MyClass
+        Assert.Equal(string.Format(UnavailableResultValueException.MESSAGE, ERROR.ToString()), ex.Message);
     }
 }
 
