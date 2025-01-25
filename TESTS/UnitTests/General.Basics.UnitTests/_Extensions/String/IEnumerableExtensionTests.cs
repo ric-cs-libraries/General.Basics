@@ -43,4 +43,36 @@ public partial class IEnumerableExtensionTests
     }
     #endregion ToString_
 
+    #region ToStringAsArray_ for IEnumerable<string>
+    [Theory]
+    [InlineData(new string[0], "[]")]
+    [InlineData(new[] { "" }, "['']")]
+    [InlineData(new[] { "a" }, "['a']")]
+    [InlineData(new[] { "a", "x" }, "['a', 'x']")]
+    [InlineData(new[] { "a", "bb", "cc" }, "['a', 'bb', 'cc']")]
+    public void ToStringAsArray_ForStrings_ShouldReturnTheCorrectString(IEnumerable<string> strings, string expectedResult)
+    {
+        //--- Act ---
+        var result = strings.ToStringAsArray_();
+
+        //--- Assert ---
+        Assert.Equal(expectedResult, result);
+    }
+
+    [Theory]
+    [InlineData(new char[0], "[]")]
+    [InlineData(new[] { 'a' }, "['a']")]
+    [InlineData(new[] { 'a', 'x' }, "['a', 'x']")]
+    [InlineData(new[] { 'a', 'b', 'c' }, "['a', 'b', 'c']")]
+    public void ToStringAsArray_ForChars_ShouldReturnTheCorrectString(IEnumerable<char> chars, string expectedResult)
+    {
+        //--- Act ---
+        var result = chars.ToStringAsArray_();
+
+        //--- Assert ---
+        Assert.Equal(expectedResult, result);
+    }
+
+    #endregion ToStringAsArray_
+
 }

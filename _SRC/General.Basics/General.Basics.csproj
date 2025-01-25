@@ -4,11 +4,11 @@
 
 		<MyPackageMajorVersion>$(MyGeneralBasics_MajorVersion)</MyPackageMajorVersion>
 		<MyPackageMinorVersion>2</MyPackageMinorVersion>
-		<MyPackagePatchVersion>0</MyPackagePatchVersion>
+		<MyPackagePatchVersion>1</MyPackagePatchVersion>
 
 		<Description>
-                     v5.2 : 
-                            - Result, in case of UnavailableResultValueException : informations about the Error are now provided.
+                     v5.2.1 : 
+                            - String/IEnumerableExtension : ToStringAsArray_() x 2, displayed [''] instead of [] when IEnumerable was empty.
 		</Description>
 
 	</PropertyGroup>

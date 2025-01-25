@@ -18,13 +18,13 @@ public static partial class IEnumerableExtension
 
     public static string ToStringAsArray_(this IEnumerable<string> strings)
     {
-        string stringsAsArray = $"['{string.Join("', '", strings)}']";
-        return stringsAsArray;
+        string stringsAsArray = (strings.Any()) ? $"'{string.Join("', '", strings)}'" : string.Empty;
+        return $"[{stringsAsArray}]";
     }
 
     public static string ToStringAsArray_(this IEnumerable<char> chars)
     {
-        string charsAsArray = $"['{string.Join("', '", chars)}']";
-        return charsAsArray;
+        string charsAsArray = (chars.Any()) ? $"'{string.Join("', '", chars)}'" : string.Empty;
+        return $"[{charsAsArray}]";
     }
 }
