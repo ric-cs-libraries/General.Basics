@@ -8,6 +8,6 @@ public class UnavailableResultValueException : Exception
 
     public UnavailableResultValueException(Result result) : base("")
     {
-        Message = string.Format(MESSAGE, result.Error!.ToString());
+        Message = string.Format(MESSAGE, result.ToString());
     }
 }

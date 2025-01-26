@@ -19,7 +19,7 @@ public class UnavailableResultValueExceptionTests
         var result = ex.Message;
 
         //--- Assert ---
-        var expectedMessage = string.Format(UnavailableResultValueException.MESSAGE, result_.Error!.ToString());
+        var expectedMessage = string.Format(UnavailableResultValueException.MESSAGE, result_.ToString());
         Assert.Equal(expectedMessage, result);
     }
 }
