@@ -1,23 +1,26 @@
 ﻿using General.Basics.Extensions;
+using General.Basics.Reflection.Extensions;
 
 
 namespace General.Basics.ErrorHandling;
 
-public record Error
+public record Error //With Mandatory Code
 {
+    protected virtual bool IsCodeMandatory => true;
     public string Code { get; }
 
     public string DebugMessageTemplate { get; }
     public IEnumerable<string?>? PlaceholderValues { get; }
     public string DebugMessage { get; private set; } = null!;
 
-    public virtual string Type => GetType().Name;
-    protected string Kind => $"{Type} '{Code}'";
+    public virtual string Type => GetType().GetName_();
+    public string Kind => Type + ((Code.IsEmpty_()) ? string.Empty : $" '{Code}'");
 
-    public Error(string code, string debugMessageTemplate = "", IEnumerable<string?>? placeholderValues = null)
+
+    public Error(string code, string debugMessageTemplate, IEnumerable<string?>? placeholderValues)
     {
         Code = code.Trim();
-        if (Code == string.Empty)
+        if (IsCodeMandatory && Code == string.Empty)
         {
             throw new ErrorCodeIsRequiredException();
         }
@@ -25,6 +28,14 @@ public record Error
         DebugMessageTemplate = debugMessageTemplate;
         PlaceholderValues = placeholderValues ?? Enumerable.Empty<string>();
         SetDebugMessage();
+    }
+
+    public Error(string code, string debugMessageTemplate = "") : this(code, debugMessageTemplate, null)
+    {
+    }
+
+    public Error(string code, Error error) : this(code, $"{error.DebugMessage} (from {error.Type})")
+    {
     }
 
     private void SetDebugMessage()
