@@ -14,8 +14,8 @@ public class Result
     public IReadOnlyList<Error>? Errors => _errors?.AsReadOnly();
     public override string ToString()
     {
-        string errors = (IsFailure) ? $"'{string.Join("', '", Errors!.Select(error => error.Code) ?? Enumerable.Empty<string>())}'" : string.Empty;
-        var response = $"ISuccess={IsSuccess}; Errors=[{errors}]";
+        string errors = (IsFailure) ? $"'{string.Join("', '", Errors!.Select(error => (error.Code.IsEmpty_()) ? error.Type : error.Code) ?? Enumerable.Empty<string>())}'" : string.Empty;
+        var response = $"IsSuccess={IsSuccess}; Errors=[{errors}]";
         return response;
     }
 
