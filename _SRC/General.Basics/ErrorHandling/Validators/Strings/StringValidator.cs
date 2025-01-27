@@ -46,11 +46,11 @@ public record StringValidator : IValidator<string?>
     static class Errors
     {
         public static InvalidDataError NullNotAccepted(string? dataInvalidValue, string subjectLabel) =>
-            new("string.validator.nullNotAccepted", dataInvalidValue, subjectLabel);
+            new(dataInvalidValue, subjectLabel, "string.validator.nullNotAccepted");
         public static InvalidDataError EmptyNotAccepted(string? dataInvalidValue, string subjectLabel) =>
-            new("string.validator.emptyNotAccepted", dataInvalidValue, subjectLabel);
+            new(dataInvalidValue, subjectLabel, "string.validator.emptyNotAccepted");
         public static InvalidDataError OnlySpacesNotAccepted(string? dataInvalidValue, string subjectLabel) =>
-            new("string.validator.onlySpacesNotAccepted", dataInvalidValue, subjectLabel);
+            new(dataInvalidValue, subjectLabel, "string.validator.onlySpacesNotAccepted");
     }
 
 }

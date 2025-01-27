@@ -1,14 +1,20 @@
 ﻿namespace General.Basics.ErrorHandling;
 
-public record ResourceNotFoundError : Error
+public record ResourceNotFoundError : ErrorWithOptionalCode
 {
-    public ResourceNotFoundError(string code, string? resourceValue, string resourceLabel = "Resource", string debugMessageTemplate = "{0} '{1}' not found.")
-        : this(code, debugMessageTemplate, new[] { resourceLabel, resourceValue })
-    {
-    }
+    private const string DEFAULT_DEBUG_MESSAGE_TEMPLATE = "{0} '{1}' not found.";
+    private const string DEFAULT_RESOURCE_LABEL = "Resource";
 
-    public ResourceNotFoundError(string code, string debugMessageTemplate = "Resource Not Found", IEnumerable<string?>? placeholderValues = null) 
+    public ResourceNotFoundError
+        (string debugMessageTemplate, IEnumerable<string?>? placeholderValues, string code = "")
         : base(code, debugMessageTemplate, placeholderValues)
     {
     }
+
+    public ResourceNotFoundError
+        (string? resourceValue, string resourceLabel = DEFAULT_RESOURCE_LABEL, string code = "", string debugMessageTemplate = DEFAULT_DEBUG_MESSAGE_TEMPLATE)
+        : this(debugMessageTemplate, new[] { resourceLabel, resourceValue }, code)
+    {
+    }
+
 }
