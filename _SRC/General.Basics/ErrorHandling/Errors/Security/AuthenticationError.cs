@@ -8,4 +8,8 @@ public record AuthenticationError : ErrorWithOptionalCode
         : base(code, debugMessageTemplate, placeholderValues)
     {
     }
+
+    public AuthenticationError(string code, Error error) : base(code, error)
+    {
+    }
 }

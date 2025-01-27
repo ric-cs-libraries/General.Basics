@@ -16,4 +16,8 @@ public record InvalidDataError : ErrorWithOptionalCode
         : base(code, debugMessageTemplate, new[] { dataInvalidValue, dataLabel })
     {
     }
+
+    public InvalidDataError(string code, Error error) : base(code, error)
+    {
+    }
 }

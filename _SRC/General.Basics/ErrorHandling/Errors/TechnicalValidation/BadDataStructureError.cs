@@ -13,4 +13,8 @@ public record BadDataStructureError : ErrorWithOptionalCode
         : base(code, debugMessageTemplate, placeholderValues)
     {
     }
+
+    public BadDataStructureError(string code, Error error) : base(code, error)
+    {
+    }
 }

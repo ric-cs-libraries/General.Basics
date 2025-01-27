@@ -13,4 +13,8 @@ public record InvalidGuidError : InvalidDataError
         : base(invalidGuid, guidLabel, code, debugMessageTemplate)
     {
     }
+
+    public InvalidGuidError(string code, Error error) : base(code, error)
+    {
+    }
 }

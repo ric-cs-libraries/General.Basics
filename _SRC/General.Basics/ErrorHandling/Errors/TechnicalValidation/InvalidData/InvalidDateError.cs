@@ -13,4 +13,8 @@ public record InvalidDateError : InvalidDataError
         : base(invalidDate, dateLabel, code, debugMessageTemplate)
     {
     }
+
+    public InvalidDateError(string code, Error error) : base(code, error)
+    {
+    }
 }

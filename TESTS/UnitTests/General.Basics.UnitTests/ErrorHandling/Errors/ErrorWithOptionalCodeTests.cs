@@ -111,6 +111,48 @@ public class ErrorWithOptionalCodeTests
         Assert.Equal($"{nameof(ErrorWithOptionalCode)}", error2.Kind);
     }
 
+    [Fact]
+    public void Instanciation_WhenAnErrorAndACodeAreGiven_ShouldCorrectlyInitializeTheInstance()
+    {
+        //--- Arrange---
+        string debugMessageTemplate = "Customer name length must be between {0} and {1}.";
+        IEnumerable<string> placeholderValues = new[] { "2", "70" };
+        BusinessRuleViolationError businessRuleViolationError = new(debugMessageTemplate, placeholderValues);
+        var applicationUseCaseErrorCode = "invalid.customer.name.length";
+
+        //--- Act ---
+        var error = new ErrorWithOptionalCode(applicationUseCaseErrorCode, businessRuleViolationError);
+
+        //--- Assert ---
+        var expectedDebugMessage = string.Format(debugMessageTemplate, placeholderValues.ToArray()) + $" (from {businessRuleViolationError.Type})";
+        Assert.Equal(applicationUseCaseErrorCode, error.Code);
+        Assert.Equal(expectedDebugMessage, error.DebugMessageTemplate);
+        Assert.Equal(expectedDebugMessage, error.DebugMessage);
+        Assert.Empty(error.PlaceholderValues!);
+        Assert.Equal(nameof(ErrorWithOptionalCode), error.Type);
+        Assert.Equal($"{nameof(ErrorWithOptionalCode)} '{applicationUseCaseErrorCode}'", error.Kind);
+    }
+
+    [Fact]
+    public void Instanciation_WhenAnErrorAndACodeAreGiven_ShouldCorrectlyInitializeTheInstance_2()
+    {
+        //--- Arrange---
+        Fixtures.CustomerNameLengthError customerNameLengthError = new(minLength: 2, maxLength: 70);
+        var applicationUseCaseErrorCode = Fixtures.ApplicationCreateCustomerUseCase_NameLengthError.ERROR_CODE;
+
+        //--- Act ---
+        var errorForWebApi = new ErrorWithOptionalCode(applicationUseCaseErrorCode, customerNameLengthError);
+
+        //--- Assert ---
+        var expectedDebugMessage = customerNameLengthError.DebugMessage + $" (from {customerNameLengthError.Type})";
+        Assert.Equal(applicationUseCaseErrorCode, errorForWebApi.Code);
+        Assert.Equal(expectedDebugMessage, errorForWebApi.DebugMessageTemplate);
+        Assert.Equal(expectedDebugMessage, errorForWebApi.DebugMessage);
+        Assert.Empty(errorForWebApi.PlaceholderValues!);
+        Assert.Equal(nameof(ErrorWithOptionalCode), errorForWebApi.Type);
+        Assert.Equal($"{nameof(ErrorWithOptionalCode)} '{applicationUseCaseErrorCode}'", errorForWebApi.Kind);
+    }
+
     #region ToString
     [Fact]
     public void ToString_WhenEveryParamHasBeenGivenToConstructor_ShouldReturnTheCorrectValue()

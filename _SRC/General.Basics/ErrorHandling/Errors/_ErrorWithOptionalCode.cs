@@ -30,4 +30,8 @@ public record ErrorWithOptionalCode : Error
         : base(code, debugMessageTemplate, placeholderValues)
     {
     }
+
+    public ErrorWithOptionalCode(string code, Error error) : base(code, error)
+    {
+    }
 }
