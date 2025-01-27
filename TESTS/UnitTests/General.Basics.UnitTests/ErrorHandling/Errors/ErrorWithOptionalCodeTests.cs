@@ -121,7 +121,7 @@ public class ErrorWithOptionalCodeTests
         var applicationUseCaseErrorCode = "invalid.customer.name.length";
 
         //--- Act ---
-        var error = new ErrorWithOptionalCode(applicationUseCaseErrorCode, businessRuleViolationError);
+        var error = new ErrorWithOptionalCode(businessRuleViolationError, applicationUseCaseErrorCode);
 
         //--- Assert ---
         var expectedDebugMessage = string.Format(debugMessageTemplate, placeholderValues.ToArray()) + $" (from {businessRuleViolationError.Type})";
@@ -141,7 +141,7 @@ public class ErrorWithOptionalCodeTests
         var applicationUseCaseErrorCode = Fixtures.ApplicationCreateCustomerUseCase_NameLengthError.ERROR_CODE;
 
         //--- Act ---
-        var errorForWebApi = new ErrorWithOptionalCode(applicationUseCaseErrorCode, customerNameLengthError);
+        var errorForWebApi = new ErrorWithOptionalCode(customerNameLengthError, applicationUseCaseErrorCode);
 
         //--- Assert ---
         var expectedDebugMessage = customerNameLengthError.DebugMessage + $" (from {customerNameLengthError.Type})";

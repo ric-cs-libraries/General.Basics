@@ -17,7 +17,7 @@ public record InvalidDataError : ErrorWithOptionalCode
     {
     }
 
-    public InvalidDataError(string code, Error error) : base(code, error)
+    public InvalidDataError(Error error, string code = "") : base(error, code)
     {
     }
 }

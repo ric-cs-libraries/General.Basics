@@ -17,7 +17,7 @@ public record ResourceNotFoundError : ErrorWithOptionalCode
     {
     }
 
-    public ResourceNotFoundError(string code, Error error) : base(code, error)
+    public ResourceNotFoundError(Error error, string code = "") : base(error, code)
     {
     }
 }

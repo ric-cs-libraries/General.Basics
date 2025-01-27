@@ -31,7 +31,7 @@ public record ErrorWithOptionalCode : Error
     {
     }
 
-    public ErrorWithOptionalCode(string code, Error error) : base(code, error)
+    public ErrorWithOptionalCode(Error error, string code = "") : base(code, error)
     {
     }
 }

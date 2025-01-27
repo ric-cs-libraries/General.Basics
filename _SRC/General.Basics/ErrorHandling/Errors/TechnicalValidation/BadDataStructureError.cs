@@ -14,7 +14,7 @@ public record BadDataStructureError : ErrorWithOptionalCode
     {
     }
 
-    public BadDataStructureError(string code, Error error) : base(code, error)
+    public BadDataStructureError(Error error, string code = "") : base(error, code)
     {
     }
 }

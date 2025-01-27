@@ -9,7 +9,7 @@ public record AuthenticationError : ErrorWithOptionalCode
     {
     }
 
-    public AuthenticationError(string code, Error error) : base(code, error)
+    public AuthenticationError(Error error, string code = "") : base(error, code)
     {
     }
 }

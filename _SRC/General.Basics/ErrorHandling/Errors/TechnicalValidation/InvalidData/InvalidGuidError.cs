@@ -14,7 +14,7 @@ public record InvalidGuidError : InvalidDataError
     {
     }
 
-    public InvalidGuidError(string code, Error error) : base(code, error)
+    public InvalidGuidError(Error error, string code = "") : base(error, code)
     {
     }
 }

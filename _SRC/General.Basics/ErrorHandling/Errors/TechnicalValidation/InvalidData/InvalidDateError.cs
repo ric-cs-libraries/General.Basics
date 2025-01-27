@@ -14,7 +14,7 @@ public record InvalidDateError : InvalidDataError
     {
     }
 
-    public InvalidDateError(string code, Error error) : base(code, error)
+    public InvalidDateError(Error error, string code = "") : base(error, code)
     {
     }
 }
