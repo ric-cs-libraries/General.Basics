@@ -3,12 +3,18 @@
 	<PropertyGroup>
 
 		<MyPackageMajorVersion>$(MyGeneralBasics_MajorVersion)</MyPackageMajorVersion>
-		<MyPackageMinorVersion>2</MyPackageMinorVersion>
-		<MyPackagePatchVersion>1</MyPackagePatchVersion>
+		<MyPackageMinorVersion>0</MyPackageMinorVersion>
+		<MyPackagePatchVersion>0</MyPackagePatchVersion>
 
 		<Description>
-                     v5.2.1 : 
-                            - String/IEnumerableExtension : ToStringAsArray_() x 2, displayed [''] instead of [] when IEnumerable was empty.
+                       v6.0.0 : 
+                               - Nouveau record : ErrorWithOptionalCode héritant de Error.
+                               - Ajout au record Error, d'un nouveau constructeur 
+                                  (pour réexploiter le DebugMessage d'une instance d'Error existante, et attribuer un code) : 
+                                 public Error(string code, Error error) : this(code, $"{error.DebugMessage} (from {error.Type})")
+                               - Gros changements dans la hiérarchie Error :
+                                 . Les divers record existant héritent désormais de ErrorWithOptionalCode
+                                 . Grosses modifs sur leur nb. de constructeurs, et l'ordre des params... ATTENTION !
 		</Description>
 
 	</PropertyGroup>
