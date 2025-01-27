@@ -3,13 +3,10 @@ using General.Basics.Reflection.Extensions;
 
 namespace General.Basics.ErrorHandling;
 
-public record ExceptionAsError : Error
+public record ExceptionAsError : ErrorWithOptionalCode
 {
-    public ExceptionAsError(Exception exception) : this(exception, prefixMessage: string.Empty)
-    {
-    }
-
-    public ExceptionAsError(Exception exception, string prefixMessage) : base(code: exception.GetType().GetName_(), debugMessageTemplate: $"{prefixMessage}{exception.Message}", placeholderValues: null)
+    public ExceptionAsError(Exception exception, string prefixMessage = "", string code = "")
+        : base(code, debugMessageTemplate: $"({exception.GetType().GetName_()}) - {prefixMessage}{exception.Message}", placeholderValues: null)
     {
     }
 }
