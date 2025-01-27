@@ -62,5 +62,4 @@ public record Error //With Mandatory Code
     public sealed override string ToString() => ToString_(); //"sealed" pour permettre aux records enfants de bénéficier de cette redéf. de ToString().
 
     //public static implicit operator string(Error error) => error.ToString_();
-
 }
