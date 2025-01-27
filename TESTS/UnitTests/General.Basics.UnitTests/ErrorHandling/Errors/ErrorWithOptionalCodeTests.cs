@@ -47,11 +47,8 @@ public class ErrorWithOptionalCodeTests
         Assert.Equal($"{nameof(ErrorWithOptionalCode)} '{code}'", error.Kind);
     }
 
-    [Theory]
-    [InlineData("")]
-    [InlineData(" ")]
-    [InlineData("   ")]
-    public void Instanciation_WhenOnlyDebugMessageTemplateIsGiven_ShouldShouldCorrectlyInitializeTheInstance(string emptyCode)
+    [Fact]
+    public void Instanciation_WhenOnlyDebugMessageTemplateIsGiven_ShouldShouldCorrectlyInitializeTheInstance()
     {
         //--- Arrange ---
         var debugMessageTemplate = "someMsg";
