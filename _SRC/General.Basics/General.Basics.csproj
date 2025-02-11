@@ -3,18 +3,12 @@
 	<PropertyGroup>
 
 		<MyPackageMajorVersion>$(MyGeneralBasics_MajorVersion)</MyPackageMajorVersion>
-		<MyPackageMinorVersion>0</MyPackageMinorVersion>
+		<MyPackageMinorVersion>1</MyPackageMinorVersion>
 		<MyPackagePatchVersion>0</MyPackagePatchVersion>
 
 		<Description>
-                       v6.0.0 : 
-                               - Nouveau record : ErrorWithOptionalCode héritant de Error.
-                               - Ajout au record Error, d'un nouveau constructeur 
-                                  (pour réexploiter le DebugMessage d'une instance d'Error existante, et attribuer un code) : 
-                                 public Error(string code, Error error) : this(code, $"{error.DebugMessage} (from {error.Type})")
-                               - Gros changements dans la hiérarchie Error :
-                                 . Les divers record existant héritent désormais de ErrorWithOptionalCode
-                                 . Grosses modifs sur leur nb. de constructeurs, et l'ordre des params... ATTENTION !
+                       v6.1.0 : 
+                               - Add Extension Method : T Recurse&lt;T&gt;(this Func&lt;T, T&gt; func, T firstCallParam, int nbRecurse)
 		</Description>
 
 	</PropertyGroup>
