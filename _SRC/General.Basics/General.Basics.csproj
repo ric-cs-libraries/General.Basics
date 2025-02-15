@@ -3,12 +3,14 @@
 	<PropertyGroup>
 
 		<MyPackageMajorVersion>$(MyGeneralBasics_MajorVersion)</MyPackageMajorVersion>
-		<MyPackageMinorVersion>1</MyPackageMinorVersion>
+		<MyPackageMinorVersion>2</MyPackageMinorVersion>
 		<MyPackagePatchVersion>0</MyPackagePatchVersion>
 
 		<Description>
-                       v6.1.0 : 
-                               - Add Extension Method : T Recurse&lt;T&gt;(this Func&lt;T, T&gt; func, T firstCallParam, int nbRecurse)
+                       v6.2.0 : 
+                               - Add EnumExtension static Methods : 
+                                    . TEnum? ToValueOf&lt;TEnum&gt;(object valueToBeConverted)
+                                    . TEnum GetMaxValue&lt;TEnum&gt;()									
 		</Description>
 
 	</PropertyGroup>
