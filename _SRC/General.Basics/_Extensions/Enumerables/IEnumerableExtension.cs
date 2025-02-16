@@ -31,7 +31,7 @@ public static partial class IEnumerableExtension
     {
         if (!enumerable.IsValidIndex_(index))
         {
-            var subject =  enumerable.GetType().Name;
+            var subject = enumerable.GetType().Name;
             int maxIndex = enumerable.Count() - 1;
 
             if (maxIndex < 0)
@@ -89,7 +89,7 @@ public static partial class IEnumerableExtension
         if (chunkLength == 0 || enumerable.IsEmpty_())
             return Enumerable.Empty<T>();
 
-        int startIndex = enumerable.GetLastIndex_()!.Value - (chunkLength-1);
+        int startIndex = enumerable.GetLastIndex_()!.Value - (chunkLength - 1);
         var result = enumerable.GetChunk_(startIndex);
         return result;
     }
@@ -178,5 +178,16 @@ public static partial class IEnumerableExtension
             }
         }
         return exceedingElements;
+    }
+
+    public static IEnumerable<T> RotateLeft_<T>(this IEnumerable<T> enumerable, int nbRotations)
+    {
+        if (nbRotations < 0)
+        {
+            throw new MustBePositiveIntegerException(nbRotations, nameof(nbRotations));
+        }
+        nbRotations %= enumerable.Count();
+
+        return enumerable.Skip(nbRotations).Concat(enumerable.Take(nbRotations));
     }
 }

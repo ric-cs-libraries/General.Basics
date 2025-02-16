@@ -586,6 +586,43 @@ public partial class IEnumerableExtensionTests
     }
     #endregion ToChunks_
 
+    #region RotateLeft_
+    [Theory]
+    [InlineData(0, new[] { "A", "B", "C", "D", "e" }, new[] { "A", "B", "C", "D", "e" })]
+    [InlineData(1, new[] { "A", "B", "C", "D", "e" }, new[] { "B", "C", "D", "e", "A" })]
+    [InlineData(2, new[] { "A", "B", "C", "D", "e" }, new[] { "C", "D", "e", "A", "B" })]
+    [InlineData(3, new[] { "A", "B", "C", "D", "e" }, new[] { "D", "e", "A", "B", "C" })]
+    [InlineData(4, new[] { "A", "B", "C", "D", "e" }, new[] { "e", "A", "B", "C", "D" })]
+    [InlineData(5, new[] { "A", "B", "C", "D", "e" }, new[] { "A", "B", "C", "D", "e" })]
+    [InlineData(6, new[] { "A", "B", "C", "D", "e" }, new[] { "B", "C", "D", "e", "A" })]
+    [InlineData(7, new[] { "A", "B", "C", "D", "e" }, new[] { "C", "D", "e", "A", "B" })]
+    [InlineData(8, new[] { "A", "B", "C", "D", "e" }, new[] { "D", "e", "A", "B", "C" })]
+    [InlineData(10, new[] { "A", "B", "C", "D", "e" }, new[] { "A", "B", "C", "D", "e" })]
+    [InlineData(11, new[] { "A", "B", "C", "D", "e" }, new[] { "B", "C", "D", "e", "A" })]
+    public void RotateLeft_WhenNbRotationsIsValid_ShouldReturnTheCorrectEnumerable(int nbRotations, IEnumerable<string> inputEnumerable, IEnumerable<string> expectedEnumerable)
+    {
+        //--- Act ---
+        IEnumerable<string> outputEnumerable = inputEnumerable.RotateLeft_<string>(nbRotations);
+
+        //--- Assert ---
+        Assert.Equal(expectedEnumerable, outputEnumerable);
+    }
+
+
+    [Fact]
+    public void RotateLeft__WhenNbRotationsIsNegative_ShouldThrowAMustBePositiveIntegerExceptionWithTheCorrectMessage()
+    {
+        //--- Arrange ---
+        int nbRotations = -1;
+
+        //--- Act & Assert ---
+        var ex = Assert.Throws<MustBePositiveIntegerException>(() => (new[] { 10, 20 }).RotateLeft_(nbRotations));
+
+        var expectedMessage = string.Format(MustBePositiveIntegerException.MESSAGE_FORMAT, "nbRotations", nbRotations);
+        Assert.Equal(expectedMessage, ex.Message);
+    }
+    #endregion RotateLeft_
+
 
     //=============================================================================================
     class UnexistingChunkBoundsData : TheoryData<int, int>

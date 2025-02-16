@@ -10,7 +10,9 @@
                        v6.2.0 : 
                                - Add EnumExtension static Methods : 
                                     . TEnum? ToValueOf&lt;TEnum&gt;(object valueToBeConverted)
-                                    . TEnum GetMaxValue&lt;TEnum&gt;()									
+                                    . TEnum GetMaxValue&lt;TEnum&gt;()
+                               - Add IEnumerable&lt;T&gt; extension method :
+                                    . IEnumerable&lt;T&gt; RotateLeft_&lt;T&gt;(this IEnumerable&lt;T&gt; enumerable, int nbRotations)						   
 		</Description>
 
 	</PropertyGroup>
