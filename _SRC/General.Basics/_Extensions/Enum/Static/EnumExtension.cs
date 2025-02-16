@@ -5,9 +5,9 @@ public static class EnumExtension
     public static TEnum GetMaxValue<TEnum>()
         where TEnum : struct, Enum
     {
-        TEnum[] enumAllEnumValues = Enum.GetValues<TEnum>();
-        TEnum lastEnumValue = enumAllEnumValues[^1];
-        return lastEnumValue;
+        IEnumerable<int> enumAllEnumValues = Enum.GetValues<TEnum>().Cast<int>().OrderByDescending(i => i);
+        int maxValue = enumAllEnumValues.First();
+        return (TEnum)ToValueOf<TEnum>(maxValue)!;
     }
 
     /// <returns>null if can not be converted to a value from the TEnum enum</returns>
