@@ -623,6 +623,23 @@ public partial class IEnumerableExtensionTests
     }
     #endregion RotateLeft_
 
+    #region IntersectWithAsync_
+    [Theory]
+    [InlineData(new[] { 10, 20, 30, 40, 50, 20, 40, 70 }, new[] { 11, 12, 50, 13, 14, 20, 15 }, new[] { 20, 50 })]
+    [InlineData(new[] { 11, 12, 50, 13, 50, 14, 20, 15 }, new[] { 10, 20, 30, 40, 50, 20, 40, 70 }, new[] { 20, 50 })]
+    [InlineData(new[] { 11, 12, 13, 14, 15 }, new[] { 10, 20, 30, 40, 50 }, new int[0])]
+    [InlineData(new int[0], new int[0], new int[0])]
+    public async Task IntersectWithAsync__ShouldReturnTheCorrectIntersection
+        (IEnumerable<int> enumerable1, IEnumerable<int> enumerable2, IEnumerable<int> expectedIntersect)
+    {
+        //--- Act & Assert ---
+        HashSet<int> result = await enumerable1.IntersectWithAsync_(enumerable2);
+
+        //--- Assert ---
+        Assert.Equal(expectedIntersect.ToHashSet(), result);
+    }
+    #endregion IntersectWithAsync_
+
 
     //=============================================================================================
     class UnexistingChunkBoundsData : TheoryData<int, int>

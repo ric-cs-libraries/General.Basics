@@ -3,16 +3,13 @@
 	<PropertyGroup>
 
 		<MyPackageMajorVersion>$(MyGeneralBasics_MajorVersion)</MyPackageMajorVersion>
-		<MyPackageMinorVersion>2</MyPackageMinorVersion>
+		<MyPackageMinorVersion>3</MyPackageMinorVersion>
 		<MyPackagePatchVersion>0</MyPackagePatchVersion>
 
 		<Description>
-                       v6.2.0 : 
-                               - Add EnumExtension static Methods : 
-                                    . TEnum? ToValueOf&lt;TEnum&gt;(object valueToBeConverted)
-                                    . TEnum GetMaxValue&lt;TEnum&gt;()
-                               - Add IEnumerable&lt;T&gt; extension method :
-                                    . IEnumerable&lt;T&gt; RotateLeft_&lt;T&gt;(this IEnumerable&lt;T&gt; enumerable, int nbRotations)						   
+                       v6.3.0 : 
+                               - Add IEnumerable&lt;T&gt; async extension method :
+                                    . Task&lt;HashSet&lt;T&gt;&gt; IntersectWithAsync_&lt;T&gt;(this IEnumerable&lt;T&gt; enumerable, IEnumerable&lt;T&gt; otherEnumerable);
 		</Description>
 
 	</PropertyGroup>

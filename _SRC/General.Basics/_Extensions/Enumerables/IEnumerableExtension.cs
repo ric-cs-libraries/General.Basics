@@ -190,4 +190,13 @@ public static partial class IEnumerableExtension
 
         return enumerable.Skip(nbRotations).Concat(enumerable.Take(nbRotations));
     }
+
+    public static async Task<HashSet<T>> IntersectWithAsync_<T>(this IEnumerable<T> enumerable, IEnumerable<T> otherEnumerable)
+    {
+        HashSet<T> enumerable_ = enumerable.ToHashSet();
+
+        enumerable_.IntersectWith(otherEnumerable); //Modifies enumerable_ HashSet.
+
+        return await Task.FromResult(enumerable_);
+    }
 }
