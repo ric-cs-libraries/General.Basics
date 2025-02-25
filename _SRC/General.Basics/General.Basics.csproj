@@ -3,13 +3,14 @@
 	<PropertyGroup>
 
 		<MyPackageMajorVersion>$(MyGeneralBasics_MajorVersion)</MyPackageMajorVersion>
-		<MyPackageMinorVersion>3</MyPackageMinorVersion>
+		<MyPackageMinorVersion>4</MyPackageMinorVersion>
 		<MyPackagePatchVersion>0</MyPackagePatchVersion>
 
 		<Description>
-                       v6.3.0 : 
-                               - Add IEnumerable&lt;T&gt; async extension method :
-                                    . Task&lt;HashSet&lt;T&gt;&gt; IntersectWithAsync_&lt;T&gt;(this IEnumerable&lt;T&gt; enumerable, IEnumerable&lt;T&gt; otherEnumerable);
+                       v6.4.0 : 
+                               - Add IEnumerable&lt;T&gt; 2 extension methods :
+                                 . List&lt;T&gt; OnePickEveryNElements_&lt;T&gt;(this IEnumerable&lt;T&gt; enumerable, uint startIndex, uint everyNElements, uint totalNbPicks)
+                                 . string ToStringAsArray_&lt;T&gt;(this IEnumerable&lt;T&gt; enumerable)
 		</Description>
 
 	</PropertyGroup>

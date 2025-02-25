@@ -218,7 +218,7 @@ public partial class IEnumerableExtensionTests
     }
 
     [Theory]
-    [ClassData(typeof(UnexistingChunkBoundsData))]
+    [ClassData(typeof(Fixtures.UnexistingChunkBoundsData))]
     public void ChunkExists_WhenChunkDoesntExist_ShouldReturnFalse(int startIndex, int endIndex)
     {
         var list = new List<int>() { 0, 1, 2, 3, 4, 5, 6 };
@@ -229,7 +229,7 @@ public partial class IEnumerableExtensionTests
     }
 
     [Theory]
-    [ClassData(typeof(ExistingChunkBoundsData))]
+    [ClassData(typeof(Fixtures.ExistingChunkBoundsData))]
     public void ChunkExists_WhenChunkExists_ShouldReturnTrue(int startIndex, int endIndex)
     {
         var list = new List<int>() { 0, 1, 2, 3, 4, 5, 6 };
@@ -258,7 +258,7 @@ public partial class IEnumerableExtensionTests
     }
 
     [Theory]
-    [ClassData(typeof(ExistingChunkBoundsData))]
+    [ClassData(typeof(Fixtures.ExistingChunkBoundsData))]
     public void CheckChunkExists_WhenChunkExists_ShouldNotThrowAnException(int startIndex, int endIndex)
     {
         var list = new List<int>() { 0, 1, 2, 3, 4, 5, 6 };
@@ -269,7 +269,7 @@ public partial class IEnumerableExtensionTests
     }
 
     [Theory]
-    [ClassData(typeof(UnexistingChunkBoundsData))]
+    [ClassData(typeof(Fixtures.UnexistingChunkBoundsData))]
     public void CheckChunkExists_WhenChunkDoesntExist_ShouldThrowAnUnexistingChunkException(int startIndex, int endIndex)
     {
         var list = new List<int>() { 0, 1, 2, 3, 4, 5, 6 };
@@ -301,7 +301,7 @@ public partial class IEnumerableExtensionTests
     }
 
     [Theory]
-    [ClassData(typeof(ExistingChunkBoundsDataWithResult))]
+    [ClassData(typeof(Fixtures.ExistingChunkBoundsDataWithResult))]
     public void GetChunk_WhenChunkExists_ShouldReturnTheCorrectChunk(int startIndex, int endIndex, IEnumerable<int> expectedChunk)
     {
         var list = new List<int>() { 0, 1, 2, 3, 4, 5, 6 }; ;
@@ -312,7 +312,7 @@ public partial class IEnumerableExtensionTests
     }
 
     [Theory]
-    [ClassData(typeof(UnexistingChunkBoundsData))]
+    [ClassData(typeof(Fixtures.UnexistingChunkBoundsData))]
     public void GetChunk_WhenChunkDoesntExistAndEnumerableNotEmpty_ShouldThrowAnUnexistingChunkException(int startIndex, int endIndex)
     {
         var list = new List<int>() { 0, 1, 2, 3, 4, 5, 6 }; ;
@@ -640,42 +640,182 @@ public partial class IEnumerableExtensionTests
     }
     #endregion IntersectWithAsync_
 
+    #region OnePickEveryNElements_
+    [Theory]
+    [InlineData(new[] { 10, 15, 20, 25, 30, 35, 40 }, 0u, 1u, 0u, new int[0])]
+    [InlineData(new[] { 10, 15, 20, 25, 30, 35, 40 }, 0u, 2u, 0u, new int[0])]
+    [InlineData(new[] { 10, 15, 20, 25, 30, 35, 40 }, 0u, 2u, 1u, new[] { 10 })]
+    [InlineData(new[] { 10, 15, 20, 25, 30, 35, 40 }, 0u, 2u, 2u, new[] { 10, 20 })]
+    [InlineData(new[] { 10, 15, 20, 25, 30, 35, 40 }, 0u, 2u, 3u, new[] { 10, 20, 30 })]
+    [InlineData(new[] { 10, 15, 20, 25, 30, 35, 40 }, 0u, 2u, 4u, new[] { 10, 20, 30, 40 })]
+    [InlineData(new[] { 10, 15, 20, 25, 30, 35, 40 }, 0u, 2u, 5u, new[] { 10, 20, 30, 40, 15 })]
+    [InlineData(new[] { 10, 15, 20, 25, 30, 35, 40 }, 0u, 2u, 6u, new[] { 10, 20, 30, 40, 15, 25 })]
+    [InlineData(new[] { 10, 15, 20, 25, 30, 35, 40 }, 0u, 2u, 7u, new[] { 10, 20, 30, 40, 15, 25, 35 })]
+    [InlineData(new[] { 10, 15, 20, 25, 30, 35, 40 }, 0u, 2u, 8u, new[] { 10, 20, 30, 40, 15, 25, 35, 10 })]
+    [InlineData(new[] { 10, 15, 20, 25, 30, 35, 40 }, 0u, 2u, 9u, new[] { 10, 20, 30, 40, 15, 25, 35, 10, 20 })]
+    [InlineData(new[] { 10, 15, 20, 25, 30, 35, 40 }, 0u, 2u, 10u, new[] { 10, 20, 30, 40, 15, 25, 35, 10, 20, 30 })]
+    [InlineData(new[] { 10, 15, 20, 25, 30, 35, 40 }, 0u, 2u, 11u, new[] { 10, 20, 30, 40, 15, 25, 35, 10, 20, 30, 40 })]
+    [InlineData(new[] { 10, 15, 20, 25, 30, 35, 40 }, 0u, 2u, 12u, new[] { 10, 20, 30, 40, 15, 25, 35, 10, 20, 30, 40, 15 })]
+    [InlineData(new[] { 10, 15, 20, 25, 30, 35, 40 }, 0u, 0u, 4u, new[] { 10, 10, 10, 10 })]
+    [InlineData(new[] { 10, 15, 20, 25, 30, 35, 40 }, 0u, 1u, 4u, new[] { 10, 15, 20, 25 })]
+    [InlineData(new[] { 10, 15, 20, 25, 30, 35, 40 }, 2u, 1u, 4u, new[] { 20, 25, 30, 35 })]
+    [InlineData(new[] { 10, 15, 20, 25, 30, 35, 40 }, 2u, 3u, 4u, new[] { 20, 35, 15, 30 })]
+    [InlineData(new[] { 10 }, 0u, 0u, 2u, new[] { 10, 10 })]
+    [InlineData(new[] { 10 }, 0u, 1u, 2u, new[] { 10, 10 })]
+    [InlineData(new[] { 10 }, 0u, 2u, 3u, new[] { 10, 10, 10 })]
+    [InlineData(new[] { 10 }, 0u, 5u, 4u, new[] { 10, 10, 10, 10 })]
+    [InlineData(new[] { 10, 20 }, 0u, 2u, 3u, new[] { 10, 10, 10 })]
+    [InlineData(new[] { 10, 20 }, 0u, 3u, 4u, new[] { 10, 20, 10, 20 })]
+    [InlineData(new[] { 10, 20 }, 1u, 3u, 4u, new[] { 20, 10, 20, 10 })]
+    public void OnePickEveryNElements_WhenEnumerableNotEmptyAndStartIndexIsValid_ShouldReturnTheCorrectElementsList
+        (IEnumerable<int> elements,
+         uint startIndex, uint everyNElements, uint totalNbPicks,
+         IEnumerable<int> expectedPickedElements
+        )
+    {
+        //--- Act ---
+        List<int> pickedElements = elements.OnePickEveryNElements_(startIndex, everyNElements, totalNbPicks);
+
+        //--- Assert ---
+        Assert.Equal(expectedPickedElements, pickedElements);
+    }
+
+    [Theory]
+    [InlineData(new int[0], 0u)]
+    [InlineData(new int[0], 1u)]
+    [InlineData(new int[0], 2u)]
+    public void OnePickEveryNElements_WhenEnumerableIsEmpty_ShouldThrowAnUnexistingIndexBecauseEmptyExceptionWithTheCorrectMessage
+        (IEnumerable<int> elements, uint impossibleStartIndex)
+    {
+        //--- Arrange ---
+        var anyEveryNElements = 1u;
+        var anyTotalNbPicks = 0u;
+
+        //--- Act & Assert ---
+        var ex = Assert.Throws<UnexistingIndexBecauseEmptyException>(() => elements.OnePickEveryNElements_(impossibleStartIndex, anyEveryNElements, anyTotalNbPicks));
+
+        var expectedMessage = string.Format(UnexistingIndexBecauseEmptyException.MESSAGE_FORMAT, $"{typeof(int[]).Name}", impossibleStartIndex);
+        Assert.Equal(expectedMessage, ex.Message);
+    }
+
+    [Theory]
+    [InlineData(new[] { 10 }, 1u)]
+    [InlineData(new[] { 10, 15 }, 2u)]
+    [InlineData(new[] { 10, 15 }, 3u)]
+    public void OnePickEveryNElements_WhenEnumerableNotEmptyButStartIndexIsOutOfRange_ShouldThrowAnOutOfRangeIntegerExceptionWithTheCorrectMessage
+        (IEnumerable<int> elements, uint outOfRangeStartIndex)
+    {
+        //--- Arrange ---
+        var anyEveryNElements = 1u;
+        var anyTotalNbPicks = 1u;
+        var minIndex = 0;
+        var maxIndex = elements.GetLastIndex_();
+
+        //--- Act & Assert ---
+        var ex = Assert.Throws<OutOfRangeIntegerException>(() => elements.OnePickEveryNElements_(outOfRangeStartIndex, anyEveryNElements, anyTotalNbPicks));
+
+        var expectedMessage = string.Format(OutOfRangeIntegerException.MESSAGE_FORMAT, $"{typeof(int[]).Name} Index", outOfRangeStartIndex, minIndex, maxIndex);
+        Assert.Equal(expectedMessage, ex.Message);
+    }
+    #endregion OnePickEveryNElements_
+
+    #region ToStringAsArray_
+    [Theory]
+    [ClassData(typeof(Fixtures.ToStringAsArrayData1))]
+    public void ToStringAsArray_ShouldReturnTheCorrectString_1(IEnumerable<int?> enumerable, string expectedString)
+    {
+        //--- Act ---
+        string result = enumerable.ToStringAsArray_();
+
+        //--- Assert ---
+        Assert.Equal(expectedString, result);
+    }
+
+    [Theory]
+    [ClassData(typeof(Fixtures.ToStringAsArrayData2))]
+    public void ToStringAsArray_ShouldReturnTheCorrectString_2(IEnumerable<Fixtures.SomeRecord?> enumerable, string expectedString)
+    {
+        //--- Act ---
+        string result = enumerable.ToStringAsArray_();
+
+        //--- Assert ---
+        Assert.Equal(expectedString, result);
+    }
+    #endregion ToStringAsArray_
+
 
     //=============================================================================================
-    class UnexistingChunkBoundsData : TheoryData<int, int>
+
+    public static class Fixtures
     {
-        public UnexistingChunkBoundsData()
+        internal class ToStringAsArrayData1 : TheoryData<IEnumerable<int?>, string>
         {
-            Add(-1, 0);
-            Add(1, 7);
-            Add(7, 8);
-            Add(3, 1);
-            Add(1, 0);
+            public ToStringAsArrayData1()
+            {
+                Add(new int?[] { 0, 2, 3, 4 }, $"[0, 2, 3, 4]");
+                Add(new int?[] { 0, null, 2, 3, 4, null }, $"[0, null, 2, 3, 4, null]");
+                Add(new int?[] { null }, $"[null]");
+                Add(new int?[0], $"[]");
+            }
         }
-    }
-    class ExistingChunkBoundsData : TheoryData<int, int>
-    {
-        public ExistingChunkBoundsData()
+
+        internal class ToStringAsArrayData2 : TheoryData<IEnumerable<SomeRecord?>, string>
         {
-            Add(0, 0);
-            Add(0, 1);
-            Add(0, 6);
-            Add(1, 6);
-            Add(3, 5);
-            Add(6, 6);
+            public ToStringAsArrayData2()
+            {
+                Add(new SomeRecord?[]
+                    {
+                        new SomeRecord { Bool = false, Number = 14, String = "Hello0" },
+                        null,
+                        new SomeRecord { Bool = true, Number = 15, String = "Hello1" },
+                    }, "[SomeRecord { Number = 14, Bool = False, String = Hello0 }, null, SomeRecord { Number = 15, Bool = True, String = Hello1 }]");
+            }
         }
-    }
-    class ExistingChunkBoundsDataWithResult : TheoryData<int, int, IEnumerable<int>>
-    {
-        public ExistingChunkBoundsDataWithResult()
+
+        internal class UnexistingChunkBoundsData : TheoryData<int, int>
         {
-            Add(0, 0, new[] { 0 });
-            Add(0, 1, new[] { 0, 1 });
-            Add(0, 6, new[] { 0, 1, 2, 3, 4, 5, 6 });
-            Add(1, 6, new[] { 1, 2, 3, 4, 5, 6 });
-            Add(3, 5, new[] { 3, 4, 5 });
-            Add(6, 6, new[] { 6 });
+            public UnexistingChunkBoundsData()
+            {
+                Add(-1, 0);
+                Add(1, 7);
+                Add(7, 8);
+                Add(3, 1);
+                Add(1, 0);
+            }
         }
+        internal class ExistingChunkBoundsData : TheoryData<int, int>
+        {
+            public ExistingChunkBoundsData()
+            {
+                Add(0, 0);
+                Add(0, 1);
+                Add(0, 6);
+                Add(1, 6);
+                Add(3, 5);
+                Add(6, 6);
+            }
+        }
+        internal class ExistingChunkBoundsDataWithResult : TheoryData<int, int, IEnumerable<int>>
+        {
+            public ExistingChunkBoundsDataWithResult()
+            {
+                Add(0, 0, new[] { 0 });
+                Add(0, 1, new[] { 0, 1 });
+                Add(0, 6, new[] { 0, 1, 2, 3, 4, 5, 6 });
+                Add(1, 6, new[] { 1, 2, 3, 4, 5, 6 });
+                Add(3, 5, new[] { 3, 4, 5 });
+                Add(6, 6, new[] { 6 });
+            }
+        }
+
+        public record SomeRecord
+        {
+            public int Number { get; set; }
+            public bool Bool { get; set; }
+
+            public string String { get; set; } = null!;
+        }
+
     }
 
 }

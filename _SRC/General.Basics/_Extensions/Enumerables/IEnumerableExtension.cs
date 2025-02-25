@@ -199,4 +199,33 @@ public static partial class IEnumerableExtension
 
         return await Task.FromResult(enumerable_);
     }
+
+    public static List<T> OnePickEveryNElements_<T>(this IEnumerable<T> enumerable, uint startIndex, uint everyNElements, uint totalNbPicks)
+    {
+        enumerable.CheckIsValidIndex_((int)startIndex);
+
+        List<T> pickedElements = new();
+
+        int nbElements = enumerable.Count();
+        uint lastIndex = (uint)enumerable.GetLastIndex_()!;
+        uint nbElementsToTheEnd;
+        uint index = startIndex;
+        int overTheEnd;
+        while (pickedElements.Count < totalNbPicks)
+        {
+            pickedElements.Add(enumerable.ElementAt((int)index));
+
+            nbElementsToTheEnd = lastIndex - index;
+            overTheEnd = (int)(everyNElements - nbElementsToTheEnd);
+            index = (overTheEnd > 0) ? (uint)(((uint)overTheEnd - 1u) % nbElements) : index + everyNElements;
+        }
+
+        return pickedElements;
+    }
+
+    public static string ToStringAsArray_<T>(this IEnumerable<T> enumerable)
+    {
+        string asArray = (enumerable.Any()) ? string.Join(", ", enumerable.Select(element => element?.ToString() ?? "null")) : string.Empty;
+        return $"[{asArray}]";
+    }
 }
