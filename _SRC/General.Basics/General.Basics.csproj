@@ -3,14 +3,13 @@
 	<PropertyGroup>
 
 		<MyPackageMajorVersion>$(MyGeneralBasics_MajorVersion)</MyPackageMajorVersion>
-		<MyPackageMinorVersion>4</MyPackageMinorVersion>
+		<MyPackageMinorVersion>5</MyPackageMinorVersion>
 		<MyPackagePatchVersion>0</MyPackagePatchVersion>
 
 		<Description>
-                       v6.4.0 : 
-                               - Add IEnumerable&lt;T&gt; 2 extension methods :
-                                 . List&lt;T&gt; OnePickEveryNElements_&lt;T&gt;(this IEnumerable&lt;T&gt; enumerable, uint startIndex, uint everyNElements, uint totalNbPicks)
-                                 . string ToStringAsArray_&lt;T&gt;(this IEnumerable&lt;T&gt; enumerable)
+                       v$(MyGeneralBasics_MajorVersion).$(MyPackageMinorVersion).$(MyPackagePatchVersion) : 
+                               - Add IEnumerable&lt;T&gt; 1 extension method :
+                                 . public static IEnumerable&lt;T&gt; StartsWith_&lt;T&gt;(this IEnumerable&lt;T&gt; enumerable, bool mustStartWith, T start) where T : notnull
 		</Description>
 
 	</PropertyGroup>

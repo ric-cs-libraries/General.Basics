@@ -228,4 +228,26 @@ public static partial class IEnumerableExtension
         string asArray = (enumerable.Any()) ? string.Join(", ", enumerable.Select(element => element?.ToString() ?? "null")) : string.Empty;
         return $"[{asArray}]";
     }
+
+    public static IEnumerable<T> StartsWith_<T>(this IEnumerable<T> enumerable, bool mustStartWith, T start) where T : notnull
+    {
+        bool isEmpty = !enumerable.Any();
+        List<T> result = enumerable.ToList();
+        bool startsWith = !isEmpty && enumerable.First().Equals(start);
+        if (mustStartWith)
+        {
+            if (!startsWith)
+            {
+                return result.Prepend(start);
+            }
+        }
+        else
+        {
+            if (startsWith)
+            {
+                result.RemoveAt(index: 0);
+            }
+        }
+        return result;
+    }
 }

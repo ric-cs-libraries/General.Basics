@@ -743,6 +743,41 @@ public partial class IEnumerableExtensionTests
     }
     #endregion ToStringAsArray_
 
+    #region StartsWith_
+    [Theory]
+    [InlineData(new[] { 10, 20, 30, 40 }, 10, new[] { 10, 20, 30, 40 })]
+    [InlineData(new[] { 20, 30, 40, 10 }, 10, new[] { 10, 20, 30, 40, 10 })]
+    [InlineData(new int[0], 10, new[] { 10 })]
+    public void StartsWith_WhenShouldStartWith_ShouldPrependOnlyIfIsNotFirstItemButAlwaysReturnANewEnumerable
+        (IEnumerable<int> enumerable, int startItem, IEnumerable<int> expectedResult)
+    {
+        //--- Act ---
+        IEnumerable<int> result = enumerable.StartsWith_(mustStartWith: true, startItem);
+
+        //--- Assert ---
+        Assert.False(object.ReferenceEquals(result, expectedResult));
+        Assert.Equal(expectedResult, result);
+        Assert.Equal(result.First(), startItem);
+    }
+
+    [Theory]
+    [InlineData(new[] { 10, 20, 30, 40 }, 10, new[] { 20, 30, 40 })]
+    [InlineData(new[] { 10 }, 10, new int[0])]
+    [InlineData(new int[0], 10, new int[0])]
+    [InlineData(new[] { 20, 30, 40, 10 }, 10, new[] { 20, 30, 40, 10 })]
+    public void StartsWith_WhenShouldNotStartWith_ShouldNotPrependIfDoesntStartWithOrRemoveIfStartsWithButAlwaysReturnANewEnumerable
+        (IEnumerable<int> enumerable, int startItem, IEnumerable<int> expectedResult)
+    {
+        //--- Act ---
+        IEnumerable<int> result = enumerable.StartsWith_(mustStartWith: false, startItem);
+
+        //--- Assert ---
+        Assert.False(object.ReferenceEquals(result, expectedResult));
+        Assert.Equal(expectedResult, result);
+        Assert.True(!result.Any() || result.First() != startItem);
+    }
+    #endregion StartsWith_
+
 
     //=============================================================================================
 
