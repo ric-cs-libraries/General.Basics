@@ -11,6 +11,7 @@ public record Class : BasicElement
     {
     }
 
+    /// <exception cref="TypeShouldBeAClassTypeException"></exception>
     protected override void Validate(Type type)
     {
         if (!type.IsClass)

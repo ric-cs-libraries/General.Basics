@@ -14,6 +14,7 @@ public abstract record IntervalBase<T>
 
     protected abstract bool IsLowerOrEqual(T value1, T value2);
 
+    /// <exception cref="ValueShouldBeLowerOrEqualToException{T}"></exception>
     public IntervalBase(T minValue, T maxValue)
 	{
         MinValue = minValue;

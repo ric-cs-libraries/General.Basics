@@ -33,6 +33,7 @@ public static class IDictionaryExtension
         }
     }
 
+    /// <exception cref="UnfoundKeyException"></exception>
     public static void CheckKeyExists_<K, V>(this IDictionary<K, V> dictionary, K key, string subject = "Dictionary")
     {
         if (!dictionary.TryGetValue(key, out V? dummy))

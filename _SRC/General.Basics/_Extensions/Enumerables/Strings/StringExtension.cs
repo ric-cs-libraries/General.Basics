@@ -10,6 +10,7 @@ public static class StringExtension
 {
     private const int INDEX_WHEN_UNFOUND = -1;
 
+    /// <exception cref="StringShouldNotBeEqualToAnyOfStringsException"></exception>
     public static void CheckIsNotEqualToAnyOf_(this string str, IEnumerable<string> strings, StringComparison comparisonMode = StringComparison.InvariantCulture)
     {
         bool isEqual = str.EqualsOneOf_(strings, comparisonMode);
@@ -39,6 +40,7 @@ public static class StringExtension
         return result.ToList();
     }
 
+    /// <exception cref="StringWithIllegalCharException"></exception>
     public static void CheckDoesntContainIllegalChar_(this string str, char[] illegalChars)
     {
         int index;
@@ -48,6 +50,7 @@ public static class StringExtension
         }
     }
 
+    /// <exception cref="StringContainsTooManyOfACharException"></exception>
     public static void CheckDoesntContainTooManyOfAChar_(this string str, char theChar, int maxNbOccurrencesOfTheChar)
     {
         int charNbOccurences = str.Count(chr => chr == theChar);
@@ -57,6 +60,7 @@ public static class StringExtension
         }
     }
 
+    /// <exception cref="StringOnlyContainsSpacesException"></exception>
     public static void CheckDoesntOnlyContainSpaces_(this string str)
     {
         if (str.OnlyContains_(' '))
@@ -83,6 +87,8 @@ public static class StringExtension
         return result;
     }
 
+    /// <exception cref="UnexistingIndexBecauseEmptyException"></exception>
+    /// <exception cref="OutOfRangeIntegerException"></exception>
     public static void CheckIsValidIndex_(this string str, int index)
     {
         if (!str.IsValidIndex_(index))
@@ -101,6 +107,8 @@ public static class StringExtension
         }
     }
 
+    /// <exception cref="UnexistingChunkBecauseEmptyException"></exception>
+    /// <exception cref="UnexistingChunkException"></exception>
     public static void CheckChunkExists_(this string str, int startIndex, int endIndex)
     {
         if (!str.ChunkExists_(startIndex, endIndex))
@@ -125,6 +133,7 @@ public static class StringExtension
         return result;
     }
 
+    /// <exception cref="MustBePositiveIntegerException"></exception>
     public static string Repeat_(this string str, int nbRepeat)
     {
         if (nbRepeat < 0)
@@ -177,6 +186,7 @@ public static class StringExtension
         return (retour);
     }
 
+    /// <exception cref="MustBePositiveIntegerException"></exception>
     public static string Substring_(this string str, int startIndex, int substringLength)
     {
         string retour = string.Empty;
@@ -197,6 +207,8 @@ public static class StringExtension
 
         return (retour);
     }
+
+    /// <exception cref="MustBePositiveIntegerException"></exception>
     public static string Substring_(this string str, int startIndex)
     {
         if (startIndex < 0)
@@ -242,6 +254,7 @@ public static class StringExtension
         return result;
     }
 
+    /// <exception cref="MustBePositiveIntegerException"></exception>
     public static string GetFromEnd_(this string str, int chunkLength)
     {
         //if (str.IsEmpty_())

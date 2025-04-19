@@ -8,6 +8,7 @@ public class GenericTree<TData> : Node<TData>
 {
     public override TreeElement<TData>? Parent 
     {
+        /// <exception cref="GenericTreeCantHaveAParentException"></exception>
         protected internal set 
         {
             throw new GenericTreeCantHaveAParentException(); //Viole LSP mais pas grave
@@ -15,6 +16,7 @@ public class GenericTree<TData> : Node<TData>
     }
     public override int? IndexInParent
     {
+        /// <exception cref="GenericTreeCantHaveAParentException"></exception>
         protected internal set
         {
             throw new GenericTreeCantHaveAParentException(); //Viole LSP mais pas grave

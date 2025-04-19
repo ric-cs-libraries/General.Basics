@@ -8,6 +8,7 @@ namespace General.Basics.ReflectionExtended.DynamicCalls.Abstracts;
 //--- Ne fonctionne que sur des méthodes NON static ! ---
 public abstract class MethodCaller
 {
+    /// <exception cref="MismatchingReturnedValueTypeForThisCallException"></exception>
     internal protected TReturnType? GetReturnedValue<TReturnType>(object? returnedValue)
     {
         if (returnedValue is not null)
@@ -24,6 +25,7 @@ public abstract class MethodCaller
         return default(TReturnType); //null
     }
 
+    /// <exception cref="UnexistingMethodException"></exception>
     internal protected virtual MethodInfo GetMethodInfos(object obj, string methodName, object?[]? parameters)
     {
         Type objectType = obj.GetType();
@@ -36,6 +38,7 @@ public abstract class MethodCaller
         return method!;
     }
 
+    /// <exception cref="UnexistingMethodException"></exception>
     internal protected void ThrowUnexistingMethodException(Type objectType, string methodName, object?[]? parameters, string errorDetails = "")
     {
         IEnumerable<Type?> parametersType = parameters?.Select(param => param?.GetType()) ?? Enumerable.Empty<Type?>();

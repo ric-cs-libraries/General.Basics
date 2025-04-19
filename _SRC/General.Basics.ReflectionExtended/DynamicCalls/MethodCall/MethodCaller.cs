@@ -6,7 +6,9 @@ using System.Reflection;
 namespace General.Basics.ReflectionExtended.DynamicCalls;
 
 
-//--- Ne peut appeler QUE des méthodes NON static ! ---
+/// <summary>
+/// --- Ne peut appeler QUE des méthodes NON static ! ---
+/// </summary>
 public class MethodCaller : Abstracts.MethodCaller, IMethodCaller
 {
     public static MethodCaller Create()
@@ -14,6 +16,8 @@ public class MethodCaller : Abstracts.MethodCaller, IMethodCaller
         return new();
     }
 
+    /// <exception cref="CannotExpectAnyReturnedValueFromAVoidMethodException"></exception>
+    /// <exception cref="UnexistingMethodException"></exception>
     public TReturnType? Call<TReturnType>(object obj, string methodName, object?[]? parameters = null)
     {
         MethodInfo method = GetMethodInfos(obj, methodName, parameters);
@@ -36,6 +40,7 @@ public class MethodCaller : Abstracts.MethodCaller, IMethodCaller
         return returnedValue_;
     }
 
+    /// <exception cref="UnexistingMethodException"></exception>
     public void Call(object obj, string methodName, object?[]? parameters = null)
     {
         MethodInfo method = GetMethodInfos(obj, methodName, parameters);

@@ -44,6 +44,8 @@ public class Node<TData> : TreeElement<TData>
         return this;
     }
 
+    /// <exception cref="ChildCantBeTheParentException"></exception>
+    /// <exception cref="ChildAlreadyExistsException"></exception>
     public Node<TData> Add(TreeElement<TData> element)
     {
         if (element.Id == Id)
@@ -96,6 +98,7 @@ public class Node<TData> : TreeElement<TData>
         return result;
     }
 
+    /// <exception cref="UnexistingChildException"></exception>
     private Node<TData> RemoveChildById(int childId, bool updateIndexesInParent)
     {
         var child = GetChildById(childId);

@@ -10,6 +10,7 @@ public record Interface : BasicElement
     {
     }
 
+    /// <exception cref="TypeShouldBeAnInterfaceTypeException"></exception>
     protected override void Validate(Type type)
     {
         if (!type.IsInterface)

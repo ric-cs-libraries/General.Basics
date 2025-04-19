@@ -5,6 +5,7 @@ namespace General.Basics.Extensions;
 
 public static partial class IEnumerableExtension
 {
+    /// <exception cref="CannotDowncastException"></exception>
     public static IEnumerable<TChild> DowncastAll_<TParent, TChild>(this IEnumerable<TParent> children)
         where TChild : class, TParent
         where TParent : class

@@ -35,6 +35,7 @@ public class SerializersFactory
         return factory;
     }
 
+    /// <exception cref="UnhandledSerializerEnumCodeException"></exception>
     public ISerializer GetSingleton()
     {
         ISerializer result = Serializer switch

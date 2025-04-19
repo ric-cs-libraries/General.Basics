@@ -16,6 +16,7 @@ public static partial class IEnumerableExtension
         return randomizer;
     }
 
+    /// <exception cref="CannotSearchElementBecauseEmptyException"></exception>
     [ExcludeFromCodeCoverage]
     public static T GetRandomElement_<T>(this IEnumerable<T> enumerable)
     {

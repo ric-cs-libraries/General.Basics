@@ -30,6 +30,7 @@ public class DefaultShuffler : IShuffler
         }
     }
 
+    /// <exception cref="MustBePositiveIntegerException"></exception>
     public IEnumerable<(int Index, int OtherIndex)> GetIndexesToSwap(int listLength)
     {
         if (listLength < 0)

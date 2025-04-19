@@ -17,6 +17,7 @@ public record Error //With Mandatory Code
     public string Kind => Type + ((Code.IsEmpty_()) ? string.Empty : $" '{Code}'");
 
 
+    /// <exception cref="ErrorCodeIsRequiredException"></exception>
     public Error(string code, string debugMessageTemplate, IEnumerable<string?>? placeholderValues)
     {
         Code = code.Trim();

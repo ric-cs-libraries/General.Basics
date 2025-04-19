@@ -4,6 +4,7 @@ namespace General.Basics.Extensions;
 
 public static class IntExtension
 {
+    /// <exception cref="IntShouldBeGreaterOrEqualException"></exception>
     public static void CheckIsGreaterOrEqualTo_(this int int_, int minimalValue, string subject = "number")
     {
         if (int_ < minimalValue)

@@ -14,7 +14,7 @@ public class InstanciatorForGeneric : Abstracts.Instanciator, IInstanciatorForGe
         return new();
     }
 
-    //Throws .NET MissingMethodException : when constructor params type, doesn't match any possible constructor.
+    /// <exception cref="MissingMethodException">Throws .NET MissingMethodException : when constructor params type, doesn't match any possible constructor</exception>
     public object GetInstance(Class concreteGenericClass, Type[] genericParametersType, object[]? constructorParams = null)
     {
         string genericClassAssemblyName = concreteGenericClass.Type.GetAssemblyName_();
@@ -25,8 +25,9 @@ public class InstanciatorForGeneric : Abstracts.Instanciator, IInstanciatorForGe
         return instance;
     }
 
-    //Dans cette méthode, quand je dis "class", j'entends aussi bien : classe, record, que struct.
-    //Throws .NET MissingMethodException : when constructor params type, doesn't match any possible constructor.
+    /// <summary>Dans cette méthode, quand je dis "class", j'entends aussi bien : classe, record, que struct.</summary>
+    /// <exception cref="MissingMethodException">Throws .NET MissingMethodException : when constructor params type, doesn't match any possible constructor</exception>
+    /// <exception cref="CheckIfIsGenericTypeException"></exception>
     public object GetInstance(string genericClassAssemblyName, string genericClassNamespace, string genericClassName,
                                       Type[] genericParametersType, object[]? constructorParams = null)
     {

@@ -19,9 +19,13 @@ public static class Type_
         return classAsType;
     }
 
-    //Dans cette méthode, quand je dis "class", j'entends aussi bien : classe, interface, record, que struct.
-    //Méthode typiquement utile, pour utilisation de : Activate.CreateInstance(...).
-    // REM.: genericClassName : nom de la classe générique, SANS chevron...         <<<<<<
+    /// <summary>
+    ///  Dans cette méthode, quand je dis "class", j'entends aussi bien : classe, interface, record, que struct.
+    ///  Méthode typiquement utile, pour utilisation de : Activate.CreateInstance(...).
+    ///  REM.: genericClassName : nom de la classe générique, SANS chevron...        !!!!!
+    /// </summary>
+    /// <exception cref="MissingGenericParametersTypeException"></exception>
+    /// <exception cref="GenericParameterTypeViolatingSomeConstraintException"></exception>
     public static Type? GetGenericTypeFromNamesInfos(string genericClassAssemblyName, string genericClassNamespace, string genericClassName, Type[] genericParametersType)
     {
         int nbGenericParameters = genericParametersType.Length;

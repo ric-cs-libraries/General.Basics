@@ -12,7 +12,7 @@ public class Instanciator : Abstracts.Instanciator, IInstanciator
         return new();
     }
 
-    //Throws.NET MissingMethodException : when constructor params type, doesn't match any possible constructor.
+    /// <exception cref="MissingMethodException">Throws .NET MissingMethodException : when constructor params type, doesn't match any possible constructor</exception>
     public object GetInstance(Class concreteClass, object[]? constructorParams = null)
     {
         string classAssemblyName = concreteClass.Type.GetAssemblyName_();
@@ -23,8 +23,9 @@ public class Instanciator : Abstracts.Instanciator, IInstanciator
         return instance;
     }
 
-    //Dans cette méthode, quand je dis "class", j'entends aussi bien : classe, record, que struct.
-    //Throws .NET MissingMethodException : when constructor params type, doesn't match any possible constructor.
+    /// <summary>Dans cette méthode, quand je dis "class", j'entends aussi bien : classe, record, que struct.</summary>
+    /// <exception cref="MissingMethodException">Throws .NET MissingMethodException : when constructor params type, doesn't match any possible constructor</exception>
+    /// <exception cref="CheckIfIsNonGenericTypeException"></exception>
     public object GetInstance(string classAssemblyName, string classNamespace, string className, object[]? constructorParams = null)
     {
         Type? type = Type_.GetTypeFromNamesInfos(classAssemblyName, classNamespace, className);

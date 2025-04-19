@@ -14,8 +14,12 @@ public class MethodCallerAsync : Abstracts.MethodCaller, IMethodCallerAsync
         return new();
     }
 
-    //REM.: seul le type réel(et non celui déclaratif) de obj sera déterminant, pour savoir si oui ou non il possède la méthode.
-    //La méthode à invoquer devra retourner une : Task<TReturnType?> .
+    /// <summary>
+    /// REM.: seul le type réel(et non celui déclaratif) de obj sera déterminant, pour savoir si oui ou non il possède la méthode.
+    /// La méthode à invoquer devra retourner une : Task&lt;TReturnType?&gt; .
+    /// </summary>
+    /// <exception cref="AppropriateAwaitableExpectedAsReturnedTypeException"></exception>
+    /// <exception cref="UnexistingMethodException"></exception>
     public async Task<TReturnType?> Call<TReturnType>(object obj, string methodName, object?[]? parameters)
     {
         MethodInfo method = GetMethodInfos(obj, methodName, parameters);
@@ -41,8 +45,11 @@ public class MethodCallerAsync : Abstracts.MethodCaller, IMethodCallerAsync
         return returnedValue_;
     }
 
-    //REM.: seul le type réel(et non celui déclaratif) de obj sera déterminant, pour savoir si oui ou non il possède la méthode.
-    //La méthode à invoquer devra retourner une : Task.
+    /// <summary>
+    /// REM.: seul le type réel(et non celui déclaratif) de obj sera déterminant, pour savoir si oui ou non il possède la méthode.
+    /// La méthode à invoquer devra retourner une : Task.
+    /// </summary>
+    /// <exception cref="UnexistingMethodException"></exception>
     public async Task Call(object obj, string methodName, object?[]? parameters)
     {
         MethodInfo method = GetMethodInfos(obj, methodName, parameters);
@@ -60,6 +67,7 @@ public class MethodCallerAsync : Abstracts.MethodCaller, IMethodCallerAsync
         }
     }
 
+    /// <exception cref="AwaitableExpectedAsReturnedTypeException"></exception>
     internal protected override MethodInfo GetMethodInfos(object obj, string methodName, object?[]? parameters)
     {
         MethodInfo method = base.GetMethodInfos(obj, methodName, parameters);

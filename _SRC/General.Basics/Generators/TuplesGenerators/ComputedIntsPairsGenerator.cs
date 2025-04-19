@@ -24,7 +24,8 @@ public record ComputedIntsPairsGenerator : IIntsPairsGenerator
         return result;
     }
 
-
+    /// <exception cref="MustNotBeNullException"></exception>
+    /// <exception cref="IntShouldBeGreaterOrEqualException"></exception>
     //distinctValue: true if we don't want any pair to contain twice the same value : (value1, value1).
     public IEnumerable<(int, int)> GetPairs(int maxNbPairs, IntsInterval leftValueAuthorizedInterval, IntsInterval rightValueAuthorizedInterval, bool distinctValue = false)
     {

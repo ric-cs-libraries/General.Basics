@@ -27,6 +27,8 @@ public static partial class IEnumerableExtension
         return result;
     }
 
+    /// <exception cref="UnexistingIndexBecauseEmptyException"></exception>
+    /// <exception cref="OutOfRangeIntegerException"></exception>
     public static void CheckIsValidIndex_<T>(this IEnumerable<T> enumerable, int index)
     {
         if (!enumerable.IsValidIndex_(index))
@@ -44,6 +46,8 @@ public static partial class IEnumerableExtension
         }
     }
 
+    /// <exception cref="UnexistingIndexBecauseEmptyException"></exception>
+    /// <exception cref="OutOfRangeIntegerException"></exception>
     public static void CheckAreValidIndexes_<T>(this IEnumerable<T> enumerable, IEnumerable<int> indexes)
     {
         foreach (var index in indexes)
@@ -60,6 +64,7 @@ public static partial class IEnumerableExtension
         return result;
     }
 
+    /// <exception cref="UnexistingChunkBecauseEmptyException"></exception>
     public static IEnumerable<T> GetChunk_<T>(this IEnumerable<T> enumerable, int startIndex)
     {
         if (enumerable.IsEmpty_())
@@ -73,6 +78,7 @@ public static partial class IEnumerableExtension
         return result;
     }
 
+    /// <exception cref="MustBePositiveIntegerException"></exception>
     public static IEnumerable<T> GetChunkFromEnd_<T>(this IEnumerable<T> enumerable, int chunkLength)
     {
         //if (enumerable.IsEmpty_())
@@ -101,6 +107,8 @@ public static partial class IEnumerableExtension
         return result;
     }
 
+    /// <exception cref="UnexistingChunkBecauseEmptyException"></exception>
+    /// <exception cref="UnexistingChunkException"></exception>
     public static void CheckChunkExists_<T>(this IEnumerable<T> enumerable, int startIndex, int endIndex)
     {
         if (!enumerable.ChunkExists_(startIndex, endIndex))
@@ -180,6 +188,7 @@ public static partial class IEnumerableExtension
         return exceedingElements;
     }
 
+    /// <exception cref="MustBePositiveIntegerException"></exception>
     public static IEnumerable<T> RotateLeft_<T>(this IEnumerable<T> enumerable, int nbRotations)
     {
         if (nbRotations < 0)

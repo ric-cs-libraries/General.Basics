@@ -109,6 +109,7 @@ public class Result<TValue> : Result
 
     public TValue Value
     {
+        /// <exception cref="UnavailableResultValueException"></exception>
         get
         {
             if (!IsSuccess)

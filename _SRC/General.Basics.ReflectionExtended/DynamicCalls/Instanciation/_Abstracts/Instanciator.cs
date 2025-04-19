@@ -3,7 +3,8 @@ namespace General.Basics.ReflectionExtended.DynamicCalls.Abstracts;
 
 public abstract class Instanciator
 {
-    //Throws .NET MissingMethodException : when constructor params type, doesn't match any possible constructor.
+    /// <exception cref="AnAbstractTypeCannotBeInstanciatedException"></exception>
+    /// <exception cref="MissingMethodException">Throws .NET MissingMethodException : when constructor params type, doesn't match any possible constructor</exception>
     protected internal object GetInstance(Type type, object[]? constructorParams = null)
     {
         if (type.IsAbstract)

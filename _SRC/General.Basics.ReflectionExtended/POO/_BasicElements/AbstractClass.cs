@@ -11,6 +11,7 @@ public record AbstractClass : Class
     {
     }
 
+    /// <exception cref="TypeShouldBeAnAbstractClassTypeException"></exception>
     protected override void Validate(Type type)
     {
         if (!(type.IsClass && type.IsAbstract))

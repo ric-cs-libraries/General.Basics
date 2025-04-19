@@ -29,6 +29,7 @@ public static partial class TypeExtension
         return result;
     }
 
+    /// <exception cref="ConcreteClassMustRedefineAtLeastOneSomeMethodsException"></exception>
     public static void CheckIfRedefinesOneOfTheseMethods_(this Type concreteType, IEnumerable<string> methodsName, Type parentTypeThatDefinesThemAll)
     {
 #if DEBUG
