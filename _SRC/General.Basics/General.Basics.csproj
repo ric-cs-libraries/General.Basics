@@ -3,13 +3,23 @@
 	<PropertyGroup>
 
 		<MyPackageMajorVersion>$(MyGeneralBasics_MajorVersion)</MyPackageMajorVersion>
-		<MyPackageMinorVersion>5</MyPackageMinorVersion>
+		<MyPackageMinorVersion>6</MyPackageMinorVersion>
 		<MyPackagePatchVersion>0</MyPackagePatchVersion>
 
 		<Description>
                        v$(MyGeneralBasics_MajorVersion).$(MyPackageMinorVersion).$(MyPackagePatchVersion) : 
-                               - Add IEnumerable&lt;T&gt; 1 extension method :
-                                 . public static IEnumerable&lt;T&gt; StartsWith_&lt;T&gt;(this IEnumerable&lt;T&gt; enumerable, bool mustStartWith, T start) where T : notnull
+                               - Add IEnumerable&lt;T&gt; extension methods for Combinations :
+                                 . public static IEnumerable&lt;IEnumerable&lt;T&gt;&gt; GetAllUnOrderedCombinations_&lt;T&gt;(this IEnumerable&lt;T&gt; enumerable)							   
+                                 . public static IEnumerable&lt;IEnumerable&lt;T&gt;&gt; GetUnOrderedCombinationsOf_&lt;T&gt;(this IEnumerable&lt;T&gt; enumerable, long groupSize)
+                                 . public static IEnumerable&lt;IEnumerable&lt;T&gt;&gt; GetAllOrderedCombinations_&lt;T&gt;(this IEnumerable&lt;T&gt; enumerable)
+                                 . public static IEnumerable&lt;IEnumerable&lt;T&gt;&gt; GetOrderedCombinationsOf_&lt;T&gt;(this IEnumerable&lt;T&gt; enumerable, long groupSize)
+                               - Add long extension methods :
+                                 . public static void CheckIsGreaterOrEqualTo_(this long @long, long minimalValue, string subject = "long int")
+                                 . public static long GetNbAllOrderedCombinations_(this long nbElements)
+                                 . public static long GetNbOrderedCombinationsOf_(this long nbElements, long groupSize)
+                                 . public static long GetNbAllUnOrderedCombinations_(this long nbElements)	 
+                                 . public static long GetNbUnOrderedCombinationsOf_(this long nbElements, long groupSize)
+                                 . public static long Factorial_(this long number)  (Optimized with a cache)
 		</Description>
 
 	</PropertyGroup>
