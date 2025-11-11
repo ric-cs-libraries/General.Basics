@@ -7,7 +7,8 @@
 		<MyPackagePatchVersion>0</MyPackagePatchVersion>
 
 		<Description>
-			v2.1 : SerializersFactory méthode Get renommée en GetSingleton. Pas chgt version majeure, car fpnctionnalité non encore utilisée par ailleurs.
+			v$(MyGeneralBasics_MajorVersion).$(MyPackageMinorVersion).$(MyPackagePatchVersion) :
+			Passage en .NET8
 		</Description>
 
 	</PropertyGroup>
