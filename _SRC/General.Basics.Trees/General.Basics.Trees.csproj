@@ -7,7 +7,7 @@
 		<MyPackagePatchVersion>0</MyPackagePatchVersion>
 
 		<Description>
-			v$(MyGeneralBasics_MajorVersion).$(MyPackageMinorVersion).$(MyPackagePatchVersion) :
+			v$(MyGeneralBasicsTrees_MajorVersion).$(MyPackageMinorVersion).$(MyPackagePatchVersion) :
 			Passage en .NET8
 		</Description>
 
