@@ -3,12 +3,12 @@
 	<PropertyGroup>
 
 		<MyPackageMajorVersion>$(MyGeneralBasics_MajorVersion)</MyPackageMajorVersion>
-		<MyPackageMinorVersion>6</MyPackageMinorVersion>
+		<MyPackageMinorVersion>7</MyPackageMinorVersion>
 		<MyPackagePatchVersion>0</MyPackagePatchVersion>
 
 		<Description>
                        v$(MyGeneralBasics_MajorVersion).$(MyPackageMinorVersion).$(MyPackagePatchVersion) : 
-					   Passage en .NET8
+					   Principalement : ajout de méthodes d'extension à DateTime : méthode IsBetwwen (2 surcharges).
 		</Description>
 
 	</PropertyGroup>
