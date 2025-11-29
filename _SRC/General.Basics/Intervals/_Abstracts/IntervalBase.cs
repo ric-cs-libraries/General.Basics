@@ -12,6 +12,9 @@ public abstract record IntervalBase<T>
     public bool IsMin => MinValue is not null;
     public bool IsMax => MaxValue is not null;
 
+    /// <summary>
+    /// Retourne true si : value1 &lt;= value2.
+    /// </summary>
     protected abstract bool IsLowerOrEqual(T value1, T value2);
 
     /// <exception cref="ValueShouldBeLowerOrEqualToException{T}"></exception>
@@ -27,6 +30,9 @@ public abstract record IntervalBase<T>
 
     }
 
+    /// <summary>
+    /// Retourne true si : this.MinValue &lt;= value &lt;= this.MaxValue.
+    /// </summary>
     public bool Contains(T value)
     {
         var result = (!IsMin || IsLowerOrEqual(MinValue, value)) && (!IsMax || IsLowerOrEqual(value, MaxValue));
