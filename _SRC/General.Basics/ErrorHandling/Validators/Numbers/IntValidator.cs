@@ -1,6 +1,5 @@
-﻿
-using General.Basics.Intervals;
-using General.Basics.ErrorHandling.Validators.Interfaces;
+﻿using General.Basics.ErrorHandling.Validators.Interfaces;
+using General.Basics.Bounds.Intervals;
 
 
 namespace General.Basics.ErrorHandling.Validators;

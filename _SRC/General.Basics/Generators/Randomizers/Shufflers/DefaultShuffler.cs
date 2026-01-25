@@ -1,11 +1,11 @@
 ﻿
 using General.Basics.ErrorHandling;
 using General.Basics.Extensions;
-using General.Basics.Intervals;
 
 using General.Basics.Generators.TupleGenerators.Interfaces;
 using General.Basics.Generators.Shufflers.Interfaces;
 using General.Basics.Generators.TupleGenerators;
+using General.Basics.Bounds.Intervals;
 
 
 namespace General.Basics.Generators.Shufflers;

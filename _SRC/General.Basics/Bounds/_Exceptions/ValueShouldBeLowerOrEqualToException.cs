@@ -1,4 +1,4 @@
-namespace General.Basics.Intervals.Exceptions;
+namespace General.Basics.Bounds.Exceptions;
 
 public class ValueShouldBeLowerOrEqualToException<T> : Exception
 {

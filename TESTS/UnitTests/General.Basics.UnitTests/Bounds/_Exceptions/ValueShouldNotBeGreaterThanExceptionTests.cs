@@ -1,8 +1,8 @@
-using General.Basics.Intervals.Exceptions;
+using General.Basics.Bounds.Exceptions;
 using Xunit;
 
 
-namespace General.Basics.UnitTests.Intervals.Exceptions;
+namespace General.Basics.UnitTests.Bounds.Exceptions;
 
 public class ValueShouldNotBeGreaterThanExceptionTests
 {

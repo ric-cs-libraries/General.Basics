@@ -63,7 +63,7 @@ public class FuncExtensionTests
         //
         var ex = Assert.Throws<IntShouldBeGreaterOrEqualException>(() => starQuote.Recurse<string>("anyParam", nbRecurse));
 
-        var expectedMessage = string.Format(IntShouldBeGreaterOrEqualException.MESSAGE_FORMAT, "nbRecurse", nbRecurse, 1);
+        var expectedMessage = string.Format(IntShouldBeGreaterOrEqualException.MESSAGE_FORMAT, "nbIterations", nbRecurse, 1);
         Assert.Equal(expectedMessage, ex.Message);
     }
     #endregion Recurse<T>

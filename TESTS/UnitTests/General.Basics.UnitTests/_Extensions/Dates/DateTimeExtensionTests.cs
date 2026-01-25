@@ -2,9 +2,9 @@
 
 
 using General.Basics.Extensions;
-using General.Basics.Intervals;
 using General.Basics._Extensions.Dates;
-using General.Basics.Intervals.Exceptions;
+using General.Basics.Bounds.Intervals;
+using General.Basics.Bounds.Exceptions;
 
 
 namespace General.Basics.Extensions.UnitTests;
@@ -16,7 +16,7 @@ public class DateTimeExtensionTests
     [ClassData(typeof(Fixtures.IsBetween_DateTimesInterval_Data))]
     public void IsBetween_DateTimesInterval__ShouldReturnTheRightValue(DateTime dateTime, DateTimesInterval dateTimesInterval, bool expectedResponse)
     {
-        bool result = dateTime.IsBetween(dateTimesInterval);
+        bool result = dateTime.IsInto(dateTimesInterval);
 
         Assert.Equal(expectedResponse, result);
     }

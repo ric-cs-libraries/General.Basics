@@ -1,4 +1,4 @@
-﻿using General.Basics.Intervals;
+﻿using General.Basics.Bounds.Intervals;
 
 namespace General.Basics.ErrorHandling.Validators;
 

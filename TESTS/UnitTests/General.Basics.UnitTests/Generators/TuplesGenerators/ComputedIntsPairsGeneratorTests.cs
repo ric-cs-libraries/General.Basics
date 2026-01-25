@@ -1,6 +1,6 @@
+using General.Basics.Bounds.Intervals;
 using General.Basics.ErrorHandling;
 using General.Basics.Extensions;
-using General.Basics.Intervals;
 using Xunit;
 
 

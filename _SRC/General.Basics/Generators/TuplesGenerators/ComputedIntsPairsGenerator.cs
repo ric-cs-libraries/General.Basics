@@ -1,8 +1,8 @@
 ﻿using General.Basics.Extensions;
-using General.Basics.Intervals;
 using General.Basics.ErrorHandling;
 
 using General.Basics.Generators.TupleGenerators.Interfaces;
+using General.Basics.Bounds.Intervals;
 
 namespace General.Basics.Generators.TupleGenerators;
 

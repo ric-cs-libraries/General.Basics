@@ -1,5 +1,5 @@
-﻿using General.Basics.Intervals;
-using General.Basics.Intervals.Exceptions;
+﻿using General.Basics.Bounds.Exceptions;
+using General.Basics.Bounds.Intervals;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -18,14 +18,14 @@ namespace General.Basics._Extensions.Dates
         {
             DateTimesInterval dateTimesInterval = new(lowerDateTime, higherDateTime);
 
-            bool response = dateTime.IsBetween(dateTimesInterval);
+            bool response = dateTime.IsInto(dateTimesInterval);
             return response;
         }
 
         /// <summary>
         /// Retourne true si : dateTimeInterval.MinValue &lt;= value &lt;= dateTimeInterval.MaxValue.
         /// </summary>
-        public static bool IsBetween(this DateTime dateTime, DateTimesInterval dateTimesInterval)
+        public static bool IsInto(this DateTime dateTime, DateTimesInterval dateTimesInterval)
         {
             bool response = dateTimesInterval.Contains(dateTime);
             return response;
