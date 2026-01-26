@@ -3,12 +3,8 @@
 
 namespace General.Basics.ErrorHandling.Validators;
 
-public record GuidValidator : StringValidator
+public record GuidValidator : MandatoryStringValidator
 {
-    public GuidValidator() : base(isNullAccepted: false, isEmptyAccepted: false, isOnlySpacesAccepted: false)
-    {
-    }
-
     public override bool IsValid(string? str)
     {
         Result result = Validate(str, string.Empty);
@@ -19,7 +15,7 @@ public record GuidValidator : StringValidator
     {
         Result result = base.Validate(str, subjectLabel);
 
-        if (result.IsSuccess /*&& !string.IsNullOrWhiteSpace(str)*/)
+        if (result.IsSuccess)
         {
             result = ToGuid.FromString(str!, subjectLabel);
         }

@@ -24,23 +24,19 @@ public record ComputedIntsPairsGenerator : IIntsPairsGenerator
         return result;
     }
 
-    /// <exception cref="MustNotBeNullException"></exception>
     /// <exception cref="IntShouldBeGreaterOrEqualException"></exception>
     //distinctValue: true if we don't want any pair to contain twice the same value : (value1, value1).
     public IEnumerable<(int, int)> GetPairs(int maxNbPairs, IntsInterval leftValueAuthorizedInterval, IntsInterval rightValueAuthorizedInterval, bool distinctValue = false)
     {
         maxNbPairs.CheckIsGreaterOrEqualTo_(1, nameof(maxNbPairs));
 
-        Check.NotNull(leftValueAuthorizedInterval.MaxValue!, $"{nameof(leftValueAuthorizedInterval)}.MaxValue");
-        Check.NotNull(rightValueAuthorizedInterval.MaxValue!, $"{nameof(rightValueAuthorizedInterval)}.MaxValue");
-
         List<(int LeftValue, int RightValue)> pairs = new();
 
         int iterationNumber = 0;
         int? leftValue = null;
         int? rightValue = null;
-        int maxLeftValue = leftValueAuthorizedInterval.MaxValue!.Value;
-        int maxRightValue = rightValueAuthorizedInterval.MaxValue!.Value;
+        int maxLeftValue = leftValueAuthorizedInterval.MaxValue;
+        int maxRightValue = rightValueAuthorizedInterval.MaxValue;
         bool validPair;
         do
         {

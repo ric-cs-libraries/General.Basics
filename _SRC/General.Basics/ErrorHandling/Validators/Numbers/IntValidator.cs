@@ -12,36 +12,37 @@ public record IntValidator : IValidator<int?>
 
     public IntsInterval? IntsInterval { get; }
 
+
     public IntValidator(bool isNullAccepted, IntsInterval? intsInterval = null)
     {
         IsNullAccepted = isNullAccepted;
         IntsInterval = intsInterval;
     }
 
-    public bool IsValid(int? @int)
+    public bool IsValid(int? value)
     {
-        Result result = Validate(@int, string.Empty);
+        Result result = Validate(value, string.Empty);
         return result.IsSuccess;
     }
 
-    public Result Validate(int? @int, string subjectLabel)
+    public Result Validate(int? value, string subjectLabel)
     {
-        if (!IsNullAccepted && (@int is null))
-            return Result.NotOk(Errors.NullNotAccepted(@int, subjectLabel));
-
-
-        if (HasInterval)
+        if (value is null)
         {
-            if (!IntsInterval!.Contains(@int))
+            if (!IsNullAccepted)
+                return Result.NotOk(Errors.NullNotAccepted(value, subjectLabel));
+        }
+        else if (HasInterval)
+        {
+            if (!IntsInterval!.Contains(value!.Value))
             {
                 var errLabel = $"""
-                    {subjectLabel} {@int} was expected in interval : 
-                    [{(IntsInterval!.MinValue)},{(IntsInterval!.MaxValue)}].
-                    """;
+                {subjectLabel} {value} was expected in interval : 
+                [{(IntsInterval!.MinValue)},{(IntsInterval!.MaxValue)}].
+                """;
                 return Result.NotOk(Errors.OutOfIntervalInt(errLabel));
             }
         }
-
         return Result.Ok();
     }
 

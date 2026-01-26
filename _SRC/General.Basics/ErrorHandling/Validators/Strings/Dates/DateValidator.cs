@@ -35,11 +35,6 @@ public record DateValidator : StringValidator, IDateValidator
         return IsValid(str, DefaultDateFormat);
     }
 
-    public override Result Validate(string? str, string subjectLabel)
-    {
-        return Validate(str, DefaultDateFormat, subjectLabel);
-    }
-
     public bool IsValid(string? str, string expectedFormat)
     {
         Result result = Validate(str, expectedFormat, string.Empty);
@@ -47,6 +42,10 @@ public record DateValidator : StringValidator, IDateValidator
         return result.IsSuccess;
     }
 
+    public override Result Validate(string? str, string subjectLabel)
+    {
+        return Validate(str, DefaultDateFormat, subjectLabel);
+    }
 
     public Result Validate(string? str, string expectedFormat, string subjectLabel)
     {
@@ -60,10 +59,8 @@ public record DateValidator : StringValidator, IDateValidator
             {
                 if (!DateTimesInterval!.Contains(dateTimeResult.Value))
                 {
-                    const string UNDEFINED_BOUND = "-";
-                    DateTime? v = DateTimesInterval!.MinValue;
-                    string minValue = ((DateTime?)DateTimesInterval!.MinValue!)?.ToString(expectedFormat) ?? UNDEFINED_BOUND;
-                    string maxValue = ((DateTime?)DateTimesInterval!.MaxValue!)?.ToString(expectedFormat) ?? UNDEFINED_BOUND;
+                    string minValue = DateTimesInterval!.MinValue.ToString(expectedFormat);
+                    string maxValue = DateTimesInterval!.MaxValue.ToString(expectedFormat);
                     var errLabel = $"""
                     {subjectLabel} (expected format: '{expectedFormat}') {dateTimeResult.Value.ToString(expectedFormat)} was expected in interval : [ {minValue}, {maxValue} ].
                     """;

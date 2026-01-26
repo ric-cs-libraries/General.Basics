@@ -2,12 +2,18 @@
 
 public static class EnumExtension
 {
-    public static TEnum GetMaxValue<TEnum>()
+    /// <returns>null if the Enum is empty !</returns>
+    public static TEnum? GetMaxValue<TEnum>()
         where TEnum : struct, Enum
     {
-        IEnumerable<int> enumAllEnumValues = Enum.GetValues<TEnum>().Cast<int>().OrderByDescending(i => i);
-        int maxValue = enumAllEnumValues.First();
-        return (TEnum)ToValueOf<TEnum>(maxValue)!;
+        IEnumerable<TEnum> enumValues = Enum.GetValues<TEnum>();
+        if (enumValues.Any())
+        {
+            IEnumerable<int> enumAllEnumValues = enumValues.Cast<int>().OrderByDescending(i => i);
+            int maxValue = enumAllEnumValues.First();
+            return (TEnum)ToValueOf<TEnum>(maxValue)!;
+        }
+        return null;
     }
 
     /// <returns>null if can not be converted to a value from the TEnum enum</returns>

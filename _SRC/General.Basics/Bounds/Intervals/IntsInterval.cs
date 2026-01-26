@@ -1,17 +1,15 @@
 ﻿using General.Basics.Bounds.Exceptions;
 using General.Basics.Bounds.Intervals.Abstracts;
+using General.Basics.Bounds.MinAndMax;
 
 namespace General.Basics.Bounds.Intervals;
 
 public record IntsInterval : IntervalBase<int>
 {
     /// <exception cref="ValueShouldBeLowerOrEqualToException{T}">When minValue(defined) &gt; maxValue(defined)</exception>
-    public IntsInterval(MinAndMax<int> bounds) : base(bounds)
-    {
-    }
-
-    /// <exception cref="ValueShouldBeLowerOrEqualToException{T}">When minValue(defined) &gt; maxValue(defined)</exception>
-    public IntsInterval(int? minValue, int? maxValue) : this(new MinAndMax<int>(minValue, maxValue))
+    /// <param name="minValue">If not provided will be Equal to MinAndMaxInts.MIN_VALUE</param>
+    /// <param name="maxValue">If not provided will be Equal to MinAndMaxInts.MAX_VALUE</param>    
+    public IntsInterval(int? minValue, int? maxValue) : base(new MinAndMaxInts(minValue, maxValue))
     {
     }
 
@@ -22,7 +20,8 @@ public record IntsInterval : IntervalBase<int>
     public IntsInterval? GetIntersection(IntsInterval intsInterval)
     {
         MinAndMax<int>? intersection = GetIntersectionMinAndMax(intsInterval);
-        IntsInterval? result = intersection is null ? null : new IntsInterval(intersection.MinValue, intersection.MaxValue);
+        bool existsIntersection = (intersection is not null);
+        IntsInterval? result = existsIntersection ? new IntsInterval(intersection!.MinValue, intersection!.MaxValue) : null;
         return result;
     }
 }

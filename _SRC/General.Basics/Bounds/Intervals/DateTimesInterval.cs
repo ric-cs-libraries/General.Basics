@@ -1,17 +1,15 @@
 ﻿using General.Basics.Bounds.Exceptions;
 using General.Basics.Bounds.Intervals.Abstracts;
+using General.Basics.Bounds.MinAndMax;
 
 namespace General.Basics.Bounds.Intervals;
 
 public record DateTimesInterval : IntervalBase<DateTime>
 {
     /// <exception cref="ValueShouldBeLowerOrEqualToException{T}">When minValue(defined) &gt; maxValue(defined)</exception>
-    public DateTimesInterval(MinAndMax<DateTime> bounds) : base(bounds)
-    {
-    }
-
-    /// <exception cref="ValueShouldBeLowerOrEqualToException{T}">When minValue(defined) &gt; maxValue(defined)</exception>
-    public DateTimesInterval(DateTime? minValue, DateTime? maxValue) : this(new MinAndMax<DateTime>(minValue, maxValue))
+    /// <param name="minValue">If not provided will be Equal to MinAndMaxDateTimes.MIN_VALUE</param>
+    /// <param name="maxValue">If not provided will be Equal to MinAndMaxDateTimes.MAX_VALUE</param>       
+    public DateTimesInterval(DateTime? minValue, DateTime? maxValue) : base(new MinAndMaxDateTimes(minValue, maxValue))
     {
     }
 
@@ -22,7 +20,8 @@ public record DateTimesInterval : IntervalBase<DateTime>
     public DateTimesInterval? GetIntersection(DateTimesInterval dateTimesInterval)
     {
         MinAndMax<DateTime>? intersection = GetIntersectionMinAndMax(dateTimesInterval);
-        DateTimesInterval? result = intersection is null ? null : new DateTimesInterval(intersection.MinValue, intersection.MaxValue);
+        bool existsIntersection = (intersection is not null);
+        DateTimesInterval? result = existsIntersection ? new DateTimesInterval(intersection!.MinValue, intersection!.MaxValue) : null;
         return result;
     }
 }
