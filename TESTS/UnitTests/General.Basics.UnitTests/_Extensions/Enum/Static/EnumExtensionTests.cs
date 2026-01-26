@@ -10,15 +10,25 @@ public class EnumExtensionTests
     [Fact]
     public void GetMaxValue__ShouldReturnTheEnumMaxValue()
     {
-        Enum1 enum1MaxValue = EnumExtension.GetMaxValue<Enum1>();
-        Enum2 enum2MaxValue = EnumExtension.GetMaxValue<Enum2>();
-        Enum3 enum3MaxValue = EnumExtension.GetMaxValue<Enum3>();
-        Enum4 enum4MaxValue = EnumExtension.GetMaxValue<Enum4>();
+        Enum1? enum1MaxValue = EnumExtension.GetMaxValue<Enum1>();
+        Enum2? enum2MaxValue = EnumExtension.GetMaxValue<Enum2>();
+        Enum3? enum3MaxValue = EnumExtension.GetMaxValue<Enum3>();
+        Enum4? enum4MaxValue = EnumExtension.GetMaxValue<Enum4>();
+        Enum5? enum5MaxValue = EnumExtension.GetMaxValue<Enum5>();
 
         Assert.Equal(Enum1.d, enum1MaxValue);
         Assert.Equal(Enum2.K, enum2MaxValue);
         Assert.Equal(Enum3.b, enum3MaxValue);
         Assert.Equal(Enum4.C, enum4MaxValue);
+        Assert.Equal(Enum5.A, enum5MaxValue);
+    }
+
+    [Fact]
+    public void GetMaxValue_WhenTheEnumIsEmpty_ShouldReturnNull()
+    {
+        EnumVide? enum6MaxValue = EnumExtension.GetMaxValue<EnumVide>();
+
+        Assert.Null(enum6MaxValue);
     }
     #endregion GetMaxValue
 
@@ -49,6 +59,8 @@ public class EnumExtensionTests
         Enum4? enum4Value5 = EnumExtension.ToValueOf<Enum4>(6);
         Enum4? enum4Value6 = EnumExtension.ToValueOf<Enum4>(7);
 
+        Enum5? enum5Value1 = EnumExtension.ToValueOf<Enum5>(0);
+
         Assert.NotNull(enum1Value1);
         Assert.NotNull(enum1Value2);
         Assert.NotNull(enum1Value3);
@@ -68,9 +80,13 @@ public class EnumExtensionTests
         Assert.NotNull(enum4Value1);
         Assert.NotNull(enum4Value2);
         Assert.NotNull(enum4Value3);
+        Assert.Equal(Enum4.d, enum4Value3);
         Assert.NotNull(enum4Value4);
         Assert.NotNull(enum4Value5);
         Assert.NotNull(enum4Value6);
+
+        Assert.NotNull(enum5Value1);
+        Assert.Equal(Enum5.A, enum5Value1);
     }
 
     [Fact]
@@ -169,5 +185,14 @@ public class EnumExtensionTests
         f = 5,
         g,
         h
+    }
+
+    enum Enum5
+    {
+        A //0
+    }
+
+    enum EnumVide
+    {
     }
 }

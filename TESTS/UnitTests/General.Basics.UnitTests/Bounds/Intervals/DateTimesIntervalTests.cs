@@ -1,5 +1,6 @@
 ﻿using General.Basics.Bounds.Exceptions;
 using General.Basics.Bounds.Intervals;
+using General.Basics.Bounds.MinAndMax;
 using Xunit;
 
 
@@ -26,10 +27,30 @@ public class DateTimesIntervalTests
     {
 
         //--- Act & Assert ---
-        var ex = Assert.Throws<ValueShouldBeLowerOrEqualToException<DateTime?>>(() => new DateTimesInterval(dateDeb, dateFin));
+        var ex = Assert.Throws<ValueShouldBeLowerOrEqualToException<DateTime>>(() => new DateTimesInterval(dateDeb, dateFin));
 
-        var expectedMessage = string.Format(ValueShouldBeLowerOrEqualToException<int>.MESSAGE_FORMAT, "Interval minValue", dateDeb, dateFin);
+        var expectedMessage = string.Format(ValueShouldBeLowerOrEqualToException<DateTime>.MESSAGE_FORMAT, "minValue", dateDeb, dateFin);
         Assert.Equal(expectedMessage, ex.Message);
+    }
+
+    [Fact]
+    public void Instanciation_WhenMinValueIsNotGiven_ItShouldEqualTheDefaultMinValue()
+    {
+        //
+        DateTimesInterval interval = new(minValue: null, maxValue: DateTime.UtcNow);
+
+        //
+        Assert.Equal(MinAndMaxDateTimes.MIN_VALUE, interval.MinValue);
+    }
+
+    [Fact]
+    public void Instanciation_WhenMaxValueIsNotGiven_ItShouldEqualTheDefaultMaxValue()
+    {
+        //
+        DateTimesInterval interval = new(minValue: DateTime.UtcNow, maxValue: null);
+
+        //
+        Assert.Equal(MinAndMaxDateTimes.MAX_VALUE, interval.MaxValue);
     }
     #endregion Instanciation
 
@@ -75,10 +96,6 @@ public class DateTimesIntervalTests
 
                 Add(dateDeb, dateFin);
                 Add(dateDeb, dateFin2);
-                Add(dateDeb, null);
-                Add(null, dateFin);
-                Add(null, dateFin2);
-                Add(null, null);
             }
         }
 

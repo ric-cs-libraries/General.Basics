@@ -312,65 +312,6 @@ public class ComputedIntsPairsGeneratorTests
         var expectedMessage = string.Format(IntShouldBeGreaterOrEqualException.MESSAGE_FORMAT, "maxNbPairs", invalidNbPairs, minValue);
         Assert.Equal(expectedMessage, ex.Message);
     }
-
-    [Fact]
-    public void GetPairs_WhenMaxValueIsNullForLeftValueAuthorizedInterval_ShouldThrowAMustNotBeNullException()
-    {
-        //--- Arrange ---
-        var maxNbPairs_ = 4;
-        IntsInterval leftValueAuthorizedInterval = new(minValue: 0, maxValue: null);
-        IntsInterval rightValueAuthorizedInterval = new(minValue: 0, maxValue: 10);
-
-        var pairsLeftValueComputer = (int? previousLeftValue, int iterationNumber, int maxNbPairs, int maxLeftValue) =>
-        {
-            return maxLeftValue - iterationNumber;
-        };
-
-        var pairsRightValueComputer = (int? previousRightValue, int iterationNumber, int maxNbPairs, int maxRightValue, int currentLeftValue) =>
-        {
-            return iterationNumber + 1;
-        };
-
-        var intsPairsGenerator = ComputedIntsPairsGenerator.Create(pairsLeftValueComputer, pairsRightValueComputer);
-
-
-        //--- Act && Assert ---
-
-        var ex = Assert.Throws<MustNotBeNullException>(() => intsPairsGenerator.GetPairs(maxNbPairs_, leftValueAuthorizedInterval, rightValueAuthorizedInterval));
-
-        var expectedMessage = string.Format(MustNotBeNullException.MESSAGE_FORMAT, "leftValueAuthorizedInterval.MaxValue");
-        Assert.Equal(expectedMessage, ex.Message);
-    }
-
-    [Fact]
-    public void GetPairs_WhenMaxValueIsNullForRightValueAuthorizedInterval_ShouldThrowAMustNotBeNullException()
-    {
-        //--- Arrange ---
-        var maxNbPairs_ = 4;
-        IntsInterval leftValueAuthorizedInterval = new(minValue: 0, maxValue: 10);
-        IntsInterval rightValueAuthorizedInterval = new(minValue: 0, maxValue: null);
-
-        var pairsLeftValueComputer = (int? previousLeftValue, int iterationNumber, int maxNbPairs, int maxLeftValue) =>
-        {
-            return maxLeftValue - iterationNumber;
-        };
-
-        var pairsRightValueComputer = (int? previousRightValue, int iterationNumber, int maxNbPairs, int maxRightValue, int currentLeftValue) =>
-        {
-            return iterationNumber + 1;
-        };
-
-        var intsPairsGenerator = ComputedIntsPairsGenerator.Create(pairsLeftValueComputer, pairsRightValueComputer);
-
-
-        //--- Act && Assert ---
-
-        var ex = Assert.Throws<MustNotBeNullException>(() => intsPairsGenerator.GetPairs(maxNbPairs_, leftValueAuthorizedInterval, rightValueAuthorizedInterval));
-
-        var expectedMessage = string.Format(MustNotBeNullException.MESSAGE_FORMAT, "rightValueAuthorizedInterval.MaxValue");
-        Assert.Equal(expectedMessage, ex.Message);
-    }
-
     #endregion GetPairs
 
 }

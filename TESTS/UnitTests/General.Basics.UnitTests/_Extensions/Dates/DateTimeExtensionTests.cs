@@ -37,9 +37,9 @@ public class DateTimeExtensionTests
     public void IsBetween_WhenDateTimesBoundsAreInconsistant_ShouldThrowAValueShouldBeLowerOrEqualToException
         (DateTime dateTime, DateTime higherDateTime, DateTime lowerDateTime)
     {
-        var ex = Assert.Throws<ValueShouldBeLowerOrEqualToException<DateTime?>>(() => dateTime.IsBetween(lowerDateTime:higherDateTime, higherDateTime:lowerDateTime));
+        var ex = Assert.Throws<ValueShouldBeLowerOrEqualToException<DateTime>>(() => dateTime.IsBetween(lowerDateTime:higherDateTime, higherDateTime:lowerDateTime));
 
-        var expectedMessage = string.Format(ValueShouldBeLowerOrEqualToException<DateTime?>.MESSAGE_FORMAT, "Interval minValue", higherDateTime, lowerDateTime);
+        var expectedMessage = string.Format(ValueShouldBeLowerOrEqualToException<DateTime>.MESSAGE_FORMAT, "minValue", higherDateTime, lowerDateTime);
         Assert.Equal(expectedMessage, ex.Message);
 
     }
