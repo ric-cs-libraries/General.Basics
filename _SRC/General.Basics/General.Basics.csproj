@@ -3,12 +3,12 @@
 	<PropertyGroup>
 
 		<MyPackageMajorVersion>$(MyGeneralBasics_MajorVersion)</MyPackageMajorVersion>
-		<MyPackageMinorVersion>7</MyPackageMinorVersion>
+		<MyPackageMinorVersion>0</MyPackageMinorVersion>
 		<MyPackagePatchVersion>0</MyPackagePatchVersion>
 
 		<Description>
                        v$(MyGeneralBasics_MajorVersion).$(MyPackageMinorVersion).$(MyPackagePatchVersion) : 
-					   Principalement : ajout de méthodes d'extension à DateTime : méthode IsBetwwen (2 surcharges).
+					   Passage en .NET9 et Divers Ajouts...
 		</Description>
 
 	</PropertyGroup>

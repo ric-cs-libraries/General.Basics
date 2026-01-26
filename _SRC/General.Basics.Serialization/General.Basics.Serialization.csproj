@@ -3,12 +3,12 @@
 	<PropertyGroup>
 
 		<MyPackageMajorVersion>$(MyGeneralBasicsSerialization_MajorVersion)</MyPackageMajorVersion>
-		<MyPackageMinorVersion>1</MyPackageMinorVersion>
+		<MyPackageMinorVersion>0</MyPackageMinorVersion>
 		<MyPackagePatchVersion>0</MyPackagePatchVersion>
 
 		<Description>
 			v$(MyGeneralBasicsSerialization_MajorVersion).$(MyPackageMinorVersion).$(MyPackagePatchVersion) :
-			Passage en .NET8
+			Passage en .NET9
 		</Description>
 
 	</PropertyGroup>
