@@ -11,21 +11,22 @@ namespace General.Basics.Extensions.UnitTests;
 
 public class DateTimeExtensionTests
 {
-    #region IsBetween(DateTimesInterval)
+    #region IsInto(DateTimesInterval)
     [Theory]
-    [ClassData(typeof(Fixtures.IsBetween_DateTimesInterval_Data))]
-    public void IsBetween_DateTimesInterval__ShouldReturnTheRightValue(DateTime dateTime, DateTimesInterval dateTimesInterval, bool expectedResponse)
+    [ClassData(typeof(Fixtures.IsInto_DateTimesInterval_Data))]
+    public void IsBetween_DateTimesInterval__ShouldReturnTheCorrectBool(DateTime dateTime, DateTimesInterval dateTimesInterval, bool expectedResponse)
     {
         bool result = dateTime.IsInto(dateTimesInterval);
 
         Assert.Equal(expectedResponse, result);
     }
-    #endregion IsBetween(DateTimesInterval)
+    #endregion IsInto(DateTimesInterval)
 
     #region IsBetween(DateTime?, DateTime?)
     [Theory]
     [ClassData(typeof(Fixtures.IsBetween_DateTimes_Data))]
-    public void IsBetween_DateTimes__ShouldReturnTheRightValue(DateTime dateTime, DateTime? lowerDateTime, DateTime? higherDateTime, bool expectedResponse)
+    public void IsBetween_DateTimes__ShouldReturnTheCorrectBool
+        (DateTime dateTime, DateTime? lowerDateTime, DateTime? higherDateTime, bool expectedResponse)
     {
         bool result = dateTime.IsBetween(lowerDateTime, higherDateTime);
 
@@ -50,9 +51,9 @@ public class DateTimeExtensionTests
 //=================================================================================
 static class Fixtures
 {
-    internal class IsBetween_DateTimesInterval_Data : TheoryData<DateTime, DateTimesInterval, bool>
+    internal class IsInto_DateTimesInterval_Data : TheoryData<DateTime, DateTimesInterval, bool>
     {
-        public IsBetween_DateTimesInterval_Data()
+        public IsInto_DateTimesInterval_Data()
         {
             DateTime d0 = DateTime.Parse("26/02/2024");
             DateTime d1 = DateTime.Parse("27/02/2024");

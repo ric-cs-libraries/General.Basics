@@ -1,9 +1,11 @@
 ﻿using General.Basics.Bounds.Exceptions;
 using General.Basics.Bounds.MinAndMax;
 using General.Basics.Extensions;
+using System.Diagnostics;
 
 namespace General.Basics.Bounds.Intervals.Abstracts;
 
+[DebuggerDisplay("MinBound={MinValue} , MaxBound={MaxValue}")]
 public abstract record IntervalBase<T>
     where T : struct, IComparable<T> // struct => type valeur non nullable
 {

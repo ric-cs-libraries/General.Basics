@@ -6,7 +6,7 @@ namespace General.Basics.Extensions.Dates.Static;
 public static class DateTimeOffsetExtension
 {
     /// <summary>
-    ///     Timestamp in MILLISECONDS.
+    ///  Current Timestamp in MILLISECONDS.
     /// </summary>
     public static long GetCurrentMsTimeStamp_()
     {
@@ -14,7 +14,7 @@ public static class DateTimeOffsetExtension
     }
 
     /// <summary>
-    ///     Timestamp in SECONDS.
+    /// Current Timestamp in SECONDS.
     /// </summary>
     public static long GetCurrentTimeStamp_()
     {

@@ -2,12 +2,12 @@ namespace General.Basics.Extensions.ErrorHandling;
 
 public class CannotDowncastException : Exception
 {
-    public const string MESSAGE_FORMAT = "{0} : cannot convert an instance of '{1}' to an instance of '{2}'.";
+    public const string MESSAGE_FORMAT = "Cannot convert an instance of '{0}' to an instance of '{1}'  ({2}).";
 
     public override string Message { get; }
 
-    public CannotDowncastException(string subject, string fromTypeName, string toTypeName)
+    public CannotDowncastException(string fromTypeName, string toTypeName, string subject)
     {
-        Message = string.Format(MESSAGE_FORMAT, subject, fromTypeName, toTypeName);
+        Message = string.Format(MESSAGE_FORMAT, fromTypeName, toTypeName, subject);
     }
 }

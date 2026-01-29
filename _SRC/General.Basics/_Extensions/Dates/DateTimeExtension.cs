@@ -23,7 +23,7 @@ namespace General.Basics._Extensions.Dates
         }
 
         /// <summary>
-        /// Retourne true si : dateTimeInterval.MinValue &lt;= value &lt;= dateTimeInterval.MaxValue.
+        /// Retourne true si : dateTimesInterval.MinValue &lt;= this &lt;= dateTimesInterval.MaxValue.
         /// </summary>
         public static bool IsInto(this DateTime dateTime, DateTimesInterval dateTimesInterval)
         {
