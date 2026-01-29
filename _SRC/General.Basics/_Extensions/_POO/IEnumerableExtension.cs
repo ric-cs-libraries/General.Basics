@@ -1,4 +1,5 @@
 ﻿using General.Basics.Extensions.ErrorHandling;
+using General.Basics.Reflection.Extensions;
 
 
 namespace General.Basics.Extensions;
@@ -18,7 +19,7 @@ public static partial class IEnumerableExtension
         {
             childToChildType = (child as TChild)!;
             if (childToChildType is null)
-                throw new CannotDowncastException($"In {children.GetType().Name}[{index}]", child.GetType().Name, typeof(TChild).Name);
+                throw new CannotDowncastException(child.GetType().Name, typeof(TChild).Name, $"Item[{index}] in {children.GetType().GetName_()}");
             ;
 
             childrenToChildType.Add(childToChildType!);
@@ -36,10 +37,11 @@ public static partial class IEnumerableExtension
         return result;
     }
 
-    public static bool ContainsOnlyTypes_<TParent>(this IEnumerable<TParent> children, IEnumerable<Type> authorizedTypes)
-        where TParent : class
+    public static bool ContainsOnlyThoseConcreteTypes_<TParent>
+        (this IEnumerable<TParent> children, IEnumerable<Type?> authorizedConcreteTypes)
+        where TParent : class?
     {
-        bool result = children.All(elem => authorizedTypes.Contains(elem?.GetType()));
+        bool result = children.All(elem => authorizedConcreteTypes.Contains(elem?.GetType()));
         return result;
     }
 

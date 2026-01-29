@@ -828,7 +828,7 @@ public class SringExtensionTests
     }
 
     [Theory]
-    [ClassData(typeof(UnexistingChunkBoundsData))]
+    [ClassData(typeof(Fixtures.UnexistingChunkBoundsData))]
     public void ChunkExists_WhenChunkDoesntExist_ShouldReturnFalse(int startIndex, int endIndex)
     {
         var str = "0123456";
@@ -839,7 +839,7 @@ public class SringExtensionTests
     }
 
     [Theory]
-    [ClassData(typeof(ExistingChunkBoundsData))]
+    [ClassData(typeof(Fixtures.ExistingChunkBoundsData))]
     public void ChunkExists_WhenChunkExists_ShouldReturnTrue(int startIndex, int endIndex)
     {
         var str = "0123456";
@@ -868,7 +868,7 @@ public class SringExtensionTests
     }
 
     [Theory]
-    [ClassData(typeof(ExistingChunkBoundsData))]
+    [ClassData(typeof(Fixtures.ExistingChunkBoundsData))]
     public void CheckChunkExists_WhenChunkExists_ShouldNotThrowAnException(int startIndex, int endIndex)
     {
         var str = "0123456";
@@ -879,7 +879,7 @@ public class SringExtensionTests
     }
 
     [Theory]
-    [ClassData(typeof(UnexistingChunkBoundsData))]
+    [ClassData(typeof(Fixtures.UnexistingChunkBoundsData))]
     public void CheckChunkExists_WhenChunkDoesntExist_ShouldThrowAnUnexistingChunkException(int startIndex, int endIndex)
     {
         string str = "0123456";
@@ -911,7 +911,7 @@ public class SringExtensionTests
     }
 
     [Theory]
-    [ClassData(typeof(ExistingChunkBoundsDataWithResult))]
+    [ClassData(typeof(Fixtures.ExistingChunkBoundsDataWithResult))]
     public void GetChunk_WhenChunkExists_ShouldReturnTheCorrectChunk(int startIndex, int endIndex, string expectedChunk)
     {
         string str = "0123456";
@@ -922,7 +922,7 @@ public class SringExtensionTests
     }
 
     [Theory]
-    [ClassData(typeof(UnexistingChunkBoundsData))]
+    [ClassData(typeof(Fixtures.UnexistingChunkBoundsData))]
     public void GetChunk_WhenChunkDoesntExistAndStringNotEmpty_ShouldThrowAnUnexistingChunkException(int startIndex, int endIndex)
     {
         string str = "0123456";
@@ -998,7 +998,7 @@ public class SringExtensionTests
 
     #region GetFromEndUntil_
     [Theory]
-    [ClassData(typeof(GetFromEndUntilData))]
+    [ClassData(typeof(Fixtures.GetFromEndUntilData))]
     public void GetFromEndUntil__ShouldReturnTheCorrectChunk(string str, Predicate<char> predicate, string expectedResult)
     {
         //--- Act ---
@@ -1050,6 +1050,7 @@ public class SringExtensionTests
         Assert.Equal(expectedMessage, ex.Message);
     }
 
+    // I don't want this behavior anymore.
     //[Theory]
     //[InlineData(0)]
     //[InlineData(1)]
@@ -1110,55 +1111,267 @@ public class SringExtensionTests
     #endregion GetFromEnd_
 
 
-    //---------------------------------------------------------
-    class GetFromEndUntilData : TheoryData<string, Predicate<char>, string>
+    #region ReplacePlaceHolders_
+    [Fact]
+    public void ReplacePlaceHolders_WhenEmpty_ShouldReturnTheOriginalString()
     {
-        public GetFromEndUntilData()
-        {
-            var fullStr = "012345689";
+        //--- Arrange ---
+        string originalString = "aBCDEF GZH";
+        string replacement1 = "qq";
+        string replacement2 = "u";
+        string replacement3 = "0x20";
+        Dictionary<string, string> replacements = new() { { "Z", replacement1 }, { "a", replacement2 }, { " ", replacement3 } };
 
-            Add(fullStr, (c) => c == '4', fullStr.Substring(5));
-            Add("", (c) => c == '4', "");
-            Add(fullStr, (c) => c == 'A', fullStr);
-            Add(fullStr, (c) => c == fullStr.Last(), "");
-        }
+        //--- Act ---
+        string result = originalString.ReplacePlaceHolders_(replacements);
+
+        //--- Assert ---
+        string expectedResult = $"{replacement2}BCDEF{replacement3}G{replacement1}H";
+        Assert.Equal(expectedResult, result);
     }
 
-    class UnexistingChunkBoundsData : TheoryData<int, int>
+    [Fact]
+    public void ReplacePlaceHolders_WhenDicoContainsNoMatchWithOriginalString_ShouldReturnTheOriginalString()
     {
-        public UnexistingChunkBoundsData()
-        {
-            Add(-1, 0);
-            Add(1, 7);
-            Add(7, 8);
-            Add(3, 1);
-            Add(1, 0);
-        }
-    }
-    class ExistingChunkBoundsData : TheoryData<int, int>
-    {
-        public ExistingChunkBoundsData()
-        {
-            Add(0, 0);
-            Add(0, 1);
-            Add(0, 6);
-            Add(1, 6);
-            Add(3, 5);
-            Add(6, 6);
-        }
-    }
-    class ExistingChunkBoundsDataWithResult : TheoryData<int, int, string>
-    {
-        public ExistingChunkBoundsDataWithResult()
-        {
-            Add(0, 0, "0");
-            Add(0, 1, "01");
-            Add(0, 6, "0123456");
-            Add(1, 6, "123456");
-            Add(3, 5, "345");
-            Add(6, 6, "6");
-        }
+        //--- Arrange ---
+        string originalString = "ABCDEFGH";
+        Dictionary<string, string> replacements = new() { {"a", "x" }, {"Z", "qq" } };
+
+        //--- Act ---
+        string result = originalString.ReplacePlaceHolders_(replacements);
+
+        //--- Assert ---
+        Assert.Equal(originalString, result);
+        Assert.True(object.ReferenceEquals(originalString, result));
     }
 
+    [Fact]
+    public void ReplacePlaceHolders_WhenDicoIsEmpty_ShouldReturnTheOriginalString()
+    {
+        //--- Arrange ---
+        string originalString = "ABCDEFGH";
+        Dictionary<string, string> replacements = new();
 
+        //--- Act ---
+        string result = originalString.ReplacePlaceHolders_(replacements);
+
+        //--- Assert ---
+        Assert.Equal(originalString, result);
+        Assert.True(object.ReferenceEquals(originalString, result));
+    }
+    #endregion ReplacePlaceHolders_
+
+    #region Backslash_
+    [Fact]
+    public void Backslash_ShouldReturnTheCorrectString()
+    {
+        //--- Arrange ---
+        string originalString = @"https://aaa\bbb/cc\uu\kk/ll/xxx.com";
+
+        //--- Act ---
+        var result = originalString.Backslash_();
+
+        //--- Assert ---
+        var expectedResult = @"https:\\aaa\bbb\cc\uu\kk\ll\xxx.com";
+        Assert.Equal(expectedResult, result);
+        Assert.False(object.ReferenceEquals(expectedResult, result));
+    }
+    #endregion Backslash_
+
+    #region Slash_
+    [Fact]
+    public void Slash_ShouldReturnTheCorrectString()
+    {
+        //--- Arrange ---
+        string originalString = @"https:\\aaa/bbb\cc/uu/kk\ll\xxx.com";
+
+        //--- Act ---
+        var result = originalString.Slash_();
+
+        //--- Assert ---
+        var expectedResult = @"https://aaa/bbb/cc/uu/kk/ll/xxx.com";
+        Assert.Equal(expectedResult, result);
+        Assert.False(object.ReferenceEquals(expectedResult, result));
+    }
+    #endregion Slash_
+
+    #region Split_(stringSeparator)
+    [Fact]
+    public void Split_WithStringSeparator_WhenMatchFoundForSplitting_ShouldReturnAnArrayWithSplittedPartsInSameOrder()
+    {
+        //--- Arrange ---
+        string separatorString = " :!";
+        string part1 = "AX";
+        string part2 = "B ";
+        string part3 = "CD:!";
+        string part4 = "  ";
+        string subjectString = $"{part1}{separatorString}{part2}{separatorString}{part3}{separatorString}{part4}";
+
+        //--- Act ---
+        string[] result = subjectString.Split_(separatorString);
+
+        //--- Assert ---
+        string[] expectedResult = new[] { part1, part2, part3, part4 };
+        Assert.Equal(expectedResult, result);
+        Assert.False(object.ReferenceEquals(expectedResult, result));
+    }
+
+    [Fact]
+    public void Split_WithStringSeparator_WhenSubjectStringIsEmpty_ShouldReturnAnEmptyArrayOfString()
+    {
+        //--- Arrange ---
+        string subjectString = string.Empty;
+        string separatorString = " :!";
+
+        //--- Act ---
+        string[] result = subjectString.Split_(separatorString);
+
+        //--- Assert ---
+        string[] expectedResult = Array.Empty<string>();
+        Assert.Equal(expectedResult, result);
+        Assert.True(object.ReferenceEquals(expectedResult, result));
+        Assert.False(object.ReferenceEquals(new string[] { }, result));
+    }
+
+    [Fact]
+    public void Split_WithStringSeparator_WhenNoMatchForSplitting_ShouldReturnAnArrayOnlyContainingTheSubjectString()
+    {
+        //--- Arrange ---
+        string separatorString = " :!";
+        string subjectString = "A:!B";
+
+        //--- Act ---
+        string[] result = subjectString.Split_(separatorString);
+
+        //--- Assert ---
+        string[] expectedResult = new[] { subjectString };
+        Assert.Equal(expectedResult, result);
+        Assert.False(object.ReferenceEquals(expectedResult, result));
+    }
+
+    [Fact]
+    public void Split_WithStringSeparator_WhenSeparatorIsEmpty_ShouldReturnAnArrayOnlyContainingTheSubjectString()
+    {
+        //--- Arrange ---
+        string separatorString = string.Empty;
+        string subjectString = "A:!B";
+
+        //--- Act ---
+        string[] result = subjectString.Split_(separatorString);
+
+        //--- Assert ---
+        string[] expectedResult = new[] { subjectString };
+        Assert.Equal(expectedResult, result);
+        Assert.False(object.ReferenceEquals(expectedResult, result));
+    }
+    #endregion Split_(stringSeparator)
+
+    #region Split_(charSeparator)
+    [Fact]
+    public void Split_WithCharSeparator_WhenMatchFoundForSplitting_ShouldReturnAnArrayWithSplittedPartsInSameOrder()
+    {
+        //--- Arrange ---
+        char charSeparator = 'x';
+        string part1 = "AX";
+        string part2 = "B ";
+        string part3 = "CD:!";
+        string part4 = "  ";
+        string subjectString = $"{part1}{charSeparator}{part2}{charSeparator}{part3}{charSeparator}{part4}";
+
+        //--- Act ---
+        string[] result = subjectString.Split_(charSeparator);
+
+        //--- Assert ---
+        string[] expectedResult = new[] { part1, part2, part3, part4 };
+        Assert.Equal(expectedResult, result);
+        Assert.False(object.ReferenceEquals(expectedResult, result));
+    }
+
+    [Fact]
+    public void Split_WithCharSeparator_WhenSubjectStringIsEmpty_ShouldReturnAnEmptyArrayOfString()
+    {
+        //--- Arrange ---
+        string subjectString = string.Empty;
+        char charSeparator = 'x';
+
+        //--- Act ---
+        string[] result = subjectString.Split_(charSeparator);
+
+        //--- Assert ---
+        string[] expectedResult = Array.Empty<string>();
+        Assert.Equal(expectedResult, result);
+        Assert.True(object.ReferenceEquals(expectedResult, result));
+        Assert.False(object.ReferenceEquals(new string[] {}, result));
+    }
+
+    [Fact]
+    public void Split_WithCharSeparator_WhenNoMatchForSplitting_ShouldReturnAnArrayOnlyContainingTheSubjectString()
+    {
+        //--- Arrange ---
+        char charSeparator = 'x';
+        string subjectString = "A:!B";
+
+        //--- Act ---
+        string[] result = subjectString.Split_(charSeparator);
+
+        //--- Assert ---
+        string[] expectedResult = new[] { subjectString };
+        Assert.Equal(expectedResult, result);
+        Assert.False(object.ReferenceEquals(expectedResult, result));
+    }
+    #endregion Split_(charSeparator)
+
+    //===========================================================
+    class Fixtures
+    {
+        internal class GetFromEndUntilData : TheoryData<string, Predicate<char>, string>
+        {
+            public GetFromEndUntilData()
+            {
+                var fullStr = "012345689";
+
+                Add(fullStr, (c) => c == '4', fullStr.Substring(5));
+                Add("", (c) => c == '4', "");
+                Add(fullStr, (c) => c == 'A', fullStr);
+                Add(fullStr, (c) => c == fullStr.Last(), "");
+            }
+        }
+
+        internal class UnexistingChunkBoundsData : TheoryData<int, int>
+        {
+            public UnexistingChunkBoundsData()
+            {
+                Add(-1, 0);
+                Add(1, 7);
+                Add(7, 8);
+                Add(3, 1);
+                Add(1, 0);
+            }
+        }
+        internal class ExistingChunkBoundsData : TheoryData<int, int>
+        {
+            public ExistingChunkBoundsData()
+            {
+                Add(0, 0);
+                Add(0, 1);
+                Add(0, 6);
+                Add(1, 6);
+                Add(3, 5);
+                Add(6, 6);
+            }
+        }
+        internal class ExistingChunkBoundsDataWithResult : TheoryData<int, int, string>
+        {
+            public ExistingChunkBoundsDataWithResult()
+            {
+                Add(0, 0, "0");
+                Add(0, 1, "01");
+                Add(0, 6, "0123456");
+                Add(1, 6, "123456");
+                Add(3, 5, "345");
+                Add(6, 6, "6");
+            }
+        }
+
+    }
 }

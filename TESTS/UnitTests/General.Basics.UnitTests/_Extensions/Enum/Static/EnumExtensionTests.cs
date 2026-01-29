@@ -2,7 +2,7 @@
 using Xunit;
 
 
-namespace General.Basics.UnitTests.Extensions.Numbers;
+namespace General.Basics.UnitTests.Extensions;
 
 public class EnumExtensionTests
 {
